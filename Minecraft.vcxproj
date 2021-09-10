@@ -95,8 +95,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Point.hpp" />
-    <ClInclude Include="Rect.hpp" />
+    <ClInclude Include="aabb.hpp" />
+    <ClInclude Include="types.hpp" />
+    <ClInclude Include="vec.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

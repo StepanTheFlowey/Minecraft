@@ -4,12 +4,12 @@
 #include <iostream>
 #include <cstdio>
 #include <filesystem>
+
 //STL containers
 #include <unordered_map>
 #include <bitset>
 #include <vector>
 #include <array>
-#include <map>
 #include <set>
 
 //Stb
@@ -33,8 +33,9 @@
 #include <rapidjson\document.h>
 #include <rapidjson\writer.h>
 
-//#include "Point.hpp"
-//#include "Rect.hpp"
+#include "aabb.hpp"
+#include "vec.hpp"
+#include "types.hpp"
 
 //Math defines
 #define PI 3.1415926535897932384626433832795
@@ -46,17 +47,7 @@
 #define bitClear(value, bit) ((value) &= ~(1 << (bit)))
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
-//Data types
-using gametime_t = int32_t;
-using size_t = std::size_t;
-using shortsize_t = uint32_t;
-using shortersize_t = uint16_t;
-using blockId_t = uint16_t;
-using modelId_t = uint16_t;
-using textureId_t = GLuint;
-using regionPos_t = int16_t;
-using chunkPos_t = int32_t;
-using blockPos_t = int32_t;
+#define DEPRECATED [[deprecated("This function is deprecated and is not recommended to use it")]]
 
 //Namespaces
 namespace fs = std::filesystem;
@@ -183,8 +174,8 @@ public:
 };
 
 struct BlockRenderInfo {
-  uint8_t sideRender = 0b00000010;      //All, None, Up, Down, North, South, West, East
   blockId_t blockId = 0;
+  uint8_t sideRender = 0b00000010;      //All, None, Up, Down, North, South, West, East
 };
 
 struct BlockInfo {
@@ -225,10 +216,11 @@ public:
 };
 
 class Assets {
+  Utils *utils_ = nullptr;
 public:
-  Settings *settings;
-  TextureManager *textures;
-  BlockManager *blocks;
+  Settings *settings = nullptr;
+  TextureManager *textures = nullptr;
+  BlockManager *blocks = nullptr;
 
   Assets() {
 #ifdef DEBUG
@@ -244,6 +236,13 @@ public:
 #ifdef DEBUG
     std::wcout << L"~Assets(): Destructor" << std::endl;
 #endif // DEBUG
+    delete settings;
+    delete textures;
+    delete blocks;
+  }
+
+  void setUtils(Utils *utils) {
+    utils_ = utils;
   }
 
   void bindTextures() {
@@ -265,7 +264,8 @@ public:
 
 class Chunk {
   std::array<std::array<std::array<BlockRenderInfo, 16>, 16>, 16> block_;
-  chunkPos_t x_ = 0, y_ = 0, z_ = 0;
+  ChunkAabb aabb_;
+  ChunkPos position_;
 public:
 
   Chunk() {
@@ -275,11 +275,10 @@ public:
     for(uint8_t i = 0; i < 16; i++) {
       for(uint8_t j = 0; j < 16; j++) {
         for(uint8_t k = 0; k < 16; k++) {
-          block_[i][j][k].blockId = 1;
+          block_[i][j][k].blockId = rand() % 2 ? rand() % 15 : 0;
         }
       }
     }
-    block_[5][15][6].blockId = 0;
   }
 
   ~Chunk() {
@@ -288,18 +287,31 @@ public:
 #endif // DEBUG
   }
 
-  BlockRenderInfo &getBlockNative(uint8_t x, uint8_t y, uint8_t z) {
-    return block_[x][y][z];
+  BlockRenderInfo &getBlockWorld(BlockPos position) {
+    position %= 16;
+    return block_[position.x][position.y][position.z];
   }
 
-  void setBlock(uint8_t x, uint8_t y, uint8_t z, BlockRenderInfo block) {
-    block_[x][y][z] = block;
+  BlockRenderInfo &getBlockNative(BlockPos position) {
+    return block_[position.x][position.y][position.z];
   }
 
-  void setPosition(chunkPos_t x, chunkPos_t y, chunkPos_t z) {
-    x_ = x;
-    y_ = y;
-    z_ = z;
+  void setBlock(BlockPos position, BlockRenderInfo block) {
+    block_[position.x][position.y][position.z] = block;
+  }
+
+  void setPosition(ChunkPos position) {
+    position_ = position;
+    aabb_.minX = position_.x;
+    aabb_.minY = position_.y;
+    aabb_.minZ = position_.z;
+    aabb_.maxX = position_.x + 16;
+    aabb_.maxY = position_.y + 16;
+    aabb_.maxZ = position_.z + 16;
+  }
+
+  ChunkAabb &getAabb() {
+    return aabb_;
   }
 
   void draw() {
@@ -310,10 +322,10 @@ public:
           if(bitRead(block.sideRender, 1)) {
             continue;
           }
-          glBindTexture(GL_TEXTURE_2D, 2);
+          glBindTexture(GL_TEXTURE_2D, block.blockId);
           glPushMatrix();
 
-          glTranslatef(i + static_cast<GLfloat>(x_) * 16, j + static_cast<GLfloat>(y_) * 16, k + static_cast<GLfloat>(z_) * 16);
+          glTranslatef(i + static_cast<GLfloat>(position_.x) * 16, j + static_cast<GLfloat>(position_.y) * 16, k + static_cast<GLfloat>(position_.z) * 16);
 
           glBegin(GL_QUADS);
 
@@ -333,12 +345,12 @@ public:
             //Down side
             glTexCoord2s(0, 0);
             glVertex3s(1, 0, 1);
-            glTexCoord2s(1, 0);
-            glVertex3s(1, 0, 0);
-            glTexCoord2s(1, 1);
-            glVertex3s(0, 0, 0);
             glTexCoord2s(0, 1);
             glVertex3s(0, 0, 1);
+            glTexCoord2s(1, 1);
+            glVertex3s(0, 0, 0);
+            glTexCoord2s(1, 0);
+            glVertex3s(1, 0, 0);
 
             //North side
             glTexCoord2s(0, 0);
@@ -353,12 +365,12 @@ public:
             //South side
             glTexCoord2s(0, 0);
             glVertex3s(1, 1, 1);
-            glTexCoord2s(1, 0);
-            glVertex3s(1, 1, 0);
-            glTexCoord2s(1, 1);
-            glVertex3s(1, 0, 0);
             glTexCoord2s(0, 1);
             glVertex3s(1, 0, 1);
+            glTexCoord2s(1, 1);
+            glVertex3s(1, 0, 0);
+            glTexCoord2s(1, 0);
+            glVertex3s(1, 1, 0);
 
             //West side
             glTexCoord2s(0, 0);
@@ -458,16 +470,17 @@ public:
 };
 
 class Region {
-  std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, Chunk>>> chunk_;
-  regionPos_t x_ = 0;
-  regionPos_t y_ = 0;
-  regionPos_t z_ = 0;
+  std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::shared_ptr<Chunk>>>> chunk_;
+  RegionAabb aabb_;
+  RegionPos position_;
 public:
   Region() {
 #ifdef DEBUG
     std::wcout << L"Region(): Constructor" << std::endl;
 #endif // DEBUG
-    chunk_[0][0][0] = Chunk();
+    chunk_[0][0][0].reset(new Chunk);
+    chunk_[0][1][0].reset(new Chunk);
+    chunk_[0][1][0]->setPosition(ChunkPos(0, 1, 0));
   }
 
   ~Region() {
@@ -476,42 +489,50 @@ public:
 #endif // DEBUG
   }
 
-  BlockRenderInfo getBlockWorld(blockPos_t x, blockPos_t y, blockPos_t z) {
-
+  BlockRenderInfo getBlockWorld(BlockPos position) {
+    //TODO: Region::getBlockWorld()
   }
 
-  BlockRenderInfo getBlockNative(blockPos_t x, blockPos_t y, blockPos_t z) {
-
+  BlockRenderInfo getBlockNative(BlockPos position) {
+    //TODO: Region::getBlockNative()
   }
 
-  void setPosition(regionPos_t x, regionPos_t y, regionPos_t z) {
-    x_ = x;
-    y_ = y;
-    z_ = z;
+  void setPosition(RegionPos position) {
+    position_ = position;
+    aabb_.minX = position.x;
+    aabb_.minY = 0;
+    aabb_.minZ = position.y;
+    aabb_.maxX = position.x + 16;
+    aabb_.maxY = 256;
+    aabb_.maxZ = position.y + 16;
   }
 
-  Chunk &getChunk(uint8_t x, uint8_t y, uint8_t z) {
-    return chunk_[x][y][z];
+  std::shared_ptr<Chunk> getChunk(ChunkPos position) {
+    return chunk_[position.x][position.y][position.z];
   }
 
-  bool hasChunk(uint8_t x, uint8_t y, uint8_t z) {
-    if(chunk_.find(x) == chunk_.end()) {
+  bool hasChunk(ChunkPos position) {
+    if(chunk_.find(position.x) == chunk_.end()) {
       return false;
     }
-    if(chunk_[x].find(y) == chunk_[x].end()) {
+    if(chunk_[position.x].find(position.y) == chunk_[position.x].end()) {
       return false;
     }
-    if(chunk_[x][y].find(z) == chunk_[x][y].end()) {
+    if(chunk_[position.x][position.y].find(position.z) == chunk_[position.x][position.y].end()) {
       return false;
     }
     return true;
+  }
+
+  std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::shared_ptr<Chunk>>>> &getData() {
+    return chunk_;
   }
 
   void draw() {
     for(auto &[iKey, iVal] : chunk_) {
       for(auto &[jKey, jVal] : iVal) {
         for(auto &[kKey, kVal] : jVal) {
-          kVal.draw();
+          kVal->draw();
         }
       }
     }
@@ -519,15 +540,16 @@ public:
 };
 
 class World {
-  std::unordered_map<regionPos_t, std::unordered_map<regionPos_t, Region>> region_;
+  std::unordered_map<regionPos_t, std::unordered_map<regionPos_t, std::shared_ptr<Region>>> region_;
 public:
   World() {
 #ifdef DEBUG
     std::wcout << L"World(): Constructor" << std::endl;
 #endif // DEBUG
-    region_[0][0] = Region();
-    region_[0][0].setPosition(0, 0, 0);
-    computeChunkEdgeRender(0, 0, 0);
+    region_[0][0].reset(new Region);
+    region_[0][0]->setPosition({0,0});
+    computeChunkEdgeRender({0,0,0});
+    computeChunkEdgeRender({0,1,0});
   }
 
   ~World() {
@@ -536,109 +558,131 @@ public:
 #endif // DEBUG
   }
 
-  bool hasRegion(regionPos_t x, regionPos_t z) {
-    if(region_.find(x) == region_.end()) {
+  bool hasRegion(RegionPos position) {
+    if(region_.find(position.x) == region_.end()) {
       return false;
     }
-    if(region_[x].find(z) == region_[x].end()) {
+    if(region_[position.x].find(position.y) == region_[position.x].end()) {
       return false;
     }
     return true;
   }
 
-  Region &getRegion(regionPos_t x, regionPos_t z) {
-    return region_[x][z];
+  std::shared_ptr<Region> getRegion(RegionPos position) {
+    return region_[position.x][position.y];
   }
 
-  bool hasChunk(chunkPos_t x, chunkPos_t y, chunkPos_t z) {
+  bool hasChunk(ChunkPos position) {
+    //TODO: Chunk::hasChunk()
+  }
+
+  std::shared_ptr<Chunk> getChunk() {
+    //TODO: Chunk::getChunk()
+  }
+
+  bool hasBlock() {
+    //TODO: Chunk::hasBlock()
+  }
+
+  BlockRenderInfo getBlock(BlockPos position) {
+    if(position.y < 0) {
+      return BlockRenderInfo {0};
+    }
+    RegionPos regionPosition(position.x / 256, position.z / 256);
+    regionPosition.x -= position.x < 0 ? 1 : 0;
+    regionPosition.y -= position.y < 0 ? 1 : 0;
+    if(!hasRegion(regionPosition)) {
+      return BlockRenderInfo {0};
+    }
+    std::shared_ptr<Region> region = region_[regionPosition.x][regionPosition.y];
+    ChunkPos chunkPos = position / 16;
+    chunkPos.x -= position.x < 0 ? 1 : 0;
+    chunkPos.y -= position.y < 0 ? 1 : 0;
+    chunkPos.z -= position.z < 0 ? 1 : 0;
+    if(!region->hasChunk(chunkPos)) {
+      return BlockRenderInfo {0};
+    }
+    BlockPos blockPos = position % 16;
+    if(position.x / 16 != 0) {
+      blockPos.x++;
+    }
+    if(position.y / 16 != 0) {
+      blockPos.y++;
+    }
+    if(position.z / 16 != 0) {
+      blockPos.z++;
+    }
+    return region->getChunk(chunkPos)->getBlockNative(blockPos);
+  }
+
+  void setBlock(BlockPos position, BlockRenderInfo block) {
 
   }
 
-  BlockRenderInfo getBlock(blockPos_t x, blockPos_t y, blockPos_t z) {
-    if(y < 0) {
-      return BlockRenderInfo();
+  //HACK: this
+  void computeChunkEdgeRender(ChunkPos position) {
+    RegionPos regionPos(position.x / 16, position.z / 16);
+    if(!hasRegion(regionPos)) {
+      throw std::out_of_range("no such region");
     }
-    const regionPos_t rx = x / 16 / 16 + x < 0 ? 1 : 0, rz = z / 16 / 16 + z < 0 ? 1 : 0;
-    if(!hasRegion(rx, rz)) {
-      return BlockRenderInfo();
-    }
-    Region &region = region_[rx][rz];
-    const chunkPos_t cx = x / 16, cy = y / 16, cz = z / 16;
-    if(!region.hasChunk(cx, cy, cz)) {
-      return BlockRenderInfo();
-    }
-    Chunk &chunk = region.getChunk(cx, cy, cz);
-    return chunk.getBlockNative(x, y, z);
-  }
+    std::shared_ptr<Region> region = region_[regionPos.x][regionPos.y];
+    BlockPos blockPos = position * 16;
+    //position %= 16;
 
-  void setBlock(blockPos_t x, blockPos_t y, blockPos_t z, BlockRenderInfo block) {
-
-  }
-
-  bool computeChunkEdgeRender(chunkPos_t x, chunkPos_t y, chunkPos_t z) {
-    regionPos_t rx = x / 16, rz = x / 16;
-    if(!hasRegion(rx, rz)) {
-      return false;
+    if(!region->hasChunk(position)) {
+      throw std::out_of_range("no such chunk");
     }
-    Region &region = region_[rx][rz];
-    blockPos_t bx = x * 16, by = y * 16, bz = z * 16;
-    x %= 16;
-    z %= 16;
-
-    if(!region.hasChunk(x, y, z)) {
-      return false;
-    }
-    Chunk &chunk = region.getChunk(x, y, z);
+    std::shared_ptr<Chunk> chunk = region->getChunk(position);
 
     for(uint8_t i = 0; i < 16; i++) {
       for(uint8_t j = 0; j < 16; j++) {
         for(uint8_t k = 0; k < 16; k++) {
-          BlockRenderInfo &block = chunk.getBlockNative(i, j, k);
+          BlockRenderInfo &block = chunk->getBlockNative(BlockPos(i, j, k));
           if(block.blockId == 0) {
             bitWrite(block.sideRender, 1, 1);
             continue;
           }
 
           if(j == 15) {
-            bitWrite(block.sideRender, 2, getBlock(bx, by + 16, bz).blockId == 0);
+            bitWrite(block.sideRender, 2, getBlock(BlockPos(blockPos.x, blockPos.y + 16, blockPos.z)).blockId == 0);
           }
           else {
-            bitWrite(block.sideRender, 2, chunk.getBlockNative(i, j + 1, k).blockId == 0);
+            bitWrite(block.sideRender, 2, chunk->getBlockNative(BlockPos(i, j + 1, k)).blockId == 0);
           }
 
           if(j == 0) {
-            bitWrite(block.sideRender, 3, getBlock(bx, by - 1, bz).blockId == 0);
+            bitWrite(block.sideRender, 3, getBlock(BlockPos(blockPos.x, blockPos.y - 1, blockPos.z)).blockId == 0);
           }
           else {
-            bitWrite(block.sideRender, 3, chunk.getBlockNative(i, j - 1, k).blockId == 0);
+            bitWrite(block.sideRender, 3, chunk->getBlockNative(BlockPos(i, j - 1, k)).blockId == 0);
           }
 
           if(i == 0) {
-            bitWrite(block.sideRender, 4, getBlock(bx - 1, by, bz).blockId == 0);
+            bitWrite(block.sideRender, 4, getBlock(BlockPos(blockPos.x - 1, blockPos.y, blockPos.z)).blockId == 0);
           }
           else {
-            bitWrite(block.sideRender, 4, chunk.getBlockNative(i - 1, j, k).blockId == 0);
+            bitWrite(block.sideRender, 4, chunk->getBlockNative(BlockPos(i - 1, j, k)).blockId == 0);
           }
 
           if(i == 15) {
-            bitWrite(block.sideRender, 5, getBlock(bx + 16, by, bz).blockId == 0);
+            bitWrite(block.sideRender, 5, getBlock(BlockPos(blockPos.x + 16, blockPos.y, blockPos.z)).blockId == 0);
           }
           else {
-            bitWrite(block.sideRender, 5, chunk.getBlockNative(i + 1, j, k).blockId == 0);
+            bitWrite(block.sideRender, 5, chunk->getBlockNative(BlockPos(i + 1, j, k)).blockId == 0);
           }
 
           if(k == 15) {
-            bitWrite(block.sideRender, 6, getBlock(bx, by, bz + 16).blockId == 0);
+            bitWrite(block.sideRender, 6, getBlock(BlockPos(blockPos.x, blockPos.y, blockPos.z + 16)).blockId == 0);
           }
           else {
-            bitWrite(block.sideRender, 6, chunk.getBlockNative(i, j, k + 1).blockId == 0);
+            bitWrite(block.sideRender, 6, chunk->getBlockNative(BlockPos(i, j, k + 1)).blockId == 0);
           }
 
           if(k == 0) {
-            bitWrite(block.sideRender, 7, getBlock(bx, by, bz - 1).blockId == 0);
+            bitWrite(block.sideRender, 7, getBlock(BlockPos(blockPos.x, blockPos.y, blockPos.z - 1)).blockId == 0);
           }
           else {
-            bitWrite(block.sideRender, 7, chunk.getBlockNative(i, j, k - 1).blockId == 0);
+            bitWrite(block.sideRender, 7, chunk->getBlockNative(BlockPos(i, j, k - 1)).blockId == 0);
           }
 
           bitWrite(block.sideRender, 0, (
@@ -658,21 +702,25 @@ public:
         }
       }
     }
-    return true;
+  }
+
+  constexpr std::unordered_map<regionPos_t, std::unordered_map<regionPos_t, std::shared_ptr<Region>>> &getData() {
+    return region_;
   }
 
   void draw() {
     for(auto &[iKey, iVal] : region_) {
       for(auto &[jKey, jVal] : iVal) {
-        jVal.draw();
+        jVal->draw();
       }
     }
   }
 };
 
 class Camera {
-  GLdouble x_ = 0.0, y_ = 0.0, z_ = 0.0;
-  GLdouble xr_ = 0.0, yr_ = 0.0;
+  Vec3d eyePos_;
+  Vec3d centerPos_;
+  Vec2d rotation_;
 public:
   Camera() {
 #ifdef DEBUG
@@ -687,56 +735,57 @@ public:
   }
 
   void doTranlate() {
-    gluLookAt(x_, y_, z_, x_ + sin(xr_ * DEG_TO_RAD), y_ + tan(yr_ * DEG_TO_RAD), z_ + cos(xr_ * DEG_TO_RAD), 0, 1, 0);
+    gluLookAt(eyePos_.x, eyePos_.y, eyePos_.z, centerPos_.x, centerPos_.y, centerPos_.z, 0.0, 1.0, 0.0);
   }
 
-  void move(GLdouble x, GLdouble y, GLdouble z) {
-    x_ += x;
-    y_ += y;
-    z_ += z;
+  void setPosition(Vec3d position) {
+    eyePos_ = position;
+    process();
   }
 
-  void setPosition(GLdouble x, GLdouble y, GLdouble z) {
-    x_ = x;
-    y_ = y;
-    z_ = z;
+  void setRotation(Vec2d rotation) {
+    rotation_ = rotation;
+    process();
   }
 
-  void setRotation(GLdouble x, GLdouble y) {
-    xr_ = x;
-    yr_ = y;
-
-    if(xr_ > 360) {
-      xr_ = 0;
-    }
-    else if(xr_ < 0) {
-      xr_ = 360;
-    }
-
-    if(yr_ > 90) {
-      yr_ = 90;
-    }
-    else if(yr_ < -90) {
-      yr_ = -90;
-    }
+  void move(Vec3d offset) {
+    eyePos_ += offset;
+    process();
   }
 
-  void rotate(GLdouble x, GLdouble y) {
-    xr_ += x;
-    yr_ += y;
-    if(xr_ > 360) {
-      xr_ = 0;
-    }
-    else if(xr_ < 0) {
-      xr_ = 360;
-    }
+  void rotate(Vec2d rotation) {
+    rotation_ += rotation;
+    process();
+  }
 
-    if(yr_ > 90) {
-      yr_ = 90;
+  constexpr Vec2d &getRotation() {
+    return rotation_;
+  }
+
+  constexpr Vec3d &getEyePosition() {
+    return eyePos_;
+  }
+
+  constexpr Vec3d &getCenterPosition() {
+    return centerPos_;
+  }
+private:
+  void process() {
+    if(rotation_.x > 360) {
+      rotation_.x = 0;
     }
-    else if(yr_ < -90) {
-      yr_ = -90;
+    if(rotation_.x < 0) {
+      rotation_.x = 360;
     }
+    if(rotation_.y > 90) {
+      rotation_.y = 90;
+    }
+    if(rotation_.y < -90) {
+      rotation_.y = -90;
+    }
+    centerPos_.x = eyePos_.x + sin(rotation_.x * DEG_TO_RAD);
+    centerPos_.y = eyePos_.y + tan(rotation_.y * DEG_TO_RAD);
+    centerPos_.z = eyePos_.z + cos(rotation_.x * DEG_TO_RAD);
   }
 };
 
@@ -744,8 +793,9 @@ class Player {
   bool cameraBind_ = true;                //Is camera following player eye pos and rotation
   uint8_t walkParam_ = 0;                 //Active walk dir 
   GLdouble walkSpeed_ = 0.007;            //Player walk speed
-  GLdouble x_ = 0.0, y_ = 0.0, z_ = 0.0;  //Player pos
-  GLdouble xr_ = 0.0, yr_ = 0.0;          //Player camera rotation
+  Vec3d position_;
+  World *world_ = nullptr;                //World in
+  BlockPos blockMouseOver_;
 public:
   Camera camera; //Camera object
 
@@ -762,7 +812,7 @@ public:
   }
 
   //Disable or enable walking in specific direction
-  //TODO: replace this by func(enum or uint8_t walkDir,bool val);
+  //TODO: replace this by func(enum or uint8_t walkDir, bool val);
   void goForward(bool val) {
     bitWrite(walkParam_, 0, val);
   }
@@ -782,6 +832,14 @@ public:
     bitWrite(walkParam_, 5, val);
   }
 
+  void setWorld(World *world) {
+    world_ = world;
+  }
+  /*
+  void setUtils(Utils *utils) {
+    utils_ = utils;
+  }*/
+
   void bindCamera() {
     cameraBind_ = true;
   }
@@ -795,27 +853,26 @@ public:
   }
 
   void move(GLdouble x, GLdouble y, GLdouble z) {
-    x_ += x;
-    y_ += y;
-    z_ += z;
+    position_ += Vec3d(x, y, z);
     if(cameraBind_) {
-      camera.setPosition(x_, y_, z_);
+      camera.setPosition(position_);
     }
   }
 
   void update(gametime_t timeLeft) {
     //Move offset calculating: TimeAfterLastGameDisplay * WalkSpeed * other
+    Vec2d &rotation = camera.getRotation();
     if(bitRead(walkParam_, 0)) {//Walk forward
-      move(sin(xr_ * DEG_TO_RAD) * walkSpeed_ * timeLeft, 0, cos(xr_ * DEG_TO_RAD) * walkSpeed_ * timeLeft);
+      move(sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft, 0, cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft);
     }
     if(bitRead(walkParam_, 1)) {//Walk back
-      move(sin(xr_ * DEG_TO_RAD) * walkSpeed_ * -timeLeft, 0, cos(xr_ * DEG_TO_RAD) * walkSpeed_ * -timeLeft);
+      move(sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft, 0, cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft);
     }
     if(bitRead(walkParam_, 2)) {//Walk left
-      move(cos(xr_ * DEG_TO_RAD) * walkSpeed_ * timeLeft, 0, sin(xr_ * DEG_TO_RAD) * walkSpeed_ * -timeLeft);
+      move(cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft, 0, sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft);
     }
     if(bitRead(walkParam_, 3)) {//Walk r
-      move(cos(xr_ * DEG_TO_RAD) * walkSpeed_ * -timeLeft, 0, sin(xr_ * DEG_TO_RAD) * walkSpeed_ * timeLeft);
+      move(cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft, 0, sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft);
     }
     if(bitRead(walkParam_, 4)) {//Walk up
       move(0, walkSpeed_ * timeLeft, 0);
@@ -824,28 +881,13 @@ public:
       move(0, walkSpeed_ * -timeLeft, 0);
     }
     //TODO: how about realestic walk?
-  }
-
-  void setRotation(GLdouble x, GLdouble y) {
-    xr_ = x;
-    yr_ = y;
-
-    if(xr_ > 360) {
-      xr_ = 0;
-    }
-    else if(xr_ < 0) {
-      xr_ = 360;
-    }
-
-    if(yr_ > 90) {
-      yr_ = 90;
-    }
-    else if(yr_ < -90) {
-      yr_ = -90;
-    }
-
-    if(cameraBind_) {
-      camera.setRotation(xr_, yr_);
+    Vec3d eyePos = camera.getEyePosition();
+    Vec3d viewPos = camera.getCenterPosition();
+    Aabb<GLdouble> lineAABB(eyePos, viewPos);
+    for(auto &[iKey, iVal] : world_->getData()) {
+      for(auto &[jKey, jVal] : iVal) {
+        
+      }
     }
   }
 
@@ -882,7 +924,7 @@ void init3D(GLdouble width, GLdouble height) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-  gluPerspective(75, aspect, 0.1, 300);
+  gluPerspective(60, aspect, 0.05, 200);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -900,8 +942,14 @@ void init3D(GLdouble width, GLdouble height) {
 int main() {
   setlocale(LC_ALL, "Russian");
 
-  Utils *utils=new Utils;
-  Assets *assets=new Assets;
+#ifdef DEBUG
+  std::wcout << L"Building main" << std::endl;
+#endif //DEBUG
+  Utils *utils = new Utils;
+  Assets *assets = new Assets;
+  World *world = new World;
+  Player *player = new Player;
+  player->setWorld(world);
   //Bootstrap
   assets->settings->load();
 
@@ -909,12 +957,9 @@ int main() {
   sf::Context context;
 #ifdef DEBUG
   std::wcout << "Context inited" << std::endl;
-#endif // DEBUG
+#endif //DEBUG
   assets->textures->load();
 
-
-  Player *player = new Player;
-  World *world = new World;
 
   //Window init
   sf::ContextSettings contextSettings;
@@ -927,12 +972,12 @@ int main() {
   contextSettings.attributeFlags = sf::ContextSettings::Default; //No core render please
 
   //Hello window
-  sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Close, contextSettings);
+  sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
   window.setVerticalSyncEnabled(true);
   //window.setFramerateLimit(1);
-
+  // 
   //Setup renderer
-  glClearColor(0.0F, 0.0F, 0.0F, 0.0F);
+  glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
   glClearDepth(1.0);
   init3D(640, 360);
 
@@ -955,29 +1000,27 @@ int main() {
           break;
         }
 
-        //TODO: Noraml window resizing
-        /*case sf::Event::Resized:
+        case sf::Event::Resized:
         {
+          event.size.width -= event.size.width % 2;
+          event.size.height -= event.size.height % 2;
           window.setSize(sf::Vector2u(event.size.width, event.size.height));
           init3D(event.size.width, event.size.height);
           break;
-        }*/
+        }
 
         case sf::Event::MouseMoved:
         {//Mouse in a trap™
           if(grab) {
-            sf::Vector2u windowSize = window.getSize();
-            if(event.mouseMove.x == windowSize.x - 1) {
-              event.mouseMove.x = 1;
-              sf::Mouse::setPosition(sf::Vector2i(0, event.mouseMove.y), window);
-            }
-            if(event.mouseMove.x == 0) {
-              event.mouseMove.x = windowSize.x - 2;
-              sf::Mouse::setPosition(sf::Vector2i(windowSize.x - 2, event.mouseMove.y), window);
-            }
-            event.mouseMove.x = windowSize.x - event.mouseMove.x;
-            event.mouseMove.y = windowSize.y - event.mouseMove.y;
-            player->setRotation((GLdouble) event.mouseMove.x / windowSize.x * 360, (GLdouble) ((GLdouble) event.mouseMove.y - windowSize.y / 2) * 2 / windowSize.y * 90);
+            Vec2d windowSize = window.getSize();
+            Vec2d mousePos = sf::Mouse::getPosition(window);
+            Vec2d rotation;
+            windowSize /= 2;
+            rotation = windowSize - mousePos;
+            rotation /= windowSize * 2;
+            rotation *= Vec2d(360, 180);
+            sf::Mouse::setPosition(sf::Vector2i(windowSize.x, windowSize.y), window);
+            player->camera.rotate(rotation);
           }
           break;
         }
@@ -1030,7 +1073,7 @@ int main() {
                 init3D(videoMode.width, videoMode.height);
               }
               else {
-                window.create(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Close, contextSettings);
+                window.create(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
                 init3D(640, 360);
               }
               if(grab) {
@@ -1088,23 +1131,25 @@ int main() {
     glPushMatrix();
     player->camera.doTranlate();
 
-    //Axis lines
+    world->draw();
+    player->draw();
+
     glBegin(GL_LINES);
 
     glColor3ub(255, 0, 0);
-    glVertex3i(0, 0, 0);
-    glVertex3i(16, 0, 0);
+    glVertex3f(-0.1F, -0.1F, -0.1F);
+    glVertex3f(255.0F, -0.1F, -0.1F);
 
     glColor3ub(0, 255, 0);
-    glVertex3i(0, 0, 0);
-    glVertex3i(0, 16, 0);
+    glVertex3f(-0.1F, -0.1F, -0.1F);
+    glVertex3f(-0.1F, 255.0F, -0.1F);
 
     glColor3ub(0, 0, 255);
-    glVertex3i(0, 0, 0);
-    glVertex3i(0, 0, 16);
+    glVertex3f(-0.1F, -0.1F, -0.1F);
+    glVertex3f(-0.1F, -0.1F, 255.0F);
 
     glEnd();
-    world->draw();
+
     glPopMatrix();
 
     window.display();
