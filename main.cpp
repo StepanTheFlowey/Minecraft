@@ -35,7 +35,11 @@
 
 #include "aabb.hpp"
 #include "vec.hpp"
+#include "plane.hpp"
+#include "rayTrace.hpp"
+#include "color.hpp"
 #include "types.hpp"
+#include "math.hpp"
 
 //Math defines
 #define PI 3.1415926535897932384626433832795
@@ -109,7 +113,6 @@ public:
 
 class TextureManager {
   std::map<std::wstring, textureId_t> textures_;
-  std::set<textureId_t> usedTextures_;
 public:
   TextureManager() {
 #ifdef DEBUG
@@ -146,26 +149,31 @@ public:
           stbi_image_free(image);
           textures_[i.path().filename().wstring()] = texture;
         }
+#ifdef DEBUG
         else {
           std::wcout << "Can`t load image \"" << i.path().filename().wstring() << "\"\nReason: " << std::endl << stbi_failure_reason() << std::endl;
         }
+#endif // DEBUG
       }
     }
 
-    //for(auto &[iKey, iVal] : textures_) {
-    //  std::wcout << L"Name: " << iKey << L"\t\t\tID: " << iVal << std::endl;
-    //}
-
-    //_wsystem(L"pause");
+#ifdef DEBUG
+    std::wcout << L"Textures loaded:" << std::endl;
+    std::wstring name;
+    for(auto &[iKey, iVal] : textures_) {
+      name = L"Name: " + iKey;
+      std::wcout << name;
+      for(uint8_t i = 0; i < 30 - name.length(); i++) {
+        std::wcout << " ";
+      }
+      std::wcout << L"ID: " << iVal << std::endl;
+    }
+#endif // DEBUG
   }
 
   std::map<std::wstring, textureId_t> &getTextures() {
     //TODO: Exeption if textures_.empty()
     return textures_;
-  }
-
-  void doNotDelete(textureId_t textureId) {
-    usedTextures_.insert(textureId);
   }
 
   void clean() {
@@ -246,19 +254,7 @@ public:
   }
 
   void bindTextures() {
-    auto &blocksVector = blocks->getBlocks();
-    auto &texturesMap = textures->getTextures();
-    textureId_t txId = 0;
-
-    for(auto &i : blocksVector) {
-      for(uint8_t j = 0; j < 6; j++) {
-        if(texturesMap.find(i.textureName[j]) != texturesMap.end()) {
-          txId = texturesMap[i.textureName[j]];
-          textures->doNotDelete(txId);
-          //TODO: do this
-        }
-      }
-    }
+    //TODO: Assets::bindTextures()
   }
 };
 
@@ -275,7 +271,7 @@ public:
     for(uint8_t i = 0; i < 16; i++) {
       for(uint8_t j = 0; j < 16; j++) {
         for(uint8_t k = 0; k < 16; k++) {
-          block_[i][j][k].blockId = rand() % 2 ? rand() % 15 : 0;
+          block_[i][j][k].blockId = rand() % 25 < 2 ? rand() % 15 : 0;
         }
       }
     }
@@ -310,8 +306,16 @@ public:
     aabb_.maxZ = position_.z + 16;
   }
 
+  ChunkPos &getPosition() {
+    return position_;
+  }
+
   ChunkAabb &getAabb() {
     return aabb_;
+  }
+
+  std::array<std::array<std::array<BlockRenderInfo, 16>, 16>, 16> &getData() {
+    return block_;
   }
 
   void draw() {
@@ -328,8 +332,6 @@ public:
           glTranslatef(i + static_cast<GLfloat>(position_.x) * 16, j + static_cast<GLfloat>(position_.y) * 16, k + static_cast<GLfloat>(position_.z) * 16);
 
           glBegin(GL_QUADS);
-
-          glColor3ub(255, 255, 255);
 
           if(bitRead(block.sideRender, 0)) {
             //Up side
@@ -466,6 +468,7 @@ public:
         }
       }
     }
+    aabb_.drawAxisf();
   }
 };
 
@@ -479,14 +482,35 @@ public:
     std::wcout << L"Region(): Constructor" << std::endl;
 #endif // DEBUG
     chunk_[0][0][0].reset(new Chunk);
-    chunk_[0][1][0].reset(new Chunk);
-    chunk_[0][1][0]->setPosition(ChunkPos(0, 1, 0));
+    chunk_[0][0][0]->setPosition(ChunkPos(0, 0, 0));
   }
 
   ~Region() {
 #ifdef DEBUG
     std::wcout << L"~Region(): Destructor" << std::endl;
 #endif // DEBUG
+  }
+
+  bool hasChunk(ChunkPos position) {
+    if(chunk_.find(position.x) == chunk_.end()) {
+      return false;
+    }
+    if(chunk_[position.x].find(position.y) == chunk_[position.x].end()) {
+      return false;
+    }
+    if(chunk_[position.x][position.y].find(position.z) == chunk_[position.x][position.y].end()) {
+      return false;
+    }
+    return true;
+  }
+
+  std::shared_ptr<Chunk> getChunkWorld(ChunkPos position) {
+    position %= 16;
+    return chunk_[position.x][position.y][position.z];
+  }
+
+  std::shared_ptr<Chunk> getChunkNative(ChunkPos position) {
+    return chunk_[position.x][position.y][position.z];
   }
 
   BlockRenderInfo getBlockWorld(BlockPos position) {
@@ -507,21 +531,12 @@ public:
     aabb_.maxZ = position.y + 16;
   }
 
-  std::shared_ptr<Chunk> getChunk(ChunkPos position) {
-    return chunk_[position.x][position.y][position.z];
+  RegionPos &getPosition() {
+    return position_;
   }
 
-  bool hasChunk(ChunkPos position) {
-    if(chunk_.find(position.x) == chunk_.end()) {
-      return false;
-    }
-    if(chunk_[position.x].find(position.y) == chunk_[position.x].end()) {
-      return false;
-    }
-    if(chunk_[position.x][position.y].find(position.z) == chunk_[position.x][position.y].end()) {
-      return false;
-    }
-    return true;
+  RegionAabb &getAabb() {
+    return aabb_;
   }
 
   std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::shared_ptr<Chunk>>>> &getData() {
@@ -547,9 +562,8 @@ public:
     std::wcout << L"World(): Constructor" << std::endl;
 #endif // DEBUG
     region_[0][0].reset(new Region);
-    region_[0][0]->setPosition({0,0});
-    computeChunkEdgeRender({0,0,0});
-    computeChunkEdgeRender({0,1,0});
+    region_[0][0]->setPosition(RegionPos(0, 0));
+    computeChunkEdgeRender(ChunkPos(0, 0, 0));
   }
 
   ~World() {
@@ -612,14 +626,13 @@ public:
     if(position.z / 16 != 0) {
       blockPos.z++;
     }
-    return region->getChunk(chunkPos)->getBlockNative(blockPos);
+    return region->getChunkNative(chunkPos)->getBlockNative(blockPos);
   }
 
   void setBlock(BlockPos position, BlockRenderInfo block) {
-
+    //TODO: World::setBlock()
   }
 
-  //HACK: this
   void computeChunkEdgeRender(ChunkPos position) {
     RegionPos regionPos(position.x / 16, position.z / 16);
     if(!hasRegion(regionPos)) {
@@ -632,7 +645,7 @@ public:
     if(!region->hasChunk(position)) {
       throw std::out_of_range("no such chunk");
     }
-    std::shared_ptr<Chunk> chunk = region->getChunk(position);
+    std::shared_ptr<Chunk> chunk = region->getChunkNative(position);
 
     for(uint8_t i = 0; i < 16; i++) {
       for(uint8_t j = 0; j < 16; j++) {
@@ -777,15 +790,15 @@ private:
     if(rotation_.x < 0) {
       rotation_.x = 360;
     }
-    if(rotation_.y > 90) {
-      rotation_.y = 90;
+    if(rotation_.y > 89.99) {
+      rotation_.y = 89.99;
     }
-    if(rotation_.y < -90) {
-      rotation_.y = -90;
+    if(rotation_.y < -89.99) {
+      rotation_.y = -89.99;
     }
-    centerPos_.x = eyePos_.x + sin(rotation_.x * DEG_TO_RAD);
-    centerPos_.y = eyePos_.y + tan(rotation_.y * DEG_TO_RAD);
-    centerPos_.z = eyePos_.z + cos(rotation_.x * DEG_TO_RAD);
+    centerPos_.x = eyePos_.x + sin(rotation_.x * DEG_TO_RAD) * cos(rotation_.y * DEG_TO_RAD) * 3;
+    centerPos_.y = eyePos_.y + sin(rotation_.y * DEG_TO_RAD) * 3;
+    centerPos_.z = eyePos_.z + cos(rotation_.x * DEG_TO_RAD) * cos(rotation_.y * DEG_TO_RAD) * 3;
   }
 };
 
@@ -796,8 +809,10 @@ class Player {
   Vec3d position_;
   World *world_ = nullptr;                //World in
   BlockPos blockMouseOver_;
+  std::vector<BlockPos> inters;
 public:
   Camera camera; //Camera object
+  bool o = false;
 
   Player() {
 #ifdef DEBUG
@@ -881,24 +896,156 @@ public:
       move(0, walkSpeed_ * -timeLeft, 0);
     }
     //TODO: how about realestic walk?
+    if(o) {
+      return;
+    }
     Vec3d eyePos = camera.getEyePosition();
     Vec3d viewPos = camera.getCenterPosition();
+    //std::wcout << "eyePos  X: " << eyePos.x << " Y: " << eyePos.y << " Z: " << eyePos.z << std::endl;
+    //std::wcout << "viewPos X: " << viewPos.x << " Y: " << viewPos.y << " Z: " << viewPos.z << std::endl;
     Aabb<GLdouble> lineAABB(eyePos, viewPos);
+    RayTraced rayTrace;
+    BlockPlane plane;
+    inters.clear();
     for(auto &[iKey, iVal] : world_->getData()) {
       for(auto &[jKey, jVal] : iVal) {
-        
+        if(jVal->getAabb().intersects(lineAABB)) {
+          for(auto &[kKey, kVal] : jVal->getData()) {
+            for(auto &[lKey, lVal] : kVal) {
+              for(auto &[mKey, mVal] : lVal) {
+                if(mVal->getAabb().intersects(lineAABB)) {
+                  //std::wcout << L"chunk\n";
+                  for(uint8_t i = 0; i < 16; i++) {
+                    for(uint8_t j = 0; j < 16; j++) {
+                      for(uint8_t k = 0; k < 16; k++) {
+                        if(mVal->getBlockNative(BlockPos(i, j, k)).blockId == 0) {
+                          continue;
+                        }
+                        plane.x = i;
+                        plane.y = j;
+                        plane.z = k;
+                        plane.vX = 1;
+                        plane.vY = 0;
+                        plane.vZ = 1;
+                        rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                        if(rayTrace.getHit()) {
+                          inters.push_back(BlockPos(i, j, k));
+                          continue;
+
+                        }/*
+                        plane.x = i;
+                        plane.y = j + 1;
+                        plane.z = k;
+                        plane.vX = 1;
+                        plane.vY = 0;
+                        plane.vZ = 1;
+                        rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                        if(rayTrace.getHit()) {
+                          inters.push_back(BlockPos(i, j, k));
+                          continue;
+                        }
+                        plane.x = i;
+                        plane.y = j;
+                        plane.z = k;
+                        plane.vX = 1;
+                        plane.vY = 1;
+                        plane.vZ = 0;
+                        rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                        if(rayTrace.getHit()) {
+                          inters.push_back(BlockPos(i, j, k));
+                          continue;
+                        }
+                        plane.x = i;
+                        plane.y = j;
+                        plane.z = k + 1;
+                        plane.vX = 1;
+                        plane.vY = 1;
+                        plane.vZ = 0;
+                        rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                        if(rayTrace.getHit()) {
+                          inters.push_back(BlockPos(i, j, k));
+                          continue;
+                        }
+                        plane.x = i;
+                        plane.y = j;
+                        plane.z = k;
+                        plane.vX = 0;
+                        plane.vY = 1;
+                        plane.vZ = 1;
+                        rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                        if(rayTrace.getHit()) {
+                          inters.push_back(BlockPos(i, j, k));
+                          continue;
+                        }
+                        plane.x = i + 1;
+                        plane.y = j;
+                        plane.z = k;
+                        plane.vX = 0;
+                        plane.vY = 1;
+                        plane.vZ = 1;
+                        rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                        if(rayTrace.getHit()) {
+                          inters.push_back(BlockPos(i, j, k));
+                          continue;
+                        }*/
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
+    }
+    //std::wcout << inters.size() << std::endl;
+    int16_t smallerNum = -1;
+    for(uint16_t i = 0; i < inters.size(); i++) {
+      bool smaller = true;
+      //std::wcout << inters[i].distanceTo(eyePos)<<std::endl;
+      for(uint16_t j = 0; j < inters.size(); j++) {
+        if(i == j) {
+          continue;
+        }
+        smaller = smaller && inters[i].distanceTo(eyePos) < inters[j].distanceTo(eyePos);
+      }
+      if(smaller) {
+        smallerNum = i;
+      }
+    }
+    if(smallerNum == -1) {
+      blockMouseOver_ = BlockPos(-1, -1, -1);
+    }
+    else {
+      blockMouseOver_ = inters[smallerNum];
+      //std::wcout << world_->getBlock(inters[smallerNum]).blockId << std::endl;
     }
   }
 
   void draw() {
     //TODO: Drawing player model
+
+    Vec3d pos(blockMouseOver_);
+    BlockAabb(pos, pos + Vec3d(1, 1, 1)).drawColorf(Color(0,255,0));
+#ifdef DEBUG
+      glBegin(GL_LINES);
+
+    glColor3ub(255, 0, 0);
+    glVertex3d(pos.x + 3, pos.y + 0.5, pos.z + 0.5);
+    glVertex3d(pos.x - 2.5, pos.y + 0.5, pos.z + 0.5);
+
+    glColor3ub(0, 255, 0);
+    glVertex3d(pos.x + 0.5, pos.y + 3, pos.z + 0.5);
+    glVertex3d(pos.x + 0.5, pos.y - 2.5, pos.z + 0.5);
+
+    glColor3ub(0, 0, 255);
+    glVertex3d(pos.x + 0.5, pos.y + 0.5, pos.z + 3);
+    glVertex3d(pos.x + 0.5, pos.y + 0.5, pos.z - 2.5);
+
+    glEnd();
+#endif // DEBUG
   }
 };
-
-void loadScreen() {
-  //TODO: loadScreen()
-}
 
 void init2D(GLdouble width, GLdouble height) {
   //Reset projection matrix
@@ -930,7 +1077,7 @@ void init3D(GLdouble width, GLdouble height) {
   glLoadIdentity();
 
   glFrontFace(GL_CCW);
-  glLineWidth(5);
+  glLineWidth(3);
   //glShadeModel(GL_SMOOTH);
 
   glEnable(GL_CULL_FACE);
@@ -941,16 +1088,16 @@ void init3D(GLdouble width, GLdouble height) {
 
 int main() {
   setlocale(LC_ALL, "Russian");
-
 #ifdef DEBUG
   std::wcout << L"Building main" << std::endl;
+#else
+  FreeConsole();
 #endif //DEBUG
   Utils *utils = new Utils;
   Assets *assets = new Assets;
   World *world = new World;
   Player *player = new Player;
   player->setWorld(world);
-  //Bootstrap
   assets->settings->load();
 
   //We cannot load texture into OpenGL context without OpenGL context
@@ -959,7 +1106,6 @@ int main() {
   std::wcout << "Context inited" << std::endl;
 #endif //DEBUG
   assets->textures->load();
-
 
   //Window init
   sf::ContextSettings contextSettings;
@@ -973,9 +1119,12 @@ int main() {
 
   //Hello window
   sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
+#ifdef DEBUG
+  window.setFramerateLimit(15);
+#else
   window.setVerticalSyncEnabled(true);
-  //window.setFramerateLimit(1);
-  // 
+#endif // DEBUG
+
   //Setup renderer
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
   glClearDepth(1.0);
@@ -985,13 +1134,10 @@ int main() {
 
   bool grab = false;
   bool fullscreen = false;
-  sf::Clock clock;
   gametime_t gametime = 0;
+  sf::Clock clock;
   while(window.isOpen()) {
     gametime = clock.restart().asMilliseconds();
-#ifdef DEBUG
-    //std::wcout << L"Time left: " << gametime << L" ms" << std::endl;
-#endif // DEBUG
     while(window.pollEvent(event)) {
       switch(event.type) {
         case sf::Event::Closed:
@@ -1012,14 +1158,14 @@ int main() {
         case sf::Event::MouseMoved:
         {//Mouse in a trap™
           if(grab) {
-            Vec2d windowSize = window.getSize();
-            Vec2d mousePos = sf::Mouse::getPosition(window);
-            Vec2d rotation;
+            Vec2f windowSize = window.getSize();
+            Vec2f mousePos = sf::Mouse::getPosition(window);
+            Vec2f rotation;
             windowSize /= 2;
             rotation = windowSize - mousePos;
             rotation /= windowSize * 2;
-            rotation *= Vec2d(360, 180);
-            sf::Mouse::setPosition(sf::Vector2i(windowSize.x, windowSize.y), window);
+            rotation *= Vec2f(360, 180);
+            sf::Mouse::setPosition(sf::Vector2i(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y)), window);
             player->camera.rotate(rotation);
           }
           break;
@@ -1062,6 +1208,11 @@ int main() {
               grab = !grab;
               window.setMouseCursorGrabbed(grab);
               window.setMouseCursorVisible(!grab);
+              break;
+            }
+            case sf::Keyboard::O:
+            {
+              player->o = !player->o;
               break;
             }
             case sf::Keyboard::F11:
@@ -1135,27 +1286,26 @@ int main() {
     player->draw();
 
     glBegin(GL_LINES);
-
+#define AXIS_LENGHT 17.0F
+#define AXIS_OFFSET -0.1F
     glColor3ub(255, 0, 0);
-    glVertex3f(-0.1F, -0.1F, -0.1F);
-    glVertex3f(255.0F, -0.1F, -0.1F);
+    glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_OFFSET);
+    glVertex3f(AXIS_LENGHT, AXIS_OFFSET, AXIS_OFFSET);
 
     glColor3ub(0, 255, 0);
-    glVertex3f(-0.1F, -0.1F, -0.1F);
-    glVertex3f(-0.1F, 255.0F, -0.1F);
+    glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_OFFSET);
+    glVertex3f(AXIS_OFFSET, AXIS_LENGHT, AXIS_OFFSET);
 
     glColor3ub(0, 0, 255);
-    glVertex3f(-0.1F, -0.1F, -0.1F);
-    glVertex3f(-0.1F, -0.1F, 255.0F);
-
+    glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_OFFSET);
+    glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_LENGHT);
+    glColor3ub(255, 255, 255);
+#undef AXIS_LENGHT
+#undef AXIS_OFFSET
     glEnd();
 
     glPopMatrix();
 
     window.display();
   }
-
-#ifdef DEBUG
-  //_wsystem(L"pause");
-#endif //DEBUG
 }

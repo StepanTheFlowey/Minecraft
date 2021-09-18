@@ -2,6 +2,8 @@
 #include <gl/GL.h>
 #include "aabb.hpp"
 #include "vec.hpp"
+#include "plane.hpp"
+#include "rayTrace.hpp"
 
 //Data types
 using size_t = std::size_t;
@@ -31,3 +33,11 @@ using Vec3d = Vec3<GLdouble>;
 using BlockPos = Vec3<blockPos_t>;
 using ChunkPos = Vec3<chunkPos_t>;
 using RegionPos = Vec2<regionPos_t>;
+
+using Planed = Plane<GLdouble>;
+using Planef = Plane<GLfloat>;
+
+using BlockPlane = Plane<blockPos_t>;
+
+using RayTraced = RayTrace<double_t>;
+using RayTracef = RayTrace<float_t>;

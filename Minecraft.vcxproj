@@ -46,14 +46,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\lib;$(LibraryPath);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <ExternalIncludePath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <ExternalIncludePath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
-    <LibraryPath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\Цветик\Documents\Programming\C++\Libraries\x64\lib;$(LibraryPath);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -96,6 +96,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb.hpp" />
+    <ClInclude Include="color.hpp" />
+    <ClInclude Include="math.hpp" />
+    <ClInclude Include="rayTrace.hpp" />
+    <ClInclude Include="plane.hpp" />
     <ClInclude Include="types.hpp" />
     <ClInclude Include="vec.hpp" />
   </ItemGroup>

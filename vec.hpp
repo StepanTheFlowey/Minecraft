@@ -1,23 +1,39 @@
 #pragma once
 #include <SFML\System\Vector2.hpp>
+#include <gl\GL.h>
 
 template <typename T> class Vec2 {
 public:
-  T x = 0;
-  T y = 0;
+  T x;
+  T y;
 
   Vec2() {
-
+    x = 0;
+    y = 0;
   }
 
-  template <typename U>Vec2(sf::Vector2<U> vec) {
-    x = static_cast<T>(vec.x);
-    y = static_cast<U>(vec.y);
-  }
 
   Vec2(T X, T Y) {
     x = X;
     y = Y;
+  }
+
+  template <typename U> Vec2(Vec2<U> vec) {
+    x = static_cast<T>(vec.x);
+    y = static_cast<T>(vec.y);
+  }
+
+  template <typename U> Vec2(sf::Vector2<U> vec) {
+    x = static_cast<T>(vec.x);
+    y = static_cast<T>(vec.y);
+  }
+
+  void print() {
+    std::wcout << L"X: " << x << L" Y: " << y << std::endl;
+  }
+
+  void print(std::wstring str) {
+    std::wcout << str << L" X: " << x << L" Y: " << y << std::endl;
   }
 
   Vec2<T> operator+(const Vec2<T> &r) {
@@ -149,20 +165,57 @@ public:
 };
 
 template <typename T> class Vec3 {
-
 public:
   T x;
   T y;
   T z;
 
-  Vec3():x(0),y(0),z(0) {
-
+  Vec3() {
+    x = 0;
+    y = 0;
+    z = 0;
   }
 
   Vec3(T X, T Y, T Z) {
     x = X;
     y = Y;
     z = Z;
+  }
+
+  template <typename U> Vec3(Vec3<U> vec) {
+    x = static_cast<T>(vec.x);
+    y = static_cast<T>(vec.y);
+    z = static_cast<T>(vec.z);
+  }
+
+  void print() {
+    std::wcout << L"X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+  }
+
+  void print(std::wstring str) {
+    std::wcout << str << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+  }
+
+  double_t lenght() {
+    return std::sqrt(x * x + y * y + z * z);
+  }
+
+  Vec3<T> normalize() {
+    const T mlr = lenght();
+    return Vec3<T>(x / mlr, y / mlr, z / mlr);
+  }
+
+  double_t distanceTo(Vec3<T> point) {
+    T X = x - point.x;
+    T Y = y - point.y;
+    T Z = z - point.z;
+    return std::sqrt(X * X + Y * Y + Z * Z);
+  }
+
+  inline void glVertex() {
+    glVertex3d(static_cast<GLdouble>(x),
+               static_cast<GLdouble>(y), 
+               static_cast<GLdouble>(z));
   }
 
   bool operator==(const Vec3<T> &r) {
