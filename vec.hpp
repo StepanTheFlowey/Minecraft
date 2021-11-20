@@ -1,6 +1,8 @@
 #pragma once
-#include <SFML\System\Vector2.hpp>
-#include <gl\GL.h>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/OpenGL.hpp>
+#include <cmath>
+#include <iostream>
 
 template <typename T> class Vec2 {
 public:
@@ -188,12 +190,16 @@ public:
     z = static_cast<T>(vec.z);
   }
 
-  void print() {
+  void print() const {
     std::wcout << L"X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
   }
 
-  void print(std::wstring str) {
+  void print(std::wstring str) const {
     std::wcout << str << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+  }
+
+  Vec3<T> abs() {
+    return Vec3<T>(std::abs(x), std::abs(y), std::abs(z));
   }
 
   double_t lenght() {
@@ -201,8 +207,8 @@ public:
   }
 
   Vec3<T> normalize() {
-    const T mlr = lenght();
-    return Vec3<T>(x / mlr, y / mlr, z / mlr);
+    const T l = lenght();
+    return Vec3<T>(x / l, y / l, z / l);
   }
 
   double_t distanceTo(Vec3<T> point) {
@@ -214,7 +220,7 @@ public:
 
   inline void glVertex() {
     glVertex3d(static_cast<GLdouble>(x),
-               static_cast<GLdouble>(y), 
+               static_cast<GLdouble>(y),
                static_cast<GLdouble>(z));
   }
 

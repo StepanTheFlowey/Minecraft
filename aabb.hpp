@@ -33,11 +33,11 @@ public:
     maxZ = std::max(v0.z, v1.z);
   }
 
-  bool intersects(Aabb<T> aabb) {
+  bool intersects(Aabb<T> aabb) const {
     return intersects(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
   }
 
-  template<typename U> bool intersects(Aabb<U> aabb) {
+  template<typename U> bool intersects(Aabb<U> aabb) const {
     return intersects(static_cast<T>(aabb.minX),
                       static_cast<T>(aabb.minY),
                       static_cast<T>(aabb.minZ),
@@ -46,7 +46,7 @@ public:
                       static_cast<T>(aabb.maxZ));
   }
 
-  bool intersects(T x0, T y0, T z0, T x1, T y1, T z1) {
+  bool intersects(T x0, T y0, T z0, T x1, T y1, T z1) const {
     return
       (minX < x1) &&
       (maxX > x0) &&
@@ -55,15 +55,14 @@ public:
       (minZ < z1) &&
       (maxZ > z0);
   }
-#pragma warning(push)
-#pragma warning(disable: 4244)
-  void drawColorf(Color color) {
-    GLfloat iX = static_cast<GLfloat>(minX) - 0.01;
-    GLfloat iY = static_cast<GLfloat>(minY) - 0.01;
-    GLfloat iZ = static_cast<GLfloat>(minZ) - 0.01;
-    GLfloat aX = static_cast<GLfloat>(maxX) + 0.01;
-    GLfloat aY = static_cast<GLfloat>(maxY) + 0.01;
-    GLfloat aZ = static_cast<GLfloat>(maxZ) + 0.01;
+
+  void drawColorf(Color color) const {
+    const GLfloat iX = static_cast<GLfloat>(minX) - 0.001F;
+    const GLfloat iY = static_cast<GLfloat>(minY) - 0.001F;
+    const GLfloat iZ = static_cast<GLfloat>(minZ) - 0.001F;
+    const GLfloat aX = static_cast<GLfloat>(maxX) + 0.001F;
+    const GLfloat aY = static_cast<GLfloat>(maxY) + 0.001F;
+    const GLfloat aZ = static_cast<GLfloat>(maxZ) + 0.001F;
 
     glBegin(GL_LINES);
 
@@ -109,13 +108,13 @@ public:
     glEnd();
   }
 
-  void drawColord(Color color) {
-    GLdouble iX = static_cast<GLdouble>(minX) - 0.01;
-    GLdouble iY = static_cast<GLdouble>(minY) - 0.01;
-    GLdouble iZ = static_cast<GLdouble>(minZ) - 0.01;
-    GLdouble aX = static_cast<GLdouble>(maxX) + 0.01;
-    GLdouble aY = static_cast<GLdouble>(maxY) + 0.01;
-    GLdouble aZ = static_cast<GLdouble>(maxZ) + 0.01;
+  void drawColord(Color color) const {
+    const GLdouble iX = static_cast<GLdouble>(minX) - 0.001;
+    const GLdouble iY = static_cast<GLdouble>(minY) - 0.001;
+    const GLdouble iZ = static_cast<GLdouble>(minZ) - 0.001;
+    const GLdouble aX = static_cast<GLdouble>(maxX) + 0.001;
+    const GLdouble aY = static_cast<GLdouble>(maxY) + 0.001;
+    const GLdouble aZ = static_cast<GLdouble>(maxZ) + 0.001;
 
     glBegin(GL_LINES);
 
@@ -161,13 +160,13 @@ public:
     glEnd();
   }
 
-  void drawAxisf() {
-    GLfloat iX = static_cast<GLfloat>(minX) - 0.01;
-    GLfloat iY = static_cast<GLfloat>(minY) - 0.01;
-    GLfloat iZ = static_cast<GLfloat>(minZ) - 0.01;
-    GLfloat aX = static_cast<GLfloat>(maxX) + 0.01;
-    GLfloat aY = static_cast<GLfloat>(maxY) + 0.01;
-    GLfloat aZ = static_cast<GLfloat>(maxZ) + 0.01;
+  void drawAxisf() const {
+    const GLfloat iX = static_cast<GLfloat>(minX) - 0.001F;
+    const GLfloat iY = static_cast<GLfloat>(minY) - 0.001F;
+    const GLfloat iZ = static_cast<GLfloat>(minZ) - 0.001F;
+    const GLfloat aX = static_cast<GLfloat>(maxX) + 0.001F;
+    const GLfloat aY = static_cast<GLfloat>(maxY) + 0.001F;
+    const GLfloat aZ = static_cast<GLfloat>(maxZ) + 0.001F;
 
     glBegin(GL_LINES);
 
@@ -214,12 +213,12 @@ public:
   }
 
   void drawAxisd() {
-    GLdouble iX = static_cast<GLdouble>(minX) - 0.01;
-    GLdouble iY = static_cast<GLdouble>(minY) - 0.01;
-    GLdouble iZ = static_cast<GLdouble>(minZ) - 0.01;
-    GLdouble aX = static_cast<GLdouble>(maxX) + 0.01;
-    GLdouble aY = static_cast<GLdouble>(maxY) + 0.01;
-    GLdouble aZ = static_cast<GLdouble>(maxZ) + 0.01;
+    GLdouble iX = static_cast<GLdouble>(minX) - 0.001;
+    GLdouble iY = static_cast<GLdouble>(minY) - 0.001;
+    GLdouble iZ = static_cast<GLdouble>(minZ) - 0.001;
+    GLdouble aX = static_cast<GLdouble>(maxX) + 0.001;
+    GLdouble aY = static_cast<GLdouble>(maxY) + 0.001;
+    GLdouble aZ = static_cast<GLdouble>(maxZ) + 0.001;
 
     glBegin(GL_LINES);
 
@@ -264,5 +263,4 @@ public:
 
     glEnd();
   }
-#pragma warning(pop)
 };

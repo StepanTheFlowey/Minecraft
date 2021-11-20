@@ -23,7 +23,7 @@ public:
     a = A;
   }
 
-  inline void glColor() {
+  inline void glColor() const {
     glColor4ub(r, g, b, a);
   }
 };

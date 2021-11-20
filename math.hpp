@@ -1,38 +1,41 @@
 #pragma once
-#include "aabb.hpp"
-#include "vec.hpp"
-#include "plane.hpp"
+#include "types.hpp"
 #include <cmath>
 
-template <typename T> Vec3<T> vectorProduct(Vec3<T> A, Vec3<T> B) {
-  return Vec3<T>(A.y * B.z - A.z * B.y,
-                 A.z * B.x - A.x * B.z,
-                 A.x * B.y - A.y * B.z);
-}
-
-template <typename T> T dotProduct(Vec3<T> A, Vec3<T> B) {
-  return A.x * B.x + A.y * B.y + A.z * B.z;
-}
-
-template <typename T> Vec3<T> getNormal(Vec3<T> A, Vec3<T> B, Vec3<T> C) {
-  return vectorProduct(B - A, C - A);
-}
-
-template <typename T> Vec3<T> getNormal(Plane<T> p) {
-  Vec3<T> A(p.x, p.y, p.z);
-  Vec3<T> B = A;
-  Vec3<T> C = A;
-  if(p.vX == 0) {
-    B.y += p.vY;
-    C.z += p.vZ;
+namespace math {
+  template <typename T> inline Vec3<T> vectorProduct(Vec3<T> A, Vec3<T> B) {
+    return Vec3<T>(A.y * B.z - A.z * B.y,
+                   A.z * B.x - A.x * B.z,
+                   A.x * B.y - A.y * B.x);
   }
-  if(p.vY == 0) {
-    B.x += p.vX;
-    C.z += p.vZ;
+
+  template <typename T> inline T dotProduct(Vec3<T> A, Vec3<T> B) {
+    return A.x * B.x + A.y * B.y + A.z * B.z;
   }
-  if(p.vZ == 0) {
-    B.x += p.vX;
-    C.y += p.vY;
+
+  template <typename T> inline Vec3<T> getNormal(Vec3<T> A, Vec3<T> B, Vec3<T> C) {
+    return vectorProduct(B - A, C - A);
   }
-  return getNormal(A, B, C);
+
+  template <typename T> inline Vec3<T> getNormal(Plane<T> plane) {
+    return getNormal(plane.A, plane.B, plane.C);
+  }
+
+  inline ChunkPos getChunkPosFromBlock(BlockPos position) {
+    return ChunkPos(position.x >> 4, position.y >> 4, position.z >> 4);
+  }
+
+  inline RegionPos getRegionPosFromChunk(ChunkPos position) {
+    return RegionPos(position.x >> 4, position.z >> 4);
+  }
+
+  inline SmallPos getBlockPosInChunk(BlockPos position) {
+    return SmallPos(position.x & 15, position.y & 15, position.z & 15);
+  }
+
+  inline SmallPos getChunkPosInRegion(ChunkPos position) {
+    return SmallPos(position.x & 15, position.y & 15, position.z & 15);
+  }
+
+
 }
