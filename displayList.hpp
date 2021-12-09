@@ -4,6 +4,7 @@
 class DisplayList {
   GLuint handle_ = 0;
 public:
+
   DisplayList() {
     handle_ = glGenLists(1);
   }

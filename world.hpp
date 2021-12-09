@@ -39,7 +39,7 @@ public:
   }
 
   bool hasChunk(ChunkPos position) {
-    RegionPos regionPos = getRegionPosFromChunk(position);
+    RegionPos regionPos = math::getRegionPosFromChunk(position);
     if(!hasRegion(regionPos)) {
       return false;
     }
@@ -47,7 +47,7 @@ public:
   }
 
   std::shared_ptr<Chunk> getChunk(ChunkPos position) {
-    RegionPos regionPos = getRegionPosFromChunk(position);
+    RegionPos regionPos = math::getRegionPosFromChunk(position);
     return getRegion(regionPos)->getChunkWorld(position);
   }
 
@@ -56,14 +56,14 @@ public:
   }
 
   BlockRenderInfo getBlock(BlockPos position) {
-    ChunkPos chunkPos = getChunkPosFromBlock(position);
-    RegionPos regionPos = getRegionPosFromChunk(chunkPos);
+    ChunkPos chunkPos = math::getChunkPosFromBlock(position);
+    RegionPos regionPos = math::getRegionPosFromChunk(chunkPos);
     return getRegion(regionPos)->getChunkWorld(chunkPos)->getBlockWorld(position);
   }
 
   void setBlock(BlockPos position, BlockRenderInfo block) {
-    ChunkPos chunkPos = getChunkPosFromBlock(position);
-    RegionPos regionPos = getRegionPosFromChunk(chunkPos);
+    ChunkPos chunkPos = math::getChunkPosFromBlock(position);
+    RegionPos regionPos = math::getRegionPosFromChunk(chunkPos);
     getRegion(regionPos)->getChunkWorld(chunkPos)->setBlockWorld(position, block);
   }
 

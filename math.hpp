@@ -36,6 +36,4 @@ namespace math {
   inline SmallPos getChunkPosInRegion(ChunkPos position) {
     return SmallPos(position.x & 15, position.y & 15, position.z & 15);
   }
-
-
 }

@@ -47,7 +47,7 @@ public:
   }
 
   BlockRenderInfo &getBlockWorld(BlockPos position) {
-    return getBlockNative(getBlockPosInChunk(position));
+    return getBlockNative(math::getBlockPosInChunk(position));
   }
 
   void setBlockNative(BlockPos position, BlockRenderInfo block) {
@@ -55,7 +55,7 @@ public:
   }
 
   void setBlockWorld(BlockPos position, BlockRenderInfo block) {
-    setBlockNative(getBlockPosInChunk(position), block);
+    setBlockNative(math::getBlockPosInChunk(position), block);
   }
 
   void setPosition(ChunkPos position) {

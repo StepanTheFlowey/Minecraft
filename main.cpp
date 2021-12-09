@@ -36,7 +36,7 @@ void init3D(GLdouble width, GLdouble height) {
   glFrontFace(GL_CCW);
   glLineWidth(3);
   //glShadeModel(GL_SMOOTH);
-  
+
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_TEXTURE_2D);
@@ -47,7 +47,7 @@ int main() {
   setlocale(LC_ALL, "Russian");
 #ifdef DEBUG
   std::wcout << L"Minecraft Alpha Log" << std::endl;
-  std::wcout << L"sizeof(World):\t"<<sizeof(World) << std::endl;
+  std::wcout << L"sizeof(World):\t" << sizeof(World) << std::endl;
   std::wcout << L"sizeof(Region):\t" << sizeof(Region) << std::endl;
   std::wcout << L"sizeof(Chunk):\t" << sizeof(Chunk) << std::endl;
   std::wcout << L"sizeof(BRI):\t" << sizeof(BlockRenderInfo) << std::endl;
@@ -62,7 +62,7 @@ int main() {
 
   std::shared_ptr<Player> player(new Player);
   player->setWorldIn(world);
-  
+
   //We cannot load texture into OpenGL context without OpenGL context
   sf::Context context;
 #ifdef DEBUG
@@ -107,11 +107,11 @@ int main() {
 
   //Hello window
   sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
-#ifdef DEBUG
-  window.setFramerateLimit(15);
-#else
+//#ifdef DEBUG
+  //window.setFramerateLimit(15);
+//#else
   window.setVerticalSyncEnabled(true);
-#endif // DEBUG
+//#endif // DEBUG
 
   //Setup renderer
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
@@ -285,7 +285,7 @@ int main() {
 
     world->draw();
     player->draw();
-   
+
     axisList.call();
 
     glPopMatrix();

@@ -25,7 +25,7 @@ public:
   }
 
   bool hasChunkWorld(ChunkPos position) {
-    return hasChunkNative(getChunkPosInRegion(position));
+    return hasChunkNative(math::getChunkPosInRegion(position));
   }
 
   bool hasChunkNative(SmallPos position) {
@@ -46,11 +46,11 @@ public:
   }
 
   std::shared_ptr<Chunk> getChunkWorld(ChunkPos position) {
-    return getChunkNative(getChunkPosInRegion(position));
+    return getChunkNative(math::getChunkPosInRegion(position));
   }
 
   BlockRenderInfo getBlockNative(BlockPos position) {
-    return getChunkWorld(getChunkPosFromBlock(position))->getBlockWorld(position);
+    return getChunkWorld(math::getChunkPosFromBlock(position))->getBlockWorld(position);
   }
 
   BlockRenderInfo getBlockWorld(BlockPos position) {

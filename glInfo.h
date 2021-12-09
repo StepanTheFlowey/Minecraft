@@ -45,11 +45,13 @@ struct GlInfo {
   void operator()() {
     vendor = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_VENDOR))));
     vendor.shrink_to_fit();
+    
     renderer = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_RENDERER))));
     renderer.shrink_to_fit();
+    
     version = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_VERSION))));
     version.shrink_to_fit();
-#ifdef DEBUG
+    
     std::wstring extensionslist = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS))));
     std::size_t lastPos = 0;
     extensions.reserve(300);
@@ -61,6 +63,8 @@ struct GlInfo {
       }
     }
     extensions.shrink_to_fit();
+    
+#ifdef DEBUG
     std::wcout << L"OpenGL info: " << std::endl;
     std::wcout << L"GL_VENDOR:\t" << vendor << std::endl;
     std::wcout << L"GL_RENDERER:\t" << renderer << std::endl;
@@ -99,13 +103,11 @@ struct GlInfo {
 #endif // DEBUG
       vboSupport = true;
     }
-    else {
 #ifdef DEBUG
+    else {
       std::wcout << L"VBO extension NOT loaded" << std::endl;
-#endif // DEBUG
     }
+#endif // DEBUG
   }
 };
 GlInfo glInfo;
-
-void initGL() {}
