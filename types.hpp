@@ -13,6 +13,7 @@
 #include "aabb.hpp"
 #include "vec.hpp"
 #include "plane.hpp"
+#include "rayTraceResult.hpp"
 
 //Math defines
 #define PI 3.1415926535897932384626433832795
@@ -60,3 +61,6 @@ using Planed = Plane<GLdouble>;
 using Planef = Plane<GLfloat>;
 
 using BlockPlane = Plane<blockPos_t>;
+
+using RayTraceResultd = RayTraceResult<GLdouble>;
+using RayTraceResultf = RayTraceResult<GLfloat>;

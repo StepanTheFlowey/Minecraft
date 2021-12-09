@@ -1,6 +1,7 @@
 #pragma once
-#include "types.hpp"
 #include <cmath>
+
+#include "types.hpp"
 
 namespace math {
   template <typename T> inline Vec3<T> vectorProduct(Vec3<T> A, Vec3<T> B) {
@@ -35,5 +36,44 @@ namespace math {
 
   inline SmallPos getChunkPosInRegion(ChunkPos position) {
     return SmallPos(position.x & 15, position.y & 15, position.z & 15);
+  }
+
+  namespace raytrace {
+    template <typename T> RayTraceResult<T> planeLineCollision(Plane<T> plane, Vec3<T> lineBegin, Vec3<T> lineEnd) {
+      RayTraceResult<T> result;
+      Vec3<T> N = math::getNormal(plane);         //Normal to plane
+
+      Vec3<T> CA = plane.A - lineBegin;     //Vector from A to lineBegin
+      Vec3<T> CV = lineEnd - lineBegin;     //Vector from lineEnd to lineBegin
+
+      T CN = math::dotProduct(CA, N);             //Distance between plane and line
+      if(CN <= 0.0) {
+        return result;                             //If distance zero return
+      }
+
+      T CM = math::dotProduct(CV, N);
+      if(abs(CM) < 0.0001) {
+        return result;
+      }
+
+      T K = CN / CM;
+      if(K < 0.0 || K > 1.0) {
+        return result;                       //if k < 0 or k > 1 line does not reach plane
+      }
+
+      result.pos = CV * K + lineBegin - plane.A + Vec3<T>(abs(N.y) + abs(N.z), 0.0, 0.0);                     //Collision point on plane
+      if(
+        result.pos.x < 0 ||
+        result.pos.y < 0 ||
+        result.pos.z < 0 ||
+        result.pos.x > 1 ||
+        result.pos.y > 1 ||
+        result.pos.z > 1
+        ) {
+        return result;
+      }
+      result.hit = true;
+      return result;
+    }
   }
 }

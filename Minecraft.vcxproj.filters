@@ -35,7 +35,7 @@
     <ClInclude Include="plane.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="rayTrace.hpp">
+    <ClInclude Include="rayTraceResult.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="math.hpp">

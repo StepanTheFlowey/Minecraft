@@ -2,7 +2,6 @@
 #include "types.hpp"
 #include "world.hpp"
 #include "camera.hpp"
-#include "rayTrace.hpp"
 
 class Player {
   uint8_t walkParam_ = 0;                 //Active walk dir 
@@ -12,8 +11,8 @@ class Player {
   std::shared_ptr<World> worldIn_ = nullptr;                //World in
 
   float_t colorDeg = 0;
+  BlockWithSide blockMouseOver_;
   bool isBlockMouseOver_ = false;
-  RayTraceResult blockMouseOver_;
 public:
   Camera camera; //Camera object
 
@@ -142,15 +141,14 @@ public:
     //TODO: how about realestic walk?
     const Vec3f eyePos = camera.getEyePosition();
     const Vec3f viewPos = camera.getCenterPosition();
-    //std::wcout << "eyePos  X: " << eyePos.x << " Y: " << eyePos.y << " Z: " << eyePos.z << std::endl;
-    //std::wcout << "viewPos X: " << viewPos.x << " Y: " << viewPos.y << " Z: " << viewPos.z << std::endl;
     const Aabb<GLfloat> lineAABB(eyePos, viewPos);
-    RayTrace<GLfloat> rayTrace;
-    RayTraceResult rayResult;
+
+    RayTraceResultf rayResult;
     BlockPlane plane;
-    std::vector<RayTraceResult> inters;
-    inters.reserve(10);
     BlockRenderInfo block;
+    std::vector<BlockWithSide> mathed;
+    mathed.reserve(10);
+
     for(auto &[iKey, iVal] : worldIn_->getData()) {
       for(auto &[jKey, jVal] : iVal) {
         if(jVal->getAabb().intersects(lineAABB)) {
@@ -161,10 +159,6 @@ public:
                   for(uint8_t i = 0; i < 16; i++) {
                     for(uint8_t j = 0; j < 16; j++) {
                       for(uint8_t k = 0; k < 16; k++) {
-                        if(inters.size() == 10) {
-                          break;
-                        }
-
                         block = mVal->getBlockNative(BlockPos(i, j, k));
                         if(block.blockId == 0) {
                           continue;
@@ -175,11 +169,9 @@ public:
                           plane.A = SmallPos(i + 1, j + 1, k);
                           plane.C = SmallPos(i, j + 1, k);
                           plane.B = SmallPos(i, j + 1, k + 1);
-                          rayResult = rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                          rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                           if(rayResult.hit) {
-                            rayResult.pos = BlockPos(i, j, k);
-                            rayResult.side = Side::Up;
-                            inters.push_back(rayResult);
+                            mathed.push_back({BlockPos(i, j, k), Side::Up});
                             continue;
                           }
                         }
@@ -189,11 +181,9 @@ public:
                           plane.A = SmallPos(i + 1, j, k);
                           plane.B = SmallPos(i, j, k);
                           plane.C = SmallPos(i, j, k + 1);
-                          rayResult = rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                          rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                           if(rayResult.hit) {
-                            rayResult.pos = BlockPos(i, j, k);
-                            rayResult.side = Side::Down;
-                            inters.push_back(rayResult);
+                            mathed.push_back({BlockPos(i, j, k), Side::Down});
                             continue;
                           }
                         }
@@ -203,11 +193,9 @@ public:
                           plane.A = SmallPos(i, j, k);
                           plane.B = SmallPos(i, j + 1, k);
                           plane.C = SmallPos(i, j, k + 1);
-                          rayResult = rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                          rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                           if(rayResult.hit) {
-                            rayResult.pos = BlockPos(i, j, k);
-                            rayResult.side = Side::North;
-                            inters.push_back(rayResult);
+                            mathed.push_back({BlockPos(i, j, k), Side::North});
                             continue;
                           }
                         }
@@ -217,11 +205,9 @@ public:
                           plane.A = SmallPos(i + 1, j, k);
                           plane.C = SmallPos(i + 1, j + 1, k);
                           plane.B = SmallPos(i + 1, j, k + 1);
-                          rayResult = rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                          rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                           if(rayResult.hit) {
-                            rayResult.pos = BlockPos(i, j, k);
-                            rayResult.side = Side::South;
-                            inters.push_back(rayResult);
+                            mathed.push_back({BlockPos(i, j, k), Side::South});
                             continue;
                           }
                         }
@@ -231,11 +217,9 @@ public:
                           plane.A = SmallPos(i + 1, j, k + 1);
                           plane.C = SmallPos(i, j + 1, k + 1);
                           plane.B = SmallPos(i, j, k + 1);
-                          rayResult = rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                          rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                           if(rayResult.hit) {
-                            rayResult.pos = BlockPos(i, j, k);
-                            rayResult.side = Side::West;
-                            inters.push_back(rayResult);
+                            mathed.push_back({BlockPos(i, j, k), Side::West});
                             continue;
                           }
                         }
@@ -245,13 +229,15 @@ public:
                           plane.A = SmallPos(i + 1, j, k);
                           plane.B = SmallPos(i, j + 1, k);
                           plane.C = SmallPos(i, j, k);
-                          rayResult = rayTrace.planeLineCollision(plane, eyePos, viewPos);
+                          rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                           if(rayResult.hit) {
-                            rayResult.pos = BlockPos(i, j, k);
-                            rayResult.side = Side::East;
-                            inters.push_back(rayResult);
+                            mathed.push_back({BlockPos(i, j, k), Side::East});
                             continue;
                           }
+                        }
+
+                        if(mathed.size() == 10) {
+                          goto exitTrace;
                         }
                       }
                     }
@@ -263,14 +249,15 @@ public:
         }
       }
     }
+  exitTrace:
     int8_t smallerNum = -1;
-    for(uint8_t i = 0; i < inters.size(); i++) {
+    for(uint8_t i = 0; i < mathed.size(); i++) {
       bool smaller = true;
-      for(uint8_t j = 0; j < inters.size(); j++) {
+      for(uint8_t j = 0; j < mathed.size(); j++) {
         if(i == j) {
           continue;
         }
-        smaller = smaller && inters[i].pos.distanceTo(eyePos) < inters[j].pos.distanceTo(eyePos);
+        smaller = smaller && mathed[i].pos.distanceTo(eyePos) < mathed[j].pos.distanceTo(eyePos);
       }
       if(smaller) {
         smallerNum = i;
@@ -282,7 +269,7 @@ public:
       isBlockMouseOver_ = false;
     }
     else {
-      blockMouseOver_ = inters[smallerNum];
+      blockMouseOver_ = mathed[smallerNum];
       isBlockMouseOver_ = true;
     }
   }

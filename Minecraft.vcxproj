@@ -109,7 +109,7 @@
     <ClInclude Include="glInfo.h" />
     <ClInclude Include="math.hpp" />
     <ClInclude Include="player.hpp" />
-    <ClInclude Include="rayTrace.hpp" />
+    <ClInclude Include="rayTraceResult.hpp" />
     <ClInclude Include="plane.hpp" />
     <ClInclude Include="region.hpp" />
     <ClInclude Include="types.hpp" />
