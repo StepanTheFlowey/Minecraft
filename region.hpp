@@ -1,8 +1,14 @@
 #pragma once
+
+#include <unordered_map>
+
 #include "types.hpp"
 #include "chunk.hpp"
 
-#include <unordered_map>
+
+using regionPos_t = int16_t;
+using RegionPos = Vec2<regionPos_t>;
+using RegionAabb = Aabb<regionPos_t>;
 
 class Region {
   std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::shared_ptr<Chunk>>>> chunk_;

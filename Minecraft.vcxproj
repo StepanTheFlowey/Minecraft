@@ -97,6 +97,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="time.cpp" />
+    <ClCompile Include="vec2.cpp" />
+    <ClCompile Include="vec3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb.hpp" />
@@ -106,15 +110,18 @@
     <ClInclude Include="chunk.hpp" />
     <ClInclude Include="color.hpp" />
     <ClInclude Include="displayList.hpp" />
-    <ClInclude Include="glInfo.h" />
+    <ClInclude Include="glInfo.hpp" />
     <ClInclude Include="math.hpp" />
     <ClInclude Include="player.hpp" />
     <ClInclude Include="rayTraceResult.hpp" />
     <ClInclude Include="plane.hpp" />
     <ClInclude Include="region.hpp" />
+    <ClInclude Include="side.hpp" />
+    <ClInclude Include="time.hpp" />
     <ClInclude Include="types.hpp" />
     <ClInclude Include="vbo.hpp" />
-    <ClInclude Include="vec.hpp" />
+    <ClInclude Include="vec2.hpp" />
+    <ClInclude Include="vec3.hpp" />
     <ClInclude Include="world.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
