@@ -1,5 +1,3 @@
-#define WIN32_LEAN_AND_MEAN true
-
 #include "assets.hpp"
 #include "world.hpp"
 #include "player.hpp"
@@ -44,8 +42,9 @@ void init3D(GLdouble width, GLdouble height) {
 }
 
 int main() {
+  //TODO: we can be not a russian
   setlocale(LC_ALL, "Russian");
-#ifdef DEBUG
+#ifdef DEBUG //Object sizes for debug
   std::wcout << L"Minecraft Alpha Log" << std::endl;
   std::wcout << L"sizeof(World):\t" << sizeof(World) << std::endl;
   std::wcout << L"sizeof(Region):\t" << sizeof(Region) << std::endl;
@@ -63,12 +62,12 @@ int main() {
   std::shared_ptr<Player> player(new Player);
   player->setWorldIn(world);
 
-  //We cannot load texture into OpenGL context without OpenGL context
+  //Creating context without window
   sf::Context context;
-#ifdef DEBUG
-  std::wcout << "Context inited" << std::endl;
-#endif //DEBUG
-  glInfo();
+
+  std::shared_ptr<GlInfo> glInfo(new GlInfo);
+  (*glInfo)();
+
   assets->textures->load();
 
 #define AXIS_LENGHT 17.0F
@@ -99,19 +98,19 @@ int main() {
   sf::ContextSettings contextSettings;
   contextSettings.antialiasingLevel = 0; //TODO: Enable multisampling
   contextSettings.sRgbCapable = false;   //STUPID SRGB
-  contextSettings.depthBits = 24;        //what this?
-  contextSettings.stencilBits = 0;       //what?
+  contextSettings.depthBits = 24;        //Depth buffer bits
+  contextSettings.stencilBits = 0;       //Stencil buffer bits
   contextSettings.majorVersion = 1;      //Request OpenGL 1.5
   contextSettings.minorVersion = 5;      //yeah
   contextSettings.attributeFlags = sf::ContextSettings::Default; //No core render please
 
   //Hello window
   sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
-//#ifdef DEBUG
-  //window.setFramerateLimit(15);
-//#else
+  //#ifdef DEBUG
+    //window.setFramerateLimit(15);
+  //#else
   window.setVerticalSyncEnabled(true);
-//#endif // DEBUG
+  //#endif // DEBUG
 
   //Setup renderer
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
@@ -129,20 +128,14 @@ int main() {
     while(window.pollEvent(event)) {
       switch(event.type) {
         case sf::Event::Closed:
-        {
           window.close();
           break;
-        }
-
         case sf::Event::Resized:
-        {
           event.size.width -= event.size.width % 2;
           event.size.height -= event.size.height % 2;
           window.setSize(sf::Vector2u(event.size.width, event.size.height));
           init3D(event.size.width, event.size.height);
           break;
-        }
-
         case sf::Event::MouseMoved:
         {//Mouse in a trap™
           if(grab) {
@@ -158,64 +151,44 @@ int main() {
           }
           break;
         }
-
         case sf::Event::MouseButtonPressed:
         {
           switch(event.mouseButton.button) {
             case sf::Mouse::Left:
-            {
               player->placeBlock();
               break;
-            }
             case sf::Mouse::Right:
-            {
               player->breakBlock();
               break;
-            }
           }
           break;
         }
-
         case sf::Event::KeyPressed:
         {
           switch(event.key.code) {
             case sf::Keyboard::W:
-            {
               player->goForward(true);
               break;
-            }
             case sf::Keyboard::S:
-            {
               player->goBack(true);
               break;
-            }
             case sf::Keyboard::A:
-            {
               player->goLeft(true);
               break;
-            }
             case sf::Keyboard::D:
-            {
               player->goRight(true);
               break;
-            }
             case sf::Keyboard::Space:
-            {
               player->goUp(true);
               break;
-            }
             case sf::Keyboard::LShift:
-            {
               player->goDown(true);
               break;
-            }
             case sf::Keyboard::G:
-            {
               grab = !grab;
               window.setMouseCursorGrabbed(grab);
               window.setMouseCursorVisible(!grab);
               break;
-            }
             case sf::Keyboard::F11:
             {
               fullscreen = !fullscreen;
@@ -241,35 +214,23 @@ int main() {
         {
           switch(event.key.code) {
             case sf::Keyboard::W:
-            {
               player->goForward(false);
               break;
-            }
             case sf::Keyboard::S:
-            {
               player->goBack(false);
               break;
-            }
             case sf::Keyboard::A:
-            {
               player->goLeft(false);
               break;
-            }
             case sf::Keyboard::D:
-            {
               player->goRight(false);
               break;
-            }
             case sf::Keyboard::Space:
-            {
               player->goUp(false);
               break;
-            }
             case sf::Keyboard::LShift:
-            {
               player->goDown(false);
               break;
-            }
           }
           break;
         }

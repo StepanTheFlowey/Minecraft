@@ -10,14 +10,14 @@
 //SFML
 #include <SFML/Graphics.hpp>
 
+using chunkPos_t = int32_t;
+using ChunkPos = Vec3<chunkPos_t>;
+using ChunkAabb = Aabb<chunkPos_t>;
+
 class World;
 
 class Chunk {
-#ifdef DEBUG
-  std::array<std::array<std::array<BlockRenderInfo, 16>, 16>, 16> block_;
-#else
   BlockRenderInfo block_[16][16][16];
-#endif // DEBUG
   std::weak_ptr<World> worldIn_;
   ChunkAabb aabb_;
   ChunkPos position_;

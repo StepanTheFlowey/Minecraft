@@ -23,3 +23,6 @@ public:
     C = plane.C;
   }
 };
+
+using Planed = Plane<GLdouble>;
+using Planef = Plane<GLfloat>;

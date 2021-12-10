@@ -1,12 +1,12 @@
 #pragma once
-#include <string>
 #include <vector>
-#include <iostream>
-#include <Windows.h>
+
 #include <gl/GL.h>
 #include <gl/GLU.h>
 #include <gl/glext.h>
 #include <gl/wglext.h>
+
+#include "types.hpp"
 
 //GL_ARB_vertex_buffer_object
 PFNGLBINDBUFFERARBPROC           glBindBufferARB = nullptr;
@@ -21,14 +21,10 @@ PFNGLUNMAPBUFFERARBPROC          glUnmapBufferARB = nullptr;
 PFNGLGETBUFFERPARAMETERIVARBPROC glGetBufferParameterivARB = nullptr;
 PFNGLGETBUFFERPOINTERVARBPROC    glGetBufferPointervARB = nullptr;
 
-std::wstring to_wstring(std::string str) {
-  return std::wstring(str.begin(), str.end());
-}
-
 struct GlInfo {
   bool vboSupport = false;
   //bool vaoSupport;
-  
+
   std::wstring vendor;
   std::wstring renderer;
   std::wstring version;
@@ -43,16 +39,16 @@ struct GlInfo {
   }
 
   void operator()() {
-    vendor = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_VENDOR))));
+    vendor = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_VENDOR))));
     vendor.shrink_to_fit();
-    
-    renderer = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_RENDERER))));
+
+    renderer = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_RENDERER))));
     renderer.shrink_to_fit();
-    
-    version = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_VERSION))));
+
+    version = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_VERSION))));
     version.shrink_to_fit();
-    
-    std::wstring extensionslist = to_wstring(std::string(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS))));
+
+    std::wstring extensionslist = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS))));
     std::size_t lastPos = 0;
     extensions.reserve(300);
     for(std::size_t i = 0; i < extensionslist.length(); i++) {
@@ -63,7 +59,7 @@ struct GlInfo {
       }
     }
     extensions.shrink_to_fit();
-    
+
 #ifdef DEBUG
     std::wcout << L"OpenGL info: " << std::endl;
     std::wcout << L"GL_VENDOR:\t" << vendor << std::endl;
@@ -110,4 +106,3 @@ struct GlInfo {
 #endif // DEBUG
   }
 };
-GlInfo glInfo;

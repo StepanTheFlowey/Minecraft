@@ -1,7 +1,19 @@
 #pragma once
 #include "types.hpp"
+#include "vec3.hpp"
+#include "aabb.hpp"
+#include "plane.hpp"
+#include "side.hpp"
 
 #include <string>
+
+using blockId_t = uint16_t;
+using blockPos_t = int32_t;
+using modelId_t = uint16_t;
+using textureId_t = GLuint;
+using BlockPos = Vec3<blockPos_t>;
+using BlockAabb = Aabb<blockPos_t>;
+using BlockPlane = Plane<blockPos_t>;
 
 struct BlockRenderInfo {
   blockId_t blockId = 0;
