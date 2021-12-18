@@ -1,6 +1,8 @@
 #pragma once
 #include "vec2.hpp"
 
+//Two component vector
+
 template <typename T> Vec2<T>::Vec2() {
   x = 0;
   y = 0;
