@@ -96,11 +96,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="chunk.cpp" />
+    <ClCompile Include="color.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="math.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="vec3.cpp" />
+    <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb.hpp" />
@@ -110,7 +114,7 @@
     <ClInclude Include="chunk.hpp" />
     <ClInclude Include="color.hpp" />
     <ClInclude Include="displayList.hpp" />
-    <ClInclude Include="glInfo.hpp" />
+    <ClInclude Include="glHelper.hpp" />
     <ClInclude Include="math.hpp" />
     <ClInclude Include="player.hpp" />
     <ClInclude Include="rayTraceResult.hpp" />

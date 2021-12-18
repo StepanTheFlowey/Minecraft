@@ -1,5 +1,9 @@
 #pragma once 
+
 #include "player.hpp"
+
+#include "math.hpp"
+#include "rayTraceResult.hpp"
 
 Player::Player() {
 #ifdef DEBUG
@@ -14,28 +18,8 @@ Player::~Player() {
   worldIn_.reset();
 }
 
-void Player::goForward(bool value) {
-  bitWrite(walkParam_, 0, value);
-}
-
-void Player::goBack(bool value) {
-  bitWrite(walkParam_, 1, value);
-}
-
-void Player::goLeft(bool value) {
-  bitWrite(walkParam_, 2, value);
-}
-
-void Player::goRight(bool value) {
-  bitWrite(walkParam_, 3, value);
-}
-
-void Player::goUp(bool value) {
-  bitWrite(walkParam_, 4, value);
-}
-
-void Player::goDown(bool value) {
-  bitWrite(walkParam_, 5, value);
+void Player::setMoveDirection(Side dir) {
+  moveDir_ = dir;
 }
 
 void Player::breakBlock() {
@@ -86,7 +70,7 @@ void Player::placeBlock() {
         }
         break;
     }
-    worldIn_->setBlock(pos, BlockRenderInfo {static_cast<uint16_t>(rand() % 15 + 1)});
+    worldIn_->setBlock(pos, BlockRenderInfo{static_cast<uint16_t>(rand() % 15 + 1)});
     worldIn_->getChunk(math::getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
   }
 }
@@ -95,34 +79,55 @@ void Player::setWorldIn(std::shared_ptr<World> worldIn) {
   worldIn_ = worldIn;
 }
 
-void Player::move(double_t x, double_t y, double_t z) {
+void Player::move(Vec3d offset) {
   position_ += Vec3d(x, y, z);
   camera.setPosition(position_);
 }
 
-void Player::update(gametime_t timeLeft) {
-  //Move offset calculating: TimeAfterLastGameDisplay * WalkSpeed * other
-  Vec2f &rotation = camera.getRotation();
-  if(bitRead(walkParam_, 0)) {//Walk forward
-    move(sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft, 0, cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft);
+//TODO: to_underluing<bool, Side>(Side) is strange
+void Player::update(Time time) {
+  const Vec2f& rotation = camera.getRotation();
+  const float_t  millis = time.asSeconds();
+  if(to_underlying<bool, Side>(moveDir_ & Side::Forward)) {
+    move(
+      Vec3d(
+      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis),
+      0.0,
+      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis))
+    );
   }
-  if(bitRead(walkParam_, 1)) {//Walk back
-    move(sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft, 0, cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft);
+  if(to_underlying<bool, Side>(moveDir_ & Side::Back)) {
+    move(
+      Vec3d(
+      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis),
+      0.0,
+      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis))
+    );
   }
-  if(bitRead(walkParam_, 2)) {//Walk left
-    move(cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft, 0, sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft);
+  if(to_underlying<bool, Side>(moveDir_ & Side::Left)) {
+    move(
+      Vec3d(
+      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis),
+      0.0,
+      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis))
+    );
   }
-  if(bitRead(walkParam_, 3)) {//Walk right
-    move(cos(rotation.x * DEG_TO_RAD) * walkSpeed_ * -timeLeft, 0, sin(rotation.x * DEG_TO_RAD) * walkSpeed_ * timeLeft);
+  if(to_underlying<bool, Side>(moveDir_ & Side::Right)) {
+    move(
+      Vec3d(
+      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis),
+      0.0,
+      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis))
+    );
   }
-  if(bitRead(walkParam_, 4)) {//Walk up
-    move(0, walkSpeed_ * timeLeft, 0);
+  if(to_underlying<bool, Side>(moveDir_ & Side::Up)) {
+    move(Vec3d(0, moveSpeed_ * millis, 0));
   }
-  if(bitRead(walkParam_, 5)) {//Walk down
-    move(0, walkSpeed_ * -timeLeft, 0);
+  if(to_underlying<bool, Side>(moveDir_ & Side::Down)) {
+    move(Vec3d(0, moveSpeed_ * -millis, 0));
   }
 
-  colorDeg += static_cast<float_t>(timeLeft) / 10;
+  colorDeg += static_cast<float_t>(millis) / 10;
   if(colorDeg > 360) {
     colorDeg = 0;
   }
@@ -137,12 +142,12 @@ void Player::update(gametime_t timeLeft) {
   std::vector<BlockWithSide> mathed;
   mathed.reserve(10);
 
-  for(auto &[iKey, iVal] : worldIn_->getData()) {
-    for(auto &[jKey, jVal] : iVal) {
+  for(auto& [iKey, iVal] : worldIn_->getData()) {
+    for(auto& [jKey, jVal] : iVal) {
       if(jVal->getAabb().intersects(lineAABB)) {
-        for(auto &[kKey, kVal] : jVal->getData()) {
-          for(auto &[lKey, lVal] : kVal) {
-            for(auto &[mKey, mVal] : lVal) {
+        for(auto& [kKey, kVal] : jVal->getData()) {
+          for(auto& [lKey, lVal] : kVal) {
+            for(auto& [mKey, mVal] : lVal) {
               if(mVal->getAabb().intersects(lineAABB)) {
                 for(uint8_t i = 0; i < 16; i++) {
                   for(uint8_t j = 0; j < 16; j++) {
@@ -305,7 +310,7 @@ void Player::draw() {
     glVertex3f(1.05F, 0.0F, 1.0F);
     glVertex3f(1.05F, 0.0F, 0.0F);
     glVertex3f(1.05F, 1.0F, 0.0F);
-  }
+    }
   if(blockMouseOver_.side == Side::West) {
     //West side
     glVertex3f(0.0F, 1.0F, 1.05F);
@@ -344,4 +349,4 @@ void Player::draw() {
 
   glEnd();
 #endif // DEBUG
-}
+  }

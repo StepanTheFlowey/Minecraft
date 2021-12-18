@@ -8,7 +8,7 @@
 
 #include "types.hpp"
 
-//GL_ARB_vertex_buffer_object
+//GL_ARB_vertex_buffer_object extension pointers
 PFNGLBINDBUFFERARBPROC           glBindBufferARB = nullptr;
 PFNGLDELETEBUFFERSARBPROC        glDeleteBuffersARB = nullptr;
 PFNGLGENBUFFERSARBPROC           glGenBuffersARB = nullptr;
@@ -21,7 +21,7 @@ PFNGLUNMAPBUFFERARBPROC          glUnmapBufferARB = nullptr;
 PFNGLGETBUFFERPARAMETERIVARBPROC glGetBufferParameterivARB = nullptr;
 PFNGLGETBUFFERPOINTERVARBPROC    glGetBufferPointervARB = nullptr;
 
-struct GlInfo {
+struct GlHelper {
   bool vboSupport = false;
   //bool vaoSupport;
 
@@ -38,17 +38,17 @@ struct GlInfo {
     return found;
   }
 
-  void operator()() {
-    vendor = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_VENDOR))));
+  void loadInfo() {
+    vendor = wide(std::string(reinterpret_cast<const char*>(glGetString(GL_VENDOR))));
     vendor.shrink_to_fit();
 
-    renderer = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_RENDERER))));
+    renderer = wide(std::string(reinterpret_cast<const char*>(glGetString(GL_RENDERER))));
     renderer.shrink_to_fit();
 
-    version = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_VERSION))));
+    version = wide(std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION))));
     version.shrink_to_fit();
 
-    std::wstring extensionslist = wide(std::string(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS))));
+    std::wstring extensionslist = wide(std::string(reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS))));
     std::size_t lastPos = 0;
     extensions.reserve(300);
     for(std::size_t i = 0; i < extensionslist.length(); i++) {
@@ -71,7 +71,10 @@ struct GlInfo {
     }
     std::wcout << L"Loading OpenGL extensions" << std::endl;
 #endif // DEBUG
+  }
 
+  void loadExtensions() {
+    //Taking functions pointers
     glBindBufferARB = (PFNGLBINDBUFFERARBPROC) wglGetProcAddress("glBindBufferARB");
     glDeleteBuffersARB = (PFNGLDELETEBUFFERSARBPROC) wglGetProcAddress("glDeleteBuffersARB");
     glGenBuffersARB = (PFNGLGENBUFFERSARBPROC) wglGetProcAddress("glGenBuffersARB");
@@ -83,6 +86,8 @@ struct GlInfo {
     glUnmapBufferARB = (PFNGLUNMAPBUFFERARBPROC) wglGetProcAddress("glUnmapBufferARB");
     glGetBufferParameterivARB = (PFNGLGETBUFFERPARAMETERIVARBPROC) wglGetProcAddress("glGetBufferParameterivARB");
     glGetBufferPointervARB = (PFNGLGETBUFFERPOINTERVARBPROC) wglGetProcAddress("glGetBufferPointervARB");
+
+    //Veryfying pointers for null
     if(glBindBufferARB &&
        glDeleteBuffersARB &&
        glGenBuffersARB &&

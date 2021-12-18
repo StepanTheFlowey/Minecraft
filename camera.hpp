@@ -1,11 +1,13 @@
 #pragma once
 #include "types.hpp"
+#include "vec3.hpp"
+#include "vec2.hpp"
 
 #include <gl/GLU.h>
 
 class Camera {
-  Vec3f eyePos_;
-  Vec3f centerPos_;
+  Vec3d eyePos_;
+  Vec3d centerPos_;
   Vec2f rotation_;
 public:
   Camera() {
@@ -20,11 +22,11 @@ public:
 #endif // DEBUG
   }
 
-  void doTranlate() const {
+  inline void doTranlate() const {
     gluLookAt(eyePos_.x, eyePos_.y, eyePos_.z, centerPos_.x, centerPos_.y, centerPos_.z, 0.0, 1.0, 0.0);
   }
 
-  void setPosition(Vec3f position) {
+  void setPosition(Vec3d position) {
     eyePos_ = position;
     process();
   }
@@ -34,7 +36,7 @@ public:
     process();
   }
 
-  void move(Vec3f offset) {
+  void move(Vec3d offset) {
     eyePos_ += offset;
     process();
   }
@@ -44,18 +46,19 @@ public:
     process();
   }
 
-  constexpr Vec2f &getRotation() {
-    return rotation_;
-  }
-
-  constexpr Vec3f &getEyePosition() {
+  inline const Vec3d &getEyePosition() const {
     return eyePos_;
   }
 
-  constexpr Vec3f &getCenterPosition() {
+  inline const Vec3d &getCenterPosition() const {
     return centerPos_;
   }
+
+  inline const Vec2f &getRotation() const {
+    return rotation_;
+  }
 private:
+
   void process() {
     if(rotation_.x > 360.0F) {
       rotation_.x = 0.0F;
@@ -69,8 +72,8 @@ private:
     if(rotation_.y < -89.99F) {
       rotation_.y = -89.99F;
     }
-    centerPos_.x = eyePos_.x + sinf(rotation_.x * DEG_TO_RAD_F) * cosf(rotation_.y * DEG_TO_RAD_F) * 5.0F;
-    centerPos_.y = eyePos_.y + sinf(rotation_.y * DEG_TO_RAD_F) * 5.0F;
-    centerPos_.z = eyePos_.z + cosf(rotation_.x * DEG_TO_RAD_F) * cosf(rotation_.y * DEG_TO_RAD_F) * 5.0F;
+    centerPos_.x = eyePos_.x + static_cast<double_t>(sinf(rotation_.x * DEG_TO_RAD_F) * cosf(rotation_.y * DEG_TO_RAD_F) * 5.0F);
+    centerPos_.y = eyePos_.y + static_cast<double_t>(sinf(rotation_.y * DEG_TO_RAD_F) * 5.0F);
+    centerPos_.z = eyePos_.z + static_cast<double_t>(cosf(rotation_.x * DEG_TO_RAD_F) * cosf(rotation_.y * DEG_TO_RAD_F) * 5.0F);
   }
 };

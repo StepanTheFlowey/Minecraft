@@ -4,6 +4,7 @@
 
 #include "types.hpp"
 #include "chunk.hpp"
+#include "vec2.hpp"
 
 
 using regionPos_t = int16_t;

@@ -1,6 +1,8 @@
 #include "assets.hpp"
 #include "world.hpp"
 #include "player.hpp"
+#include "glHelper.hpp"
+#include "displayList.hpp"
 
 void init2D(GLdouble width, GLdouble height) {
   //Reset projection matrix
@@ -65,8 +67,9 @@ int main() {
   //Creating context without window
   sf::Context context;
 
-  std::shared_ptr<GlInfo> glInfo(new GlInfo);
-  (*glInfo)();
+  std::shared_ptr<GlHelper> glHelper(new GlHelper);
+  glHelper->loadInfo();
+  glHelper->loadExtensions();
 
   assets->textures->load();
 

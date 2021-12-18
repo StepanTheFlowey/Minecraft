@@ -1,51 +1,49 @@
 #pragma once
+
 #include "types.hpp"
 #include "world.hpp"
+#include "block.hpp"
 #include "camera.hpp"
+#include "time.hpp"
+#include "side.hpp"
 
 class Player {
-  uint8_t walkParam_ = 0;                 //Active walk dir 
-  double_t walkSpeed_ = 0.005;            //Player walk speed
   Vec3d position_;
+  Side moveDir_ = Side::None;
+  double_t moveSpeed_ = 0.005;
 
-  std::shared_ptr<World> worldIn_ = nullptr;                //World in
+  std::shared_ptr<World> worldIn_ = nullptr;
 
   float_t colorDeg = 0;
   BlockWithSide blockMouseOver_;
   bool isBlockMouseOver_ = false;
 public:
-  Camera camera; //Camera object
+  Camera camera;
 
-  //Description
+  //Default constructor
   Player();
-  //Description
+
+  //Default destructor
   ~Player();
 
-  //Disable or enable walking in specific direction
-  //TODO: replace this by func(enum or uint8_t walkDir, bool value);
- 
-  //Description
-  void goForward(bool value);
-  //Description
-  void goBack(bool value);
-  //Description
-  void goLeft(bool value);
-  //Description
-  void goRight(bool value);
-  //Description
-  void goUp(bool value);
-  //Description
-  void goDown(bool value);
-  //Description
+  //Assign move direction
+  void setMoveDirection(Side);
+
+  //Tries to break block
   void breakBlock();
-  //Description
+
+  //Tries to place block
   void placeBlock();
-  //Description
-  void setWorldIn(std::shared_ptr<World> worldIn);
-  //Description
-  void move(double_t x, double_t y, double_t z);
-  //Description
-  void update(gametime_t timeLeft);
-  //Description
+
+  //Set world pointer
+  void setWorldIn(std::shared_ptr<World>);
+
+  //Move player by offest
+  void move(Vec3d);
+
+  //Updating player
+  void update(Time);
+
+  //Draws player and block mouse over
   void draw();
 };

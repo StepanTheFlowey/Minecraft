@@ -5,19 +5,18 @@
 #include "plane.hpp"
 #include "side.hpp"
 
-#include <string>
-
 using blockId_t = uint16_t;
 using blockPos_t = int32_t;
 using modelId_t = uint16_t;
 using textureId_t = GLuint;
+
 using BlockPos = Vec3<blockPos_t>;
 using BlockAabb = Aabb<blockPos_t>;
 using BlockPlane = Plane<blockPos_t>;
 
 struct BlockRenderInfo {
   blockId_t blockId = 0;
-  uint8_t sideRender = 0b00000010;  //All, None, Up, Down, North, South, West, East
+  Side side;
 };
 
 struct BlockInfo {
@@ -37,7 +36,7 @@ struct BlockWithSide {
   Side side;
 };
 
-class Block {
+class BaseBlock {
 public:
   blockId_t Id;
 };

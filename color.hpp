@@ -1,6 +1,6 @@
 #pragma once
+#include <Windows.h>
 #include <gl\GL.h>
-#include <inttypes.h>
 
 class Color {
 public:
@@ -9,21 +9,12 @@ public:
   GLubyte b;
   GLubyte a;
 
-  Color() {
-    r = 0;
-    g = 0;
-    b = 0;
-    a = 255;
-  }
+  //Default constructor
+  Color();
 
-  Color(GLubyte R, GLubyte G, GLubyte B, GLubyte A = 255) {
-    r = R;
-    g = G;
-    b = B;
-    a = A;
-  }
+  //Default destructor
+  Color(GLubyte R, GLubyte G, GLubyte B, GLubyte A = 255);
 
-  inline void glColor() const {
-    glColor4ub(r, g, b, a);
-  }
+  //Calls glColor(r,g,b,a)
+  inline void glColor() const;
 };

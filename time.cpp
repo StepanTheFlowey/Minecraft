@@ -5,6 +5,10 @@ Time::Time() {
 
 }
 
+Time::Time(const sf::Time& time) {
+  time_ = time.asMicroseconds();
+}
+
 Time::~Time() {
 
 }
