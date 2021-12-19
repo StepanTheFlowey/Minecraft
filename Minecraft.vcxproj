@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="aabb3.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="main.cpp" />
@@ -107,7 +108,7 @@
     <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="aabb.hpp" />
+    <ClInclude Include="aabb3.hpp" />
     <ClInclude Include="assets.hpp" />
     <ClInclude Include="block.hpp" />
     <ClInclude Include="camera.hpp" />

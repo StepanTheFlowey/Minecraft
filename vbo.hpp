@@ -1,4 +1,5 @@
 #pragma once
+
 #include "types.hpp"
 #include "color.hpp"
 #include "glInfo.h"

@@ -11,7 +11,7 @@ using modelId_t = uint16_t;
 using textureId_t = GLuint;
 
 using BlockPos = Vec3<blockPos_t>;
-using BlockAabb = Aabb<blockPos_t>;
+using BlockAabb = Aabb3<blockPos_t>;
 using BlockPlane = Plane<blockPos_t>;
 
 struct BlockRenderInfo {

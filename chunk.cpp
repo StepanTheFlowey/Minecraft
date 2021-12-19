@@ -1,4 +1,5 @@
 #pragma once
+
 #include "math.hpp"
 
 Chunk::Chunk() {
@@ -38,12 +39,12 @@ void Chunk::setBlockWorld(BlockPos position, BlockRenderInfo block) {
 
 void Chunk::setPosition(ChunkPos position) {
   position_ = position;
-  aabb_.minX = position_.x;
-  aabb_.minY = position_.y;
-  aabb_.minZ = position_.z;
-  aabb_.maxX = position_.x + 16;
-  aabb_.maxY = position_.y + 16;
-  aabb_.maxZ = position_.z + 16;
+  aabb_.min.x = position_.x;
+  aabb_.min.y = position_.y;
+  aabb_.min.z = position_.z;
+  aabb_.max.x = position_.x + 16;
+  aabb_.max.y = position_.y + 16;
+  aabb_.max.z = position_.z + 16;
 }
 
 ChunkPos& Chunk::getPosition() {

@@ -6,7 +6,7 @@
 
 using chunkPos_t = int32_t;
 using ChunkPos = Vec3<chunkPos_t>;
-using ChunkAabb = Aabb<chunkPos_t>;
+using ChunkAabb = Aabb3<chunkPos_t>;
 
 class Chunk {
   BlockRenderInfo block_[16][16][16];

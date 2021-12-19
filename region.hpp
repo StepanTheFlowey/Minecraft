@@ -5,11 +5,12 @@
 #include "types.hpp"
 #include "chunk.hpp"
 #include "vec2.hpp"
+#include "aabb3.hpp"
 
 
 using regionPos_t = int16_t;
 using RegionPos = Vec2<regionPos_t>;
-using RegionAabb = Aabb<regionPos_t>;
+using RegionAabb = Aabb3<regionPos_t>;
 
 class Region {
   std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::shared_ptr<Chunk>>>> chunk_;
@@ -66,12 +67,12 @@ public:
 
   void setPosition(RegionPos position) {
     position_ = position;
-    aabb_.minX = position.x;
-    aabb_.minY = 0;
-    aabb_.minZ = position.y;
-    aabb_.maxX = position.x + 16;
-    aabb_.maxY = 256;
-    aabb_.maxZ = position.y + 16;
+    aabb_.min.x = position.x;
+    aabb_.min.y = 0;
+    aabb_.min.z = position.y;
+    aabb_.max.x = position.x + 16;
+    aabb_.max.y = 256;
+    aabb_.max.z = position.y + 16;
 
     for(auto &[iKey, iVal] : chunk_) {
       for(auto &[jKey, jVal] : iVal) {

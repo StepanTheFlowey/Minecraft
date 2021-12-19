@@ -134,7 +134,7 @@ void Player::update(Time time) {
   //TODO: how about realestic walk?
   const Vec3f eyePos = camera.getEyePosition();
   const Vec3f viewPos = camera.getCenterPosition();
-  const Aabb<GLfloat> lineAABB(eyePos, viewPos);
+  const Aabb3<GLfloat> lineAABB(eyePos, viewPos);
 
   RayTraceResultf rayResult;
   BlockPlane plane;
