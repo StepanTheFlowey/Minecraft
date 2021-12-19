@@ -13,7 +13,7 @@ public:
   //Default destructor
   ~World();
 
-  //Лера дура
+  //Р›РµСЂР° РґСѓСЂР°
   void test();
 
   //Check for region exist
@@ -37,7 +37,7 @@ public:
   //wtf
   void setBlock(BlockPos position, BlockRenderInfo block);
 
-  //лера опять дура
+  //Р»РµСЂР° РѕРїСЏС‚СЊ РґСѓСЂР°
   constexpr auto& getData();
 
   //Draws region
