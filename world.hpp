@@ -37,7 +37,7 @@ public:
   //wtf
   void setBlock(BlockPos position, BlockRenderInfo block);
 
-  //лера опять дура
+  //лера яндерка тупая
   constexpr auto& getData();
 
   //Draws region
