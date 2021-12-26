@@ -1,8 +1,8 @@
 #pragma once
-#include <inttypes.h>
-#include <iostream>
 
-#include <GL/GL.h>
+#include "types.hpp"
+
+#include <gl/GL.h>
 #include <SFML/System/Vector3.hpp>
 
 //Three component vector
@@ -144,6 +144,8 @@ public:
   //TODO: Description
   template<typename U> void operator%=(const Vec3<U>& r);
 };
+
+#include "vec3.cpp"
 
 using Vec3f = Vec3<GLfloat>;
 using Vec3d = Vec3<GLdouble>;

@@ -1,7 +1,11 @@
 #pragma once
 
 #include "types.hpp"
+#include "block.hpp"
+#include "chunk.hpp"
 #include "region.hpp"
+
+class Player;
 
 class World: public std::enable_shared_from_this<World> {
   std::unordered_map<regionPos_t, std::unordered_map<regionPos_t, std::shared_ptr<Region>>> region_;
@@ -13,33 +17,29 @@ public:
   //Default destructor
   ~World();
 
-  //Лера дура
+  //creates test chunks
   void test();
 
   //Check for region exist
-  bool hasRegion(RegionPos position);
+  bool hasRegion(RegionPos);
 
-  //Takes region ptr
-  std::shared_ptr<Region> getRegion(RegionPos position);
+  //Takes region pointer
+  std::shared_ptr<Region> getRegion(RegionPos);
 
   //Check for region exist
-  bool hasChunk(ChunkPos position);
+  bool hasChunk(ChunkPos);
 
   //Takes chunk ptr
-  std::shared_ptr<Chunk> getChunk(ChunkPos position);
-  
-  //wtf
-  bool hasBlock();
+  std::shared_ptr<Chunk> getChunk(ChunkPos);
 
-  //wtf
-  BlockRenderInfo getBlock(BlockPos position);
+  //Takes block from global grid
+  BlockRenderInfo getBlock(BlockPos);
 
-  //wtf
-  void setBlock(BlockPos position, BlockRenderInfo block);
+  //Assign block in global grid
+  void setBlock(BlockPos, BlockRenderInfo);
 
-  //лера яндерка тупая
-  constexpr auto& getData();
-
-  //Draws region
+  //Draws underlying regions
   void draw();
+
+  friend Player;
 };

@@ -3,6 +3,7 @@
 #include "player.hpp"
 
 #include "math.hpp"
+#include "color.hpp"
 #include "rayTraceResult.hpp"
 
 Player::Player() {
@@ -18,14 +19,19 @@ Player::~Player() {
   worldIn_.reset();
 }
 
-void Player::setMoveDirection(Side dir) {
-  moveDir_ = dir;
+void Player::setMoveDirection(Side direction, bool enable = true) {
+  if(enable) {
+    moveDir_ |= direction;
+  }
+  else {
+    moveDir_ ^= direction;
+  }
 }
 
 void Player::breakBlock() {
   if(isBlockMouseOver_) {
     worldIn_->setBlock(blockMouseOver_.pos, BlockRenderInfo());
-    worldIn_->getChunk(math::getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
+    worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
   }
 }
 
@@ -71,7 +77,7 @@ void Player::placeBlock() {
         break;
     }
     worldIn_->setBlock(pos, BlockRenderInfo{static_cast<uint16_t>(rand() % 15 + 1)});
-    worldIn_->getChunk(math::getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
+    worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
   }
 }
 
@@ -80,15 +86,14 @@ void Player::setWorldIn(std::shared_ptr<World> worldIn) {
 }
 
 void Player::move(Vec3d offset) {
-  position_ += Vec3d(x, y, z);
+  position_ += offset;
   camera.setPosition(position_);
 }
 
-//TODO: to_underluing<bool, Side>(Side) is strange
 void Player::update(Time time) {
   const Vec2f& rotation = camera.getRotation();
-  const float_t  millis = time.asSeconds();
-  if(to_underlying<bool, Side>(moveDir_ & Side::Forward)) {
+  const float_t millis = time.asMilliseconds();
+  if(to_underlying(moveDir_ & Side::Forward)) {
     move(
       Vec3d(
       static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis),
@@ -96,7 +101,7 @@ void Player::update(Time time) {
       static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis))
     );
   }
-  if(to_underlying<bool, Side>(moveDir_ & Side::Back)) {
+  if(to_underlying(moveDir_ & Side::Back)) {
     move(
       Vec3d(
       static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis),
@@ -104,7 +109,7 @@ void Player::update(Time time) {
       static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis))
     );
   }
-  if(to_underlying<bool, Side>(moveDir_ & Side::Left)) {
+  if(to_underlying(moveDir_ & Side::Left)) {
     move(
       Vec3d(
       static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis),
@@ -112,7 +117,7 @@ void Player::update(Time time) {
       static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis))
     );
   }
-  if(to_underlying<bool, Side>(moveDir_ & Side::Right)) {
+  if(to_underlying(moveDir_ & Side::Right)) {
     move(
       Vec3d(
       static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis),
@@ -120,10 +125,10 @@ void Player::update(Time time) {
       static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis))
     );
   }
-  if(to_underlying<bool, Side>(moveDir_ & Side::Up)) {
+  if(to_underlying(moveDir_ & Side::Up)) {
     move(Vec3d(0, moveSpeed_ * millis, 0));
   }
-  if(to_underlying<bool, Side>(moveDir_ & Side::Down)) {
+  if(to_underlying(moveDir_ & Side::Down)) {
     move(Vec3d(0, moveSpeed_ * -millis, 0));
   }
 
@@ -142,10 +147,10 @@ void Player::update(Time time) {
   std::vector<BlockWithSide> mathed;
   mathed.reserve(10);
 
-  for(auto& [iKey, iVal] : worldIn_->getData()) {
+  for(auto& [iKey, iVal] : worldIn_->region_) {
     for(auto& [jKey, jVal] : iVal) {
       if(jVal->getAabb().intersects(lineAABB)) {
-        for(auto& [kKey, kVal] : jVal->getData()) {
+        for(auto& [kKey, kVal] : jVal->chunk_) {
           for(auto& [lKey, lVal] : kVal) {
             for(auto& [mKey, mVal] : lVal) {
               if(mVal->getAabb().intersects(lineAABB)) {
@@ -157,72 +162,72 @@ void Player::update(Time time) {
                         continue;
                       }
 
-                      if(bitRead(block.sideRender, 2)) {
+                      if(to_underlying(block.side & Side::Up)) {
                         //Up side collision check
                         plane.A = SmallPos(i + 1, j + 1, k);
                         plane.C = SmallPos(i, j + 1, k);
                         plane.B = SmallPos(i, j + 1, k + 1);
-                        rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
+                        rayResult = math::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                         if(rayResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::Up});
                           continue;
                         }
                       }
 
-                      if(bitRead(block.sideRender, 3)) {
+                      if(to_underlying(block.side & Side::Down)) {
                         //Down side collision check
                         plane.A = SmallPos(i + 1, j, k);
                         plane.B = SmallPos(i, j, k);
                         plane.C = SmallPos(i, j, k + 1);
-                        rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
+                        rayResult = math::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                         if(rayResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::Down});
                           continue;
                         }
                       }
 
-                      if(bitRead(block.sideRender, 4)) {
+                      if(to_underlying(block.side & Side::North)) {
                         //North side collision check
                         plane.A = SmallPos(i, j, k);
                         plane.B = SmallPos(i, j + 1, k);
                         plane.C = SmallPos(i, j, k + 1);
-                        rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
+                        rayResult = math::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                         if(rayResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::North});
                           continue;
                         }
                       }
 
-                      if(bitRead(block.sideRender, 5)) {
+                      if(to_underlying(block.side & Side::South)) {
                         //South side collision check
                         plane.A = SmallPos(i + 1, j, k);
                         plane.C = SmallPos(i + 1, j + 1, k);
                         plane.B = SmallPos(i + 1, j, k + 1);
-                        rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
+                        rayResult = math::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                         if(rayResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::South});
                           continue;
                         }
                       }
 
-                      if(bitRead(block.sideRender, 6)) {
+                      if(to_underlying(block.side & Side::West)) {
                         //West side collision check
                         plane.A = SmallPos(i + 1, j, k + 1);
                         plane.C = SmallPos(i, j + 1, k + 1);
                         plane.B = SmallPos(i, j, k + 1);
-                        rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
+                        rayResult = math::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                         if(rayResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::West});
                           continue;
                         }
                       }
 
-                      if(bitRead(block.sideRender, 7)) {
+                      if(to_underlying(block.side & Side::East)) {
                         //East side collision check
                         plane.A = SmallPos(i + 1, j, k);
                         plane.B = SmallPos(i, j + 1, k);
                         plane.C = SmallPos(i, j, k);
-                        rayResult = math::raytrace::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
+                        rayResult = math::planeLineCollision<GLfloat>(plane, eyePos, viewPos);
                         if(rayResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::East});
                           continue;
@@ -310,7 +315,7 @@ void Player::draw() {
     glVertex3f(1.05F, 0.0F, 1.0F);
     glVertex3f(1.05F, 0.0F, 0.0F);
     glVertex3f(1.05F, 1.0F, 0.0F);
-    }
+  }
   if(blockMouseOver_.side == Side::West) {
     //West side
     glVertex3f(0.0F, 1.0F, 1.05F);
@@ -349,4 +354,4 @@ void Player::draw() {
 
   glEnd();
 #endif // DEBUG
-  }
+}

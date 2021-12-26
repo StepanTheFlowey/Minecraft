@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 #include "color.hpp"
-#include "glInfo.h"
+#include "glHelper.hpp"
 
 template <typename T> class Vbo {
   GLenum vtType_;
@@ -16,7 +16,7 @@ public:
     vtSize_ = 0;
   }
 
-  Vbo(GLenum vtType,GLenum vtUsage,GLsizei vtSize) {
+  Vbo(GLenum vtType, GLenum vtUsage, GLsizei vtSize) {
     vtType_ = vtType;
     vtUsage_ = vtUsage;
     vtSize_ = vtSize;
@@ -40,6 +40,6 @@ public:
 
   void create() {
     glGenBuffersARB(1, &buff_);
-    glBindBufferARB(GL_ARRAY_BUFFER,buff_);
+    glBindBufferARB(GL_ARRAY_BUFFER, buff_);
   }
 };

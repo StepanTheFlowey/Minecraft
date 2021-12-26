@@ -1,5 +1,5 @@
 #pragma once
-#include "vec.hpp"
+#include "vec3.hpp"
 
 template <typename T> class Plane {
 public:

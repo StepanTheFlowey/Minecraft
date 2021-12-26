@@ -1,5 +1,4 @@
 #pragma once
-#include "vec3.hpp"
 
 template <typename T> Vec3<T>::Vec3() {
   x = 0;
@@ -42,7 +41,7 @@ template <typename T> void Vec3<T>::wprint() const {
 }
 
 template <typename T> void Vec3<T>::wprint(std::wstring str) const {
-  std::cout << str << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+  std::wcout << str << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
 }
 
 template <typename T> Vec3<T> Vec3<T>::abs() {
@@ -79,31 +78,31 @@ template <typename T> bool Vec3<T>::operator!=(const Vec3<T>& r) {
   return x != r.x || y != r.y || z != r.z;
 }
 
-template <typename T> Vec3<T> operator+(const Vec3<T>& r) {
+template <typename T> Vec3<T> Vec3<T>::operator+(const Vec3<T>& r) {
   return Vec3<T>(x + r.x, y + r.y, z + r.z);
 }
 
-template <typename T, typename U> Vec3<T> Vec3<T>::operator+(const Vec3<U>& r) {
+template <typename T> template <typename U> Vec3<T> Vec3<T>::operator+(const Vec3<U>& r) {
   return Vec3<T>(x + static_cast<T>(r.x), y + static_cast<T>(r.y), z + static_cast<T>(r.z));
 }
 
-template <typename T> Vec3<T> operator-(const Vec3<T>& r) {
+template <typename T> Vec3<T> Vec3<T>::operator-(const Vec3<T>& r) {
   return Vec3<T>(x - r.x, y - r.y, z - r.z);
 }
 
-template <typename T, typename U> Vec3<T> operator-(const Vec3<U>& r) {
+template <typename T> template <typename U> Vec3<T>  Vec3<T>::operator-(const Vec3<U>& r) {
   return Vec3<T>(x - static_cast<T>(r.x), y - static_cast<T>(r.y), z - static_cast<T>(r.z));
 }
 
-template <typename T> Vec3<T> operator*(const T r) {
+template <typename T> Vec3<T>  Vec3<T>::operator*(const T r) {
   return Vec3<T>(x * r, y * r, z * r);
 }
 
-template <typename T> Vec3<T> operator*(const Vec3<T>& r) {
+template <typename T> Vec3<T>  Vec3<T>::operator*(const Vec3<T>& r) {
   return Vec3<T>(x * r.x, y * r.y, z * r.z);
 }
 
-template <typename T, typename U> Vec3<T> operator*(const Vec3<U>& r) {
+template <typename T> template <typename U> Vec3<T>  Vec3<T>::operator*(const Vec3<U>& r) {
   return Vec3<T>(x * static_cast<T>(r.x), y * static_cast<T>(r.y), z * static_cast<T>(r.z));
 }
 
@@ -115,7 +114,7 @@ template <typename T> Vec3<T> Vec3<T>::operator/(const Vec3<T>& r) {
   return Vec3<T>(x / r.x, y / r.y, z / r.z);
 }
 
-template <typename T, typename U> Vec3<T> Vec3<T>::operator/(const Vec3<U>& r) {
+template <typename T> template <typename U> Vec3<T> Vec3<T>::operator/(const Vec3<U>& r) {
   return Vec3<T>(x / static_cast<T>(r.x), y / static_cast<T>(r.y), z / static_cast<T>(r.z));
 }
 
@@ -127,7 +126,7 @@ template <typename T> Vec3<T> Vec3<T>::operator%(const Vec3<T>& r) {
   return Vec3<T>(x % r.x, y % r.y, z % r.z);
 }
 
-template <typename T, typename U> Vec3<T> Vec3<T>::operator%(const Vec3<U>& r) {
+template <typename T> template <typename U> Vec3<T> Vec3<T>::operator%(const Vec3<U>& r) {
   return Vec3<T>(x % static_cast<T>(r.x), y % static_cast<T>(r.y), z % static_cast<T>(r.z));
 }
 
@@ -137,7 +136,7 @@ template <typename T> void Vec3<T>::operator=(const Vec3<T>& r) {
   z = r.z;
 }
 
-template <typename T, typename U> void Vec3<T>::operator=(const Vec3<U>& r) {
+template <typename T> template <typename U> void Vec3<T>::operator=(const Vec3<U>& r) {
   x = static_cast<T>(r.x);
   y = static_cast<T>(r.y);
   z = static_cast<T>(r.z);
@@ -149,7 +148,7 @@ template <typename T> void Vec3<T>::operator+=(const Vec3<T>& r) {
   z += r.z;
 }
 
-template <typename T, typename U> void Vec3<T>::operator+=(const Vec3<U>& r) {
+template <typename T> template <typename U> void Vec3<T>::operator+=(const Vec3<U>& r) {
   x += static_cast<T>(r.x);
   y += static_cast<T>(r.y);
   z += static_cast<T>(r.z);
@@ -161,7 +160,7 @@ template <typename T> void Vec3<T>::operator-=(const Vec3<T>& r) {
   z -= r.z;
 }
 
-template <typename T, typename U> void Vec3<T>::operator-=(const Vec3<U>& r) {
+template <typename T> template <typename U> void Vec3<T>::operator-=(const Vec3<U>& r) {
   x -= static_cast<T>(r.x);
   y -= static_cast<T>(r.y);
   z -= static_cast<T>(r.z);
@@ -179,7 +178,7 @@ template <typename T> void Vec3<T>::operator*=(const Vec3<T>& r) {
   z *= r.z;
 }
 
-template <typename T, typename U> void Vec3<T>::operator*=(const Vec3<U>& r) {
+template <typename T> template <typename U> void Vec3<T>::operator*=(const Vec3<U>& r) {
   x *= static_cast<T>(r.x);
   y *= static_cast<T>(r.y);
   z *= static_cast<T>(r.z);
@@ -197,7 +196,7 @@ template <typename T> void Vec3<T>::operator/=(const Vec3<T>& r) {
   z /= r.z;
 }
 
-template <typename T, typename U> void Vec3<T>::operator/=(const Vec3<U>& r) {
+template <typename T> template <typename U> void Vec3<T>::operator/=(const Vec3<U>& r) {
   x /= r.x;
   y /= r.y;
   z /= r.z;
@@ -215,7 +214,7 @@ template <typename T> void Vec3<T>::operator%=(const Vec3<T>& r) {
   z %= r.z;
 }
 
-template <typename T, typename U> void Vec3<T>::operator%=(const Vec3<U>& r) {
+template <typename T> template <typename U> void Vec3<T>::operator%=(const Vec3<U>& r) {
   x %= r.x;
   y %= r.y;
   z %= r.z;

@@ -1,5 +1,7 @@
 #pragma once
+
 #include "types.hpp"
+
 #include <SFML\System\Time.hpp>
 
 class Time {

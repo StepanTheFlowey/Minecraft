@@ -9,7 +9,7 @@
 
 class Player {
   Vec3d position_;
-  Side moveDir_ = Side::None;
+  Side moveDir_ = Side::Null;
   double_t moveSpeed_ = 0.005;
 
   std::shared_ptr<World> worldIn_ = nullptr;
@@ -27,7 +27,7 @@ public:
   ~Player();
 
   //Assign move direction
-  void setMoveDirection(Side);
+  void setMoveDirection(Side, bool);
 
   //Tries to break block
   void breakBlock();

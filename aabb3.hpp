@@ -1,7 +1,6 @@
 #pragma once
 
-#include <gl/GL.h>
-
+#include "types.hpp"
 #include "vec3.hpp"
 #include "color.hpp"
 
@@ -40,18 +39,20 @@ public:
   //
   bool intersects(T, T, T, T, T, T) const;
 
-  //Immadately draws axis of box in float
+  //Draws axis of box in float
   void drawColorf(const Color) const;
 
-  //Immadately draws axis of box in double with 
+  //Draws axis of box in double with 
   void drawColord(const Color) const;
 
-  //Immadately draws axis of box in float
+  //Draws axis of box in float
   void drawAxisf() const;
 
-  //Immadately draws axis of box in double
+  //Draws axis of box in double
   void drawAxisd() const;
 };
+
+#include "aabb3.cpp"
 
 using Aabb3f = Aabb3<GLfloat>;
 using Aabb3d = Aabb3<GLdouble>;

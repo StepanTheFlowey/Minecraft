@@ -38,7 +38,7 @@ std::shared_ptr<Region> World::getRegion(RegionPos position) {
 }
 
 bool World::hasChunk(ChunkPos position) {
-  RegionPos regionPos = math::getRegionPosFromChunk(position);
+  RegionPos regionPos = getRegionPosFromChunk(position);
   if(!hasRegion(regionPos)) {
     return false;
   }
@@ -46,28 +46,20 @@ bool World::hasChunk(ChunkPos position) {
 }
 
 std::shared_ptr<Chunk> World::getChunk(ChunkPos position) {
-  RegionPos regionPos = math::getRegionPosFromChunk(position);
+  RegionPos regionPos = getRegionPosFromChunk(position);
   return getRegion(regionPos)->getChunkWorld(position);
 }
 
-bool World::hasBlock() {
-  //TODO: World::hasBlock()
-}
-
 BlockRenderInfo World::getBlock(BlockPos position) {
-  ChunkPos chunkPos = math::getChunkPosFromBlock(position);
-  RegionPos regionPos = math::getRegionPosFromChunk(chunkPos);
+  ChunkPos chunkPos =getChunkPosFromBlock(position);
+  RegionPos regionPos = getRegionPosFromChunk(chunkPos);
   return getRegion(regionPos)->getChunkWorld(chunkPos)->getBlockWorld(position);
 }
 
 void World::setBlock(BlockPos position, BlockRenderInfo block) {
-  ChunkPos chunkPos = math::getChunkPosFromBlock(position);
-  RegionPos regionPos = math::getRegionPosFromChunk(chunkPos);
+  ChunkPos chunkPos = getChunkPosFromBlock(position);
+  RegionPos regionPos = getRegionPosFromChunk(chunkPos);
   getRegion(regionPos)->getChunkWorld(chunkPos)->setBlockWorld(position, block);
-}
-
-constexpr auto& World::getData() {
-  return region_;
 }
 
 void World::draw() {

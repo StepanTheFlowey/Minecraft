@@ -4,54 +4,15 @@
 #include "glHelper.hpp"
 #include "displayList.hpp"
 
-void init2D(GLdouble width, GLdouble height) {
-  //Reset projection matrix
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
-  //Setup modelview matrix 
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-  gluOrtho2D(0, 0, width, height);
-
-  //Setup context
-  glDisable(GL_DEPTH_TEST);
-  glEnable(GL_TEXTURE_2D);
-}
-
-void init3D(GLdouble width, GLdouble height) {
-  GLdouble aspect = 0;
-  if(height != 0) {
-    aspect = width / height;
-  }
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-  gluPerspective(60, aspect, 0.05, 200);
-
-  glFrontFace(GL_CCW);
-  glLineWidth(3);
-  //glShadeModel(GL_SMOOTH);
-
-  glEnable(GL_CULL_FACE);
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_TEXTURE_2D);
-  //glEnable(GL_BLEND);
-}
-
 int main() {
   //TODO: we can be not a russian
   setlocale(LC_ALL, "Russian");
-#ifdef DEBUG //Object sizes for debug
+#ifdef DEBUG
   std::wcout << L"Minecraft Alpha Log" << std::endl;
   std::wcout << L"sizeof(World):\t" << sizeof(World) << std::endl;
   std::wcout << L"sizeof(Region):\t" << sizeof(Region) << std::endl;
   std::wcout << L"sizeof(Chunk):\t" << sizeof(Chunk) << std::endl;
-  std::wcout << L"sizeof(BRI):\t" << sizeof(BlockRenderInfo) << std::endl;
+  std::wcout << L"sizeof(BlockRenderInfo):\t" << sizeof(BlockRenderInfo) << std::endl;
   std::wcout << L"sizeof(Player):\t" << sizeof(Player) << std::endl;
   std::wcout << L"sizeof(Camera):\t" << sizeof(Camera) << std::endl;
 #else
@@ -59,12 +20,11 @@ int main() {
 #endif //DEBUG
   std::shared_ptr<Assets> assets(new Assets);
   std::shared_ptr<World> world(new World);
-  world->test();
-
   std::shared_ptr<Player> player(new Player);
+
+  world->test();
   player->setWorldIn(world);
 
-  //Creating context without window
   sf::Context context;
 
   std::shared_ptr<GlHelper> glHelper(new GlHelper);
@@ -97,17 +57,15 @@ int main() {
 #undef AXIS_LENGHT
 #undef AXIS_OFFSET
 
-  //Window init
   sf::ContextSettings contextSettings;
   contextSettings.antialiasingLevel = 0; //TODO: Enable multisampling
   contextSettings.sRgbCapable = false;   //STUPID SRGB
   contextSettings.depthBits = 24;        //Depth buffer bits
-  contextSettings.stencilBits = 0;       //Stencil buffer bits
-  contextSettings.majorVersion = 1;      //Request OpenGL 1.5
-  contextSettings.minorVersion = 5;      //yeah
+  contextSettings.stencilBits = 0;       //Stencil buffer disabled
+  contextSettings.majorVersion = 2;      //Request OpenGL 2.1
+  contextSettings.minorVersion = 1;
   contextSettings.attributeFlags = sf::ContextSettings::Default; //No core render please
 
-  //Hello window
   sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
   //#ifdef DEBUG
     //window.setFramerateLimit(15);
@@ -118,16 +76,16 @@ int main() {
   //Setup renderer
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
   glClearDepth(1.0);
-  init3D(640, 360);
+  glHelper->init3D(640, 360);
 
   sf::Event event;
 
   bool grab = false;
   bool fullscreen = false;
-  gametime_t gametime = 0;
+  Time gametime;
   sf::Clock clock;
   while(window.isOpen()) {
-    gametime = clock.restart().asMilliseconds();
+    gametime = clock.restart();
     while(window.pollEvent(event)) {
       switch(event.type) {
         case sf::Event::Closed:
@@ -137,7 +95,7 @@ int main() {
           event.size.width -= event.size.width % 2;
           event.size.height -= event.size.height % 2;
           window.setSize(sf::Vector2u(event.size.width, event.size.height));
-          init3D(event.size.width, event.size.height);
+          glHelper->init3D(event.size.width, event.size.height);
           break;
         case sf::Event::MouseMoved:
         {//Mouse in a trap™
@@ -155,7 +113,6 @@ int main() {
           break;
         }
         case sf::Event::MouseButtonPressed:
-        {
           switch(event.mouseButton.button) {
             case sf::Mouse::Left:
               player->placeBlock();
@@ -165,27 +122,25 @@ int main() {
               break;
           }
           break;
-        }
         case sf::Event::KeyPressed:
-        {
           switch(event.key.code) {
             case sf::Keyboard::W:
-              player->goForward(true);
+              player->setMoveDirection(Side::Forward, true);
               break;
             case sf::Keyboard::S:
-              player->goBack(true);
+              player->setMoveDirection(Side::Back, true);
               break;
             case sf::Keyboard::A:
-              player->goLeft(true);
+              player->setMoveDirection(Side::Left, true);
               break;
             case sf::Keyboard::D:
-              player->goRight(true);
+              player->setMoveDirection(Side::Right, true);
               break;
             case sf::Keyboard::Space:
-              player->goUp(true);
+              player->setMoveDirection(Side::Up, true);
               break;
             case sf::Keyboard::LShift:
-              player->goDown(true);
+              player->setMoveDirection(Side::Down, true);
               break;
             case sf::Keyboard::G:
               grab = !grab;
@@ -198,11 +153,11 @@ int main() {
               if(fullscreen) {
                 sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
                 window.create(videoMode, "Minecraft Alpha", sf::Style::Fullscreen, contextSettings);
-                init3D(videoMode.width, videoMode.height);
+                glHelper->init3D(videoMode.width, videoMode.height);
               }
               else {
                 window.create(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
-                init3D(640, 360);
+                glHelper->init3D(640, 360);
               }
               if(grab) {
                 window.setMouseCursorGrabbed(true);
@@ -212,31 +167,28 @@ int main() {
             }
           }
           break;
-        }
         case sf::Event::KeyReleased:
-        {
           switch(event.key.code) {
             case sf::Keyboard::W:
-              player->goForward(false);
+              player->setMoveDirection(Side::Forward, false);
               break;
             case sf::Keyboard::S:
-              player->goBack(false);
+              player->setMoveDirection(Side::Back, false);
               break;
             case sf::Keyboard::A:
-              player->goLeft(false);
+              player->setMoveDirection(Side::Left, false);
               break;
             case sf::Keyboard::D:
-              player->goRight(false);
+              player->setMoveDirection(Side::Right, false);
               break;
             case sf::Keyboard::Space:
-              player->goUp(false);
+              player->setMoveDirection(Side::Up, false);
               break;
             case sf::Keyboard::LShift:
-              player->goDown(false);
+              player->setMoveDirection(Side::Down, false);
               break;
           }
           break;
-        }
       }
     }
 

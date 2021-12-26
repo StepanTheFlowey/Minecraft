@@ -1,5 +1,6 @@
 #pragma once
-#include "vec.hpp"
+
+#include "vec3.hpp"
 #include "side.hpp"
 
 template <typename T> struct RayTraceResult {

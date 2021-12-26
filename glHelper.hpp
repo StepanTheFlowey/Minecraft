@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 
 #include <gl/GL.h>
@@ -21,7 +22,9 @@ PFNGLUNMAPBUFFERARBPROC          glUnmapBufferARB = nullptr;
 PFNGLGETBUFFERPARAMETERIVARBPROC glGetBufferParameterivARB = nullptr;
 PFNGLGETBUFFERPOINTERVARBPROC    glGetBufferPointervARB = nullptr;
 
-struct GlHelper {
+class GlHelper {
+  GLdouble aspect_ = 0;
+public:
   bool vboSupport = false;
   //bool vaoSupport;
 
@@ -29,6 +32,39 @@ struct GlHelper {
   std::wstring renderer;
   std::wstring version;
   std::vector<std::wstring> extensions;
+
+  void init2D(GLdouble width, GLdouble height) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
+    gluOrtho2D(0, 0, width, height);
+
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+  }
+
+  void init3D(GLdouble width, GLdouble height) {
+    if(height != 0) {
+      aspect_ = width / height;
+    }
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
+    gluPerspective(60, aspect_, 0.05, 200);
+
+    glFrontFace(GL_CCW);
+    glLineWidth(3);
+
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+  }
 
   bool isExtensionSupport(std::wstring name) {
     bool found = false;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cmath>
-#include "math.hpp"
 
 template <typename T> inline Vec3<T> math::vectorProduct(Vec3<T> A, Vec3<T> B) {
   return Vec3<T>(A.y * B.z - A.z * B.y,
@@ -19,22 +18,6 @@ template <typename T> inline Vec3<T> math::getNormal(Vec3<T> A, Vec3<T> B, Vec3<
 
 template <typename T> inline Vec3<T> math::getNormal(Plane<T> plane) {
   return getNormal(plane.A, plane.B, plane.C);
-}
-
-inline ChunkPos math::getChunkPosFromBlock(BlockPos position) {
-  return ChunkPos(position.x >> 4, position.y >> 4, position.z >> 4);
-}
-
-inline RegionPos math::getRegionPosFromChunk(ChunkPos position) {
-  return RegionPos(position.x >> 4, position.z >> 4);
-}
-
-inline SmallPos math::getBlockPosInChunk(BlockPos position) {
-  return SmallPos(position.x & 15, position.y & 15, position.z & 15);
-}
-
-inline SmallPos math::getChunkPosInRegion(ChunkPos position) {
-  return SmallPos(position.x & 15, position.y & 15, position.z & 15);
 }
 
 template <typename T> RayTraceResult<T> math::planeLineCollision(Plane<T> plane, Vec3<T> lineBegin, Vec3<T> lineEnd) {

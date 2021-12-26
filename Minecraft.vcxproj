@@ -96,15 +96,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="aabb3.cpp" />
+    <ClInclude Include="aabb3.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="color.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="math.cpp" />
+    <ClInclude Include="math.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="region.cpp" />
     <ClCompile Include="time.cpp" />
-    <ClCompile Include="vec2.cpp" />
-    <ClCompile Include="vec3.cpp" />
+    <ClInclude Include="vec2.cpp" />
+    <ClInclude Include="vec3.cpp" />
     <ClCompile Include="world.cpp" />
   </ItemGroup>
   <ItemGroup>

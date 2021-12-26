@@ -3,14 +3,28 @@
 #include <unordered_map>
 
 #include "types.hpp"
-#include "chunk.hpp"
 #include "vec2.hpp"
 #include "aabb3.hpp"
-
+#include "math.hpp"
+#include "chunk.hpp"
 
 using regionPos_t = int16_t;
 using RegionPos = Vec2<regionPos_t>;
 using RegionAabb = Aabb3<regionPos_t>;
+
+inline SmallPos getChunkPosInRegion(ChunkPos);
+
+inline RegionPos getRegionPosFromChunk(ChunkPos);
+
+inline SmallPos getChunkPosInRegion(ChunkPos position) {
+  return SmallPos(position.x & 15, position.y & 15, position.z & 15);
+}
+
+inline RegionPos getRegionPosFromChunk(ChunkPos position) {
+  return RegionPos(position.x >> 4, position.z >> 4);
+}
+
+class Player;
 
 class Region {
   std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::shared_ptr<Chunk>>>> chunk_;
@@ -18,102 +32,45 @@ class Region {
   RegionAabb aabb_;
   RegionPos position_;
 public:
-  Region() {
-#ifdef DEBUG
-    std::wcout << L"Region(): Constructor" << std::endl;
-#endif // DEBUG
-    chunk_[0][0][0].reset(new Chunk);
-    chunk_[0][0][0]->setPosition(ChunkPos(0, 0, 0));
-  }
 
-  ~Region() {
-#ifdef DEBUG
-    std::wcout << L"~Region(): Destructor" << std::endl;
-#endif // DEBUG
-  }
+  //Default constructor
+  Region();
 
-  bool hasChunkWorld(ChunkPos position) {
-    return hasChunkNative(math::getChunkPosInRegion(position));
-  }
+  //Default destructor
+  ~Region();
 
-  bool hasChunkNative(SmallPos position) {
-    if(chunk_.find(position.x) == chunk_.end()) {
-      return false;
-    }
-    if(chunk_[position.x].find(position.y) == chunk_[position.x].end()) {
-      return false;
-    }
-    if(chunk_[position.x][position.y].find(position.z) == chunk_[position.x][position.y].end()) {
-      return false;
-    }
-    return true;
-  }
+  //Check for chunk exist in native grid
+  bool hasChunkNative(SmallPos position);
 
-  std::shared_ptr<Chunk> getChunkNative(SmallPos position) {
-    return chunk_[position.x][position.y][position.z];
-  }
+  //Check for chunk exist in world grid
+  bool hasChunkWorld(ChunkPos position);
 
-  std::shared_ptr<Chunk> getChunkWorld(ChunkPos position) {
-    return getChunkNative(math::getChunkPosInRegion(position));
-  }
+  //Takes chunk pointer from native grid
+  const std::shared_ptr<Chunk> getChunkNative(SmallPos position);
 
-  BlockRenderInfo getBlockNative(BlockPos position) {
-    return getChunkWorld(math::getChunkPosFromBlock(position))->getBlockWorld(position);
-  }
+  //Takes chunk pointer from world grid
+  const std::shared_ptr<Chunk> getChunkWorld(ChunkPos position);
 
-  BlockRenderInfo getBlockWorld(BlockPos position) {
-    //return getBlockNative(getBlock);
-  }
+  //Takes block pointer from native grid
+  const BlockRenderInfo getBlockNative(BlockPos position);
 
-  void setPosition(RegionPos position) {
-    position_ = position;
-    aabb_.min.x = position.x;
-    aabb_.min.y = 0;
-    aabb_.min.z = position.y;
-    aabb_.max.x = position.x + 16;
-    aabb_.max.y = 256;
-    aabb_.max.z = position.y + 16;
+  //Takes block pointer from world grid 
+  //const BlockRenderInfo getBlockWorld(BlockPos position);
 
-    for(auto &[iKey, iVal] : chunk_) {
-      for(auto &[jKey, jVal] : iVal) {
-        for(auto &[kKey, kVal] : jVal) {
-          kVal->setPosition(ChunkPos(position_.x, 0, position_.y) + SmallPos(iKey, jKey, kKey));
-        }
-      }
-    }
-  }
+  //Assign region position
+  void setPosition(RegionPos position);
 
-  RegionPos &getPosition() {
-    return position_;
-  }
+  //Takes region position
+  const RegionPos& getPosition() const;
 
-  RegionAabb &getAabb() {
-    return aabb_;
-  }
+  //Takes region position
+  const RegionAabb& getAabb() const;
 
-  void setWorldIn(std::weak_ptr<World> worldIn) {
-    worldIn_ = worldIn;
+  //Assign world in pointer
+  void setWorldIn(std::weak_ptr<World> worldIn);
 
-    for(auto &[iKey, iVal] : chunk_) {
-      for(auto &[jKey, jVal] : iVal) {
-        for(auto &[kKey, kVal] : jVal) {
-          kVal->setWorldIn(worldIn_);
-        }
-      }
-    }
-  }
+  //Draws underlying chunks
+  void draw() const;
 
-  auto &getData() {
-    return chunk_;
-  }
-
-  void draw() const {
-    for(auto &[iKey, iVal] : chunk_) {
-      for(auto &[jKey, jVal] : iVal) {
-        for(auto &[kKey, kVal] : jVal) {
-          kVal->draw();
-        }
-      }
-    }
-  }
+  friend Player;
 };

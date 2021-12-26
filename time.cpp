@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Time.hpp"
 
 Time::Time() {

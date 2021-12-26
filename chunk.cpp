@@ -1,6 +1,10 @@
 #pragma once
 
-#include "math.hpp"
+#include "chunk.hpp"
+
+#include "world.hpp"
+
+
 
 Chunk::Chunk() {
 #ifdef DEBUG
@@ -26,7 +30,7 @@ BlockRenderInfo& Chunk::getBlockNative(SmallPos position) {
 }
 
 BlockRenderInfo& Chunk::getBlockWorld(BlockPos position) {
-  return getBlockNative(math::getBlockPosInChunk(position));
+  return getBlockNative(getBlockPosInChunk(position));
 }
 
 void Chunk::setBlockNative(BlockPos position, BlockRenderInfo block) {
@@ -34,7 +38,7 @@ void Chunk::setBlockNative(BlockPos position, BlockRenderInfo block) {
 }
 
 void Chunk::setBlockWorld(BlockPos position, BlockRenderInfo block) {
-  setBlockNative(math::getBlockPosInChunk(position), block);
+  setBlockNative(getBlockPosInChunk(position), block);
 }
 
 void Chunk::setPosition(ChunkPos position) {
@@ -88,86 +92,66 @@ void Chunk::computeBlocksEdgeRender() {
     eastChunk = world->getChunk(position_ - ChunkPos(0, 0, 1));
   }
 
-  BlockPos blockPos = position_ * 16;
+  const BlockPos blockPos = position_ * 16;
 
   for(uint8_t i = 0; i < 16; i++) {
     for(uint8_t j = 0; j < 16; j++) {
       for(uint8_t k = 0; k < 16; k++) {
         BlockRenderInfo& block = getBlockNative(BlockPos(i, j, k));
         if(block.blockId == 0) {
-          bitWrite(block.sideRender, 1, 1);
+          block.side = Side::None;
           continue;
         }
-        block.sideRender = 0b11111100;
+        block.side = Side::Full;
 
         if(j == 15) {
-          if(upChunk) {
-            bitWrite(block.sideRender, 2, upChunk->getBlockNative(BlockPos(i, 0, k)).blockId == 0);
-          }
+          if(upChunk)
+            block.side |= upChunk->getBlockNative(BlockPos(i, 0, k)).blockId == 0 ? Side::Up : Side::Null;
         }
-        else {
-          bitWrite(block.sideRender, 2, getBlockNative(BlockPos(i, j + 1, k)).blockId == 0);
-        }
+        else
+          block.side |= getBlockNative(BlockPos(i, j + 1, k)).blockId == 0 ? Side::Up : Side::Null;
 
         if(j == 0) {
-          if(downChunk) {
-            bitWrite(block.sideRender, 3, downChunk->getBlockNative(BlockPos(i, 15, k)).blockId == 0);
-          }
+          if(downChunk)
+            block.side |= downChunk->getBlockNative(BlockPos(i, 15, k)).blockId == 0 ? Side::Down : Side::Null;
         }
-        else {
-          bitWrite(block.sideRender, 3, getBlockNative(BlockPos(i, j - 1, k)).blockId == 0);
-        }
+        else
+          block.side |= getBlockNative(BlockPos(i, j - 1, k)).blockId == 0 ? Side::Down : Side::Null;
 
         if(i == 0) {
-          if(northChunk) {
-            bitWrite(block.sideRender, 4, northChunk->getBlockNative(BlockPos(15, j, k)).blockId == 0);
-          }
+          if(northChunk)
+            block.side |= northChunk->getBlockNative(BlockPos(15, j, k)).blockId == 0 ? Side::North : Side::Null;
         }
-        else {
-          bitWrite(block.sideRender, 4, getBlockNative(BlockPos(i - 1, j, k)).blockId == 0);
-        }
+        else
+          block.side |= getBlockNative(BlockPos(i - 1, j, k)).blockId == 0 ? Side::North : Side::Null;
 
         if(i == 15) {
-          if(southChunk) {
-            bitWrite(block.sideRender, 5, southChunk->getBlockNative(BlockPos(0, j, k)).blockId == 0);
-          }
+          if(southChunk)
+            block.side |= southChunk->getBlockNative(BlockPos(0, j, k)).blockId == 0 ? Side::South : Side::Null;
         }
-        else {
-          bitWrite(block.sideRender, 5, getBlockNative(BlockPos(i + 1, j, k)).blockId == 0);
-        }
+        else
+          block.side |= getBlockNative(BlockPos(i + 1, j, k)).blockId == 0 ? Side::South : Side::Null;
 
         if(k == 15) {
-          if(westChunk) {
-            bitWrite(block.sideRender, 6, westChunk->getBlockNative(BlockPos(i, j, 0)).blockId == 0);
-          }
+          if(westChunk)
+            block.side |= westChunk->getBlockNative(BlockPos(i, j, 0)).blockId == 0 ? Side::West : Side::Null;
         }
-        else {
-          bitWrite(block.sideRender, 6, getBlockNative(BlockPos(i, j, k + 1)).blockId == 0);
-        }
+        else
+          block.side |= getBlockNative(BlockPos(i, j, k + 1)).blockId == 0 ? Side::West : Side::Null;
 
         if(k == 0) {
-          if(eastChunk) {
-            bitWrite(block.sideRender, 7, eastChunk->getBlockNative(BlockPos(i, j, 15)).blockId == 0);
-          }
+          if(eastChunk)
+            block.side |= eastChunk->getBlockNative(BlockPos(i, j, 15)).blockId == 0 ? Side::East : Side::Null;
         }
-        else {
-          bitWrite(block.sideRender, 7, getBlockNative(BlockPos(i, j, k - 1)).blockId == 0);
-        }
+        else
+          block.side |= getBlockNative(BlockPos(i, j, k - 1)).blockId == 0 ? Side::East : Side::Null;
 
-        bitWrite(block.sideRender, 0, (
-          bitRead(block.sideRender, 2) &&
-          bitRead(block.sideRender, 3) &&
-          bitRead(block.sideRender, 4) &&
-          bitRead(block.sideRender, 5) &&
-          bitRead(block.sideRender, 6) &&
-          bitRead(block.sideRender, 7)));
-        bitWrite(block.sideRender, 1, !(
-          bitRead(block.sideRender, 2) ||
-          bitRead(block.sideRender, 3) ||
-          bitRead(block.sideRender, 4) ||
-          bitRead(block.sideRender, 5) ||
-          bitRead(block.sideRender, 6) ||
-          bitRead(block.sideRender, 7)));
+        if(block.side == Side::Full) {
+          block.side = Side::All;
+        }
+        else if(block.side == Side::Null) {
+          block.side = Side::None;
+        }
       }
     }
   }
@@ -178,7 +162,7 @@ void Chunk::draw() const {
     for(uint8_t j = 0; j < 16; j++) {
       for(uint8_t k = 0; k < 16; k++) {
         const BlockRenderInfo& block = block_[i][j][k];
-        if(to_underlying<bool, Side>(block.side & Side::None)) {
+        if(to_underlying(block.side & Side::None)) {
           continue;
         }
         glBindTexture(GL_TEXTURE_2D, block.blockId);
@@ -188,7 +172,7 @@ void Chunk::draw() const {
 
         glBegin(GL_QUADS);
 
-        if(to_underlying<bool, Side>(block.side & Side::All)) {
+        if(to_underlying(block.side & Side::All)) {
           //Up side
           glTexCoord2s(0, 0);
           glVertex3s(0, 1, 1);
@@ -250,7 +234,7 @@ void Chunk::draw() const {
           glVertex3s(0, 1, 0);
         }
         else {
-          if(bitRead(block.sideRender, 2)) {
+          if(to_underlying(block.side & Side::Up)) {
             //Up side
             glTexCoord2s(0, 0);
             glVertex3s(0, 1, 1);
@@ -261,7 +245,7 @@ void Chunk::draw() const {
             glTexCoord2s(1, 0);
             glVertex3s(0, 1, 0);
           }
-          if(bitRead(block.sideRender, 3)) {
+          if(to_underlying(block.side & Side::Down)) {
             //Down side
             glTexCoord2s(0, 0);
             glVertex3s(1, 0, 1);
@@ -272,7 +256,7 @@ void Chunk::draw() const {
             glTexCoord2s(1, 0);
             glVertex3s(1, 0, 0);
           }
-          if(bitRead(block.sideRender, 4)) {
+          if(to_underlying(block.side & Side::North)) {
             //North side
             glTexCoord2s(0, 0);
             glVertex3s(0, 1, 0);
@@ -283,7 +267,7 @@ void Chunk::draw() const {
             glTexCoord2s(1, 0);
             glVertex3s(0, 1, 1);
           }
-          if(bitRead(block.sideRender, 5)) {
+          if(to_underlying(block.side & Side::South)) {
             //South side
             glTexCoord2s(0, 0);
             glVertex3s(1, 1, 1);
@@ -294,7 +278,7 @@ void Chunk::draw() const {
             glTexCoord2s(1, 0);
             glVertex3s(1, 1, 0);
           }
-          if(bitRead(block.sideRender, 6)) {
+          if(to_underlying(block.side & Side::West)) {
             //West side
             glTexCoord2s(0, 0);
             glVertex3s(0, 1, 1);
@@ -305,7 +289,7 @@ void Chunk::draw() const {
             glTexCoord2s(1, 0);
             glVertex3s(1, 1, 1);
           }
-          if(bitRead(block.sideRender, 7)) {
+          if(to_underlying(block.side & Side::East)) {
             //East side
             glTexCoord2s(0, 0);
             glVertex3s(1, 1, 0);

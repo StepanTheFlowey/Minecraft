@@ -1,7 +1,3 @@
-#pragma once
-
-#include "aabb3.hpp"
-
 template <typename T> Aabb3<T>::Aabb3() {
 
 }

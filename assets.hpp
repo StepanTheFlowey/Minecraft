@@ -1,20 +1,19 @@
 #pragma once
+
 #include "types.hpp"
 #include "block.hpp"
 
 #include <map>
 #include <filesystem>
 
-//SFML
+#include <stb/stb_image.h>
+
+#include <gl/GL.h>
+#include <gl/GLU.h>
+
 #include <SFML/Graphics.hpp>
 
 namespace fs = std::filesystem;
-
-//Stb
-#define STB_IMAGE_IMPLEMENTATION
-#define STBI_WINDOWS_UTF8
-#define STB_ONLY_PNG
-#include <stb/stb_image.h>
 
 class TextureManager {
   std::map<std::wstring, textureId_t> textures_;
@@ -35,9 +34,9 @@ public:
     int width = 0;
     int height = 0;
     int comp = 0;
-    uint8_t *image;
+    uint8_t* image;
     textureId_t texture = 0;
-    for(const auto &i : fs::directory_iterator(path)) {
+    for(const auto& i : fs::directory_iterator(path)) {
       if(!i.is_directory()) {
         char buff[1024];
         stbi_convert_wchar_to_utf8(buff, sizeof(buff), fs::canonical(i).wstring().c_str());
@@ -65,7 +64,7 @@ public:
 #ifdef DEBUG
     std::wcout << L"Textures loaded:" << std::endl;
     std::wstring name;
-    for(auto &[iKey, iVal] : textures_) {
+    for(auto& [iKey, iVal] : textures_) {
       name = L"Name: " + iKey;
       std::wcout << name;
       for(uint8_t i = 0; i < 30 - name.length(); i++) {
@@ -76,7 +75,7 @@ public:
 #endif // DEBUG
   }
 
-  std::map<std::wstring, textureId_t> &getTextures() {
+  std::map<std::wstring, textureId_t>& getTextures() {
     //TODO: Exeption if textures_.empty()
     return textures_;
   }
@@ -106,15 +105,15 @@ public:
 
   }
 
-  std::vector<BlockInfo> &getBlocks() {
+  std::vector<BlockInfo>& getBlocks() {
     return blocks_;
   }
 };
 
 class Assets {
 public:
-  TextureManager *textures = nullptr;
-  BlockManager *blocks = nullptr;
+  TextureManager* textures = nullptr;
+  BlockManager* blocks = nullptr;
 
   Assets() {
 #ifdef DEBUG

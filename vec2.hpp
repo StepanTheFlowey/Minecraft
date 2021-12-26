@@ -1,8 +1,8 @@
 #pragma once
-#include <cmath>
-#include <iostream>
 
-#include <GL/GL.h>
+#include "types.hpp"
+
+#include <gl/GL.h>
 #include <SFML/System/Vector2.hpp>
 
 //Two component vector
@@ -119,6 +119,8 @@ public:
   //TODO: Description
   template <typename U> void operator%=(const Vec2<U>&);
 };
+
+#include "vec2.cpp"
 
 using Vec2f = Vec2<GLfloat>;
 using Vec2d = Vec2<GLdouble>;
