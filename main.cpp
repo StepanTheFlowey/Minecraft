@@ -67,11 +67,7 @@ int main() {
   contextSettings.attributeFlags = sf::ContextSettings::Default; //No core render please
 
   sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
-  //#ifdef DEBUG
-    //window.setFramerateLimit(15);
-  //#else
   window.setVerticalSyncEnabled(true);
-  //#endif // DEBUG
 
   //Setup renderer
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);

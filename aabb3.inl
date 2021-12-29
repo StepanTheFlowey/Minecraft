@@ -1,3 +1,5 @@
+#pragma once
+
 template <typename T> Aabb3<T>::Aabb3() {
 
 }

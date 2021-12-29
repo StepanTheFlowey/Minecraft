@@ -4,8 +4,6 @@
 
 #include "world.hpp"
 
-
-
 Chunk::Chunk() {
 #ifdef DEBUG
   std::wcout << L"Chunk(): Constructor" << std::endl;
@@ -102,7 +100,7 @@ void Chunk::computeBlocksEdgeRender() {
           block.side = Side::None;
           continue;
         }
-        block.side = Side::Full;
+        block.side = Side::Null;
 
         if(j == 15) {
           if(upChunk)

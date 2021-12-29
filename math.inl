@@ -20,20 +20,19 @@ template <typename T> inline Vec3<T> math::getNormal(Plane<T> plane) {
   return getNormal(plane.A, plane.B, plane.C);
 }
 
-template <typename T> RayTraceResult<T> math::planeLineCollision(Plane<T> plane, Vec3<T> lineBegin, Vec3<T> lineEnd) {
+template <typename T> RayTraceResult<T> math::planeLineCollision(Plane<T> plane,Vec3<T> normal, Vec3<T> lineBegin, Vec3<T> lineEnd) {
   RayTraceResult<T> result;
-  Vec3<T> N = math::getNormal(plane);   //Normal to plane
 
   Vec3<T> CA = plane.A - lineBegin;     //Vector from A to lineBegin
   Vec3<T> CV = lineEnd - lineBegin;     //Vector from lineEnd to lineBegin
 
-  T CN = math::dotProduct(CA, N);       //Distance between plane and line
+  T CN = math::dotProduct(CA, normal);  //Distance between plane and line
   if(CN <= 0.0) {
     return result;                      //If distance zero return
   }
 
-  T CM = math::dotProduct(CV, N);
-  if(abs(CM) < 0.0001) {
+  T CM = math::dotProduct(CV, normal);
+  if(abs(CM) < 1e-6) {
     return result;
   }
 
@@ -43,7 +42,7 @@ template <typename T> RayTraceResult<T> math::planeLineCollision(Plane<T> plane,
   }
 
   //Collision point on plane
-  result.pos = CV * K + lineBegin - plane.A + Vec3<T>(abs(N.y) + abs(N.z), 0.0, 0.0);
+  result.pos = CV * K + lineBegin - plane.A + Vec3<T>(abs(normal.y) + abs(normal.z), 0.0, 0.0);
   if(
     result.pos.x < 0 ||
     result.pos.y < 0 ||

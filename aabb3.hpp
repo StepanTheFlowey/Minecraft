@@ -52,7 +52,7 @@ public:
   void drawAxisd() const;
 };
 
-#include "aabb3.cpp"
+#include "aabb3.inl"
 
 using Aabb3f = Aabb3<GLfloat>;
 using Aabb3d = Aabb3<GLdouble>;

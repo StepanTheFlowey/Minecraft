@@ -20,7 +20,7 @@ namespace math {
 
   template <typename T> inline Vec3<T> getNormal(Plane<T> plane);
 
-  template <typename T> RayTraceResult<T> planeLineCollision(Plane<T> plane, Vec3<T> lineBegin, Vec3<T> lineEnd);
+  template <typename T> RayTraceResult<T> planeLineCollision(Plane<T> plane, Vec3<T> normal, Vec3<T> lineBegin, Vec3<T> lineEnd);
 }
 
-#include "math.cpp"
+#include "math.inl"

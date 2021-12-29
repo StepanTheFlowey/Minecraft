@@ -120,7 +120,7 @@ public:
   template <typename U> void operator%=(const Vec2<U>&);
 };
 
-#include "vec2.cpp"
+#include "vec2.inl"
 
 using Vec2f = Vec2<GLfloat>;
 using Vec2d = Vec2<GLdouble>;

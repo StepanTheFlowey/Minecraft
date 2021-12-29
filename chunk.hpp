@@ -13,14 +13,6 @@ inline SmallPos getBlockPosInChunk(BlockPos);
 
 inline ChunkPos getChunkPosFromBlock(BlockPos);
 
-inline SmallPos getBlockPosInChunk(BlockPos position) {
-  return SmallPos(position.x & 15, position.y & 15, position.z & 15);
-}
-
-inline ChunkPos getChunkPosFromBlock(BlockPos position) {
-  return ChunkPos(position.x >> 4, position.y >> 4, position.z >> 4);
-}
-
 class World;
 
 class Chunk {
@@ -70,3 +62,5 @@ private:
   //Makes shared pointer from weak one
   std::shared_ptr<World> getWorldPtr();
 };
+
+#include "chunk.inl"

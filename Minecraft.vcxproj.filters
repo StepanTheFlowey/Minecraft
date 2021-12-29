@@ -101,17 +101,25 @@
     <ClInclude Include="vec3.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="aabb3.cpp">
+    <ClInclude Include="aabb3.inl">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="vec2.cpp">
+    <ClInclude Include="vec2.inl">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="vec3.cpp">
+    <ClInclude Include="vec3.inl">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="math.cpp">
+    <ClInclude Include="math.inl">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="chunk.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="region.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -145,7 +145,7 @@ public:
   template<typename U> void operator%=(const Vec3<U>& r);
 };
 
-#include "vec3.cpp"
+#include "vec3.inl"
 
 using Vec3f = Vec3<GLfloat>;
 using Vec3d = Vec3<GLdouble>;
