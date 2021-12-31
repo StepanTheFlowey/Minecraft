@@ -16,10 +16,7 @@ public:
   Vec3();
 
   //Component constructor
-  Vec3(T X, T Y, T Z);
-
-  //Default destructor
-  ~Vec3();
+  Vec3(T, T, T);
 
   //Copy constrcutor
   template <typename U> Vec3(const Vec3<U>&);
@@ -40,109 +37,120 @@ public:
   void wprint(std::wstring) const;
 
   //Absolute vector
-  Vec3<T> abs();
+  Vec3<T> abs() const;
 
   //Scalar lenght of vector
-  double_t lenght();
+  double_t lenght() const;
 
   //Normalizing vector
-  Vec3<T> normalize();
+  Vec3<T> normalize() const;
 
   //Distance to other vector
-  double_t distanceTo(Vec3<T> point);
+  double_t distanceTo(Vec3<T>) const;
 
   //Call glVertex3d(x,y,z)
-  inline void glVertex();
+  inline void glVertex() const;
 
   //Vector equals
-  bool operator==(const Vec3<T>& r);
+  bool operator==(const Vec3<T>&) const;
 
   //Vector not equals
-  bool operator!=(const Vec3<T>& r);
+  bool operator!=(const Vec3<T>&) const;
 
   //TODO: Description
-  Vec3<T> operator+(const Vec3<T>& r);
+  Vec3<T> operator+(const Vec3<T>&) const;
 
-  //TODO: Description
-  template <typename U> Vec3<T> operator+(const  Vec3<U>& r);
+  //
+  template <typename U>
+  Vec3<T> operator+(const  Vec3<U>&) const;
 
-  //TODO: Description
-  Vec3<T> operator-(const Vec3<T>& r);
+  //
+  Vec3<T> operator-(const Vec3<T>&) const;
 
-  //TODO: Description
-  template <typename U> Vec3<T> operator-(const Vec3<U>& r);
+  //
+  template <typename U>
+  Vec3<T> operator-(const Vec3<U>&) const;
 
-  //TODO: Description
-  Vec3<T> operator*(const T r);
+  //
+  Vec3<T> operator*(const T) const;
 
-  //TODO: Description
-  Vec3<T> operator*(const Vec3<T>& r);
+  //
+  Vec3<T> operator*(const Vec3<T>&) const;
 
-  //TODO: Description
-  template <typename U> Vec3<T> operator*(const Vec3<U>& r);
+  //
+  template <typename U>
+  Vec3<T> operator*(const Vec3<U>&) const;
 
-  //TODO: Description
-  Vec3<T> operator/(const T r);
+  //
+  Vec3<T> operator/(const T) const;
 
-  //TODO: Description
-  Vec3<T> operator/(const Vec3<T>& r);
+  //
+  Vec3<T> operator/(const Vec3<T>&) const;
 
-  //TODO: Description
-  template <typename U> Vec3<T> operator/(const Vec3<U>& r);
+  //
+  template <typename U>
+  Vec3<T> operator/(const Vec3<U>&) const;
 
-  //TODO: Description
-  Vec3<T> operator%(const T r);
+  //
+  Vec3<T> operator%(const T) const;
 
-  //TODO: Description
-  Vec3<T> operator%(const Vec3<T>& r);
+  //
+  Vec3<T> operator%(const Vec3<T>&) const;
 
-  //TODO: Description
-  template <typename U> Vec3<T> operator%(const Vec3<U>& r);
+  //
+  template <typename U>
+  Vec3<T> operator%(const Vec3<U>&) const;
 
-  //TODO: Description
-  void operator=(const Vec3<T>& r);
+  //
+  void operator=(const Vec3<T>&);
 
-  //TODO: Description
-  template<typename U> void operator=(const Vec3<U>& r);
+  //
+  template<typename U>
+  void operator=(const Vec3<U>&);
 
-  //TODO: Description
-  void operator+=(const Vec3<T>& r);
+  //
+  void operator+=(const Vec3<T>&);
 
-  //TODO: Description
-  template<typename U> void operator+=(const Vec3<U>& r);
+  //
+  template<typename U>
+  void operator+=(const Vec3<U>&);
 
-  //TODO: Description
-  void operator-=(const Vec3<T>& r);
+  //
+  void operator-=(const Vec3<T>&);
 
-  //TODO: Description
-  template<typename U> void operator-=(const Vec3<U>& r);
+  //
+  template<typename U>
+  void operator-=(const Vec3<U>&);
 
-  //TODO: Description
-  void operator*=(const T r);
+  //
+  void operator*=(const T);
 
-  //TODO: Description
-  void operator*=(const Vec3<T>& r);
+  //
+  void operator*=(const Vec3<T>&);
 
-  //TODO: Description
-  template<typename U> void operator*=(const Vec3<U>& r);
+  //
+  template<typename U>
+  void operator*=(const Vec3<U>&);
 
-  //TODO: Description
-  void operator/=(const T r);
+  //
+  void operator/=(const T);
 
-  //TODO: Description
-  void operator/=(const Vec3<T>& r);
+  //
+  void operator/=(const Vec3<T>&);
 
-  //TODO: Description
-  template<typename U> void operator/=(const Vec3<U>& r);
+  //
+  template<typename U>
+  void operator/=(const Vec3<U>&);
 
-  //TODO: Description
-  void operator%=(const T r);
+  //
+  void operator%=(const T);
 
-  //TODO: Description
-  void operator%=(const Vec3<T>& r);
+  //
+  void operator%=(const Vec3<T>&);
 
-  //TODO: Description
-  template<typename U> void operator%=(const Vec3<U>& r);
+  //
+  template<typename U>
+  void operator%=(const Vec3<U>&);
 };
 
 #include "vec3.inl"

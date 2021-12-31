@@ -12,47 +12,63 @@ template <typename T> inline T math::dotProduct(Vec3<T> A, Vec3<T> B) {
   return A.x * B.x + A.y * B.y + A.z * B.z;
 }
 
-template <typename T> inline Vec3<T> math::getNormal(Vec3<T> A, Vec3<T> B, Vec3<T> C) {
-  return vectorProduct(B - A, C - A);
+template <typename T> T math::triangleSquare(T a, T b, T c) {
+  T p = (a + b + c) / 2;
+  return sqrt(p * (p - a) * (p - b) * (p - c));
 }
 
-template <typename T> inline Vec3<T> math::getNormal(Plane<T> plane) {
-  return getNormal(plane.A, plane.B, plane.C);
+template <typename T> bool math::isPointOnTriangle(Triangle<T> triangle, Vec3<T> point) {
+  bool inside = 0;
+  T AB = sqrt((triangle.A.x - triangle.B.x) * (triangle.A.x - triangle.B.x) + (triangle.A.y - triangle.B.y) * (triangle.A.y - triangle.B.y) + (triangle.A.z - triangle.B.z) * (triangle.A.z - triangle.B.z));
+  T BC = sqrt((triangle.B.x - triangle.C.x) * (triangle.B.x - triangle.C.x) + (triangle.B.y - triangle.C.y) * (triangle.B.y - triangle.C.y) + (triangle.B.z - triangle.C.z) * (triangle.B.z - triangle.C.z));
+  T CA = sqrt((triangle.A.x - triangle.C.x) * (triangle.A.x - triangle.C.x) + (triangle.A.y - triangle.C.y) * (triangle.A.y - triangle.C.y) + (triangle.A.z - triangle.C.z) * (triangle.A.z - triangle.C.z));
+
+  T AP = sqrt((point.x - triangle.A.x) * (point.x - triangle.A.x) + (point.y - triangle.A.y) * (point.y - triangle.A.y) + (point.z - triangle.A.z) * (point.z - triangle.A.z));
+  T BP = sqrt((point.x - triangle.B.x) * (point.x - triangle.B.x) + (point.y - triangle.B.y) * (point.y - triangle.B.y) + (point.z - triangle.B.z) * (point.z - triangle.B.z));
+  T CP = sqrt((point.x - triangle.C.x) * (point.x - triangle.C.x) + (point.y - triangle.C.y) * (point.y - triangle.C.y) + (point.z - triangle.C.z) * (point.z - triangle.C.z));
+  T diff = (triangleSquare(AP, BP, AB) + triangleSquare(AP, CP, CA) + triangleSquare(BP, CP, BC)) - triangleSquare(AB, BC, CA);
+  if(abs(diff) < 1e-10) inside = 1;
+  return inside;
 }
 
-template <typename T> RayTraceResult<T> math::planeLineCollision(Plane<T> plane,Vec3<T> normal, Vec3<T> lineBegin, Vec3<T> lineEnd) {
-  RayTraceResult<T> result;
+template <typename T> CollisionResult<T> math::rectLineCollision(Rect<T> rect, Vec3<T> normal, Vec3<T> lineBegin, Vec3<T> lineEnd) {
+  CollisionResult<T> result;
+  CollisionResult<T> A, B;
 
-  Vec3<T> CA = plane.A - lineBegin;     //Vector from A to lineBegin
-  Vec3<T> CV = lineEnd - lineBegin;     //Vector from lineEnd to lineBegin
+  A = triangleLineCollision(Triangle(rect.A, rect.B, rect.C));
+  B = triangleLineCollision(Triangle(rect.A, rect.D, rect.C));
 
-  T CN = math::dotProduct(CA, normal);  //Distance between plane and line
-  if(CN <= 0.0) {
-    return result;                      //If distance zero return
+  result.hit = A.hit || B.hit;
+  if(A.hit) {
+    result.pos = A.pos;
+  }
+  if(B.hit) {
+    result.pos = B.pos;
+  }
+}
+
+template <typename T> CollisionResult<T> math::triangleLineCollision(Triangle<T> triangle, Vec3<T> normal, Vec3<T> lineBegin, Vec3<T> lineEnd) {
+  CollisionResult<T> result;
+
+  Vec3<T> lineDirection = lineEnd - lineBegin;
+
+  T CM = math::dotProduct(normal, lineDirection);
+  if(abs(CM) < 1e-10) {
+    return result;
   }
 
-  T CM = math::dotProduct(CV, normal);
-  if(abs(CM) < 1e-6) {
+  T CN = math::dotProduct(normal, triangle.A - lineBegin);
+  if(CN < 0.0) {
     return result;
   }
 
   T K = CN / CM;
   if(K < 0.0 || K > 1.0) {
-    return result;                       //if k < 0 or k > 1 line does not reach plane
-  }
-
-  //Collision point on plane
-  result.pos = CV * K + lineBegin - plane.A + Vec3<T>(abs(normal.y) + abs(normal.z), 0.0, 0.0);
-  if(
-    result.pos.x < 0 ||
-    result.pos.y < 0 ||
-    result.pos.z < 0 ||
-    result.pos.x > 1 ||
-    result.pos.y > 1 ||
-    result.pos.z > 1
-    ) {
     return result;
   }
-  result.hit = true;
+
+  result.pos = lineDirection * K + lineBegin - triangle.A + Vec3<T>(abs(normal.y) + abs(normal.z), 0.0, 0.0);
+  result.hit = isPointOnTriangle(triangle, result.pos);
+
   return result;
 }

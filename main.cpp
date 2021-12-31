@@ -214,4 +214,6 @@ int main() {
   assets.reset();
   player.reset();
   world.reset();
+
+  return 0;
 }

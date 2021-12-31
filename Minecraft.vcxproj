@@ -104,6 +104,8 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="region.cpp" />
     <ClCompile Include="time.cpp" />
+    <ClInclude Include="plane.hpp" />
+    <ClInclude Include="rect.hpp" />
     <ClInclude Include="vec2.inl" />
     <ClInclude Include="vec3.inl" />
     <ClCompile Include="world.cpp" />
@@ -119,8 +121,8 @@
     <ClInclude Include="glHelper.hpp" />
     <ClInclude Include="math.hpp" />
     <ClInclude Include="player.hpp" />
-    <ClInclude Include="rayTraceResult.hpp" />
-    <ClInclude Include="plane.hpp" />
+    <ClInclude Include="collisionResult.hpp" />
+    <ClInclude Include="triangle.hpp" />
     <ClInclude Include="region.hpp" />
     <ClInclude Include="side.hpp" />
     <ClInclude Include="time.hpp" />
@@ -132,7 +134,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="chunk.inl" />
+    <None Include="plane.inl" />
+    <None Include="rect.inl" />
     <None Include="region.inl" />
+    <None Include="triangle.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@
 #include "types.hpp"
 #include "vec3.hpp"
 #include "aabb3.hpp"
-#include "plane.hpp"
+#include "triangle.hpp"
 #include "side.hpp"
 
 using blockId_t = uint16_t;
@@ -12,7 +12,7 @@ using textureId_t = GLuint;
 
 using BlockPos = Vec3<blockPos_t>;
 using BlockAabb = Aabb3<blockPos_t>;
-using BlockPlane = Plane<blockPos_t>;
+using BlockPlane = Triangle<blockPos_t>;
 
 struct BlockRenderInfo {
   blockId_t blockId = 0;

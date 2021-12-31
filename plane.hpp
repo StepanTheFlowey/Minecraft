@@ -1,28 +1,20 @@
 #pragma once
+
 #include "vec3.hpp"
 
 template <typename T> class Plane {
 public:
-  Vec3<T> A;
-  Vec3<T> B;
-  Vec3<T> C;
+  Vec3<T> point;
+  Vec3<T> normal;
 
-  Plane() {
+  //Default constructor
+  Plane();
 
-  }
+  //Copy constructor
+  Plane(const Plane<T>&);
 
-  Plane(Vec3<T> a, Vec3<T> b, Vec3<T> c) {
-    A = a;
-    B = b;
-    C = c;
-  }
-  
-  template <typename U> Plane(Plane<U> plane) {
-    A = plane.A;
-    B = plane.B;
-    C = plane.C;
-  }
+  //Different type copy constructor
+  template <typename U> Plane(const Plane<U>&);
 };
 
-using Planed = Plane<GLdouble>;
-using Planef = Plane<GLfloat>;
+#include "plane.inl"

@@ -50,10 +50,10 @@
     <ClInclude Include="types.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="plane.hpp">
+    <ClInclude Include="triangle.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="rayTraceResult.hpp">
+    <ClInclude Include="collisionResult.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="math.hpp">
@@ -113,12 +113,27 @@
     <ClInclude Include="math.inl">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="rect.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="plane.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="chunk.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
     <None Include="region.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="rect.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="triangle.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="plane.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
   </ItemGroup>
