@@ -6,10 +6,11 @@
 #include "color.hpp"
 #include "collisionResult.hpp"
 
-Player::Player() {
+Player::Player():position_(1, 20, 1) {
 #ifdef DEBUG
   std::wcout << L"Player(): Constructor" << std::endl;
 #endif // DEBUG
+  camera.setPosition(position_);
 }
 
 Player::~Player() {
@@ -41,42 +42,36 @@ void Player::placeBlock() {
     switch(blockMouseOver_.side) {
       case Side::Up:
         pos.y++;
-        if(pos.y > 15) {
+        if(pos.y > 15)
           return;
-        }
         break;
       case Side::Down:
         pos.y--;
-        if(pos.y < 0) {
+        if(pos.y < 0)
           return;
-        }
         break;
       case Side::North:
         pos.x--;
-        if(pos.x < 0) {
+        if(pos.x < 0)
           return;
-        }
         break;
       case Side::South:
         pos.x++;
-        if(pos.x > 15) {
+        if(pos.x > 15)
           return;
-        }
         break;
       case Side::West:
         pos.z++;
-        if(pos.z > 15) {
+        if(pos.z > 15)
           return;
-        }
         break;
       case Side::East:
         pos.z--;
-        if(pos.z < 0) {
+        if(pos.z < 0)
           return;
-        }
         break;
     }
-    worldIn_->setBlock(pos, BlockRenderInfo{static_cast<uint16_t>(rand() % 15 + 1)});
+    worldIn_->setBlock(pos, BlockRenderInfo {static_cast<uint16_t>(rand() % 15 + 1)});
     worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
   }
 }
@@ -137,9 +132,9 @@ void Player::update(Time time) {
     colorDeg = 0;
   }
   //TODO: how about realestic walk?
-  const Vec3f eyePos = camera.getEyePosition();
-  const Vec3f viewPos = camera.getCenterPosition();
-  const Aabb3<GLfloat> lineAABB(eyePos, viewPos);
+  const Vec3f& eyePos = camera.getEyePosition();
+  const Vec3f& viewPos = camera.getCenterPosition();
+  const Aabb3d lineBox(eyePos, viewPos);
 
   bool allSides = false;
   CollisionResultd collisionResult;
@@ -151,11 +146,11 @@ void Player::update(Time time) {
 
   for(auto& [iKey, iVal] : worldIn_->region_) {
     for(auto& [jKey, jVal] : iVal) {
-      if(jVal->getAabb().intersects(lineAABB)) {
+      if(jVal->getAabb().intersects(lineBox)) {
         for(auto& [kKey, kVal] : jVal->chunk_) {
           for(auto& [lKey, lVal] : kVal) {
             for(auto& [mKey, mVal] : lVal) {
-              if(mVal->getAabb().intersects(lineAABB)) {
+              if(mVal->getAabb().intersects(lineBox)) {
                 for(uint8_t i = 0; i < 16; i++) {
                   for(uint8_t j = 0; j < 16; j++) {
                     for(uint8_t k = 0; k < 16; k++) {
@@ -186,7 +181,7 @@ void Player::update(Time time) {
                           continue;
                         }
                       }
-                      
+
                       if(to_underlying(block.side & Side::North) || allSides) {
                         //North side collision check
                         rect = Rect3d::North + pos;
@@ -226,7 +221,7 @@ void Player::update(Time time) {
                           continue;
                         }
                       }
-                      
+
                       if(mathed.size() == 10) {
                         goto exitTrace;
                       }

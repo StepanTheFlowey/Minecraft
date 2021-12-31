@@ -62,9 +62,6 @@
     <ClInclude Include="color.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="vbo.hpp">
-      <Filter>Файлы заголовков\gl</Filter>
-    </ClInclude>
     <ClInclude Include="chunk.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -123,6 +120,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="triangle2.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.inl">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

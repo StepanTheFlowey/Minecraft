@@ -11,6 +11,7 @@ class Player {
   Vec3d position_;
   Side moveDir_ = Side::Null;
   double_t moveSpeed_ = 0.005;
+  bool onGround_ = false;
 
   std::shared_ptr<World> worldIn_ = nullptr;
 

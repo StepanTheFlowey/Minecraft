@@ -20,7 +20,6 @@ void World::test() {
   region_[0][0].reset(new Region);
   region_[0][0]->setPosition(RegionPos(0, 0));
   region_[0][0]->setWorldIn(weak_from_this());
-  region_[0][0]->getChunkNative(SmallPos(0, 0, 0))->computeBlocksEdgeRender();
 }
 
 bool World::hasRegion(RegionPos position) {

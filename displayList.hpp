@@ -15,19 +15,19 @@ public:
     glNewList(handle_, mode);
   }
 
-  void begin() {
+  void begin() const {
     glNewList(handle_, GL_COMPILE);
   }
 
-  void begin(GLenum mode) {
+  void begin(GLenum mode) const {
     glNewList(handle_, mode);
   }
 
-  void end() {
+  void end() const {
     glEndList();
   }
 
-  void call() {
+  void call() const {
     glCallList(handle_);
   }
 };

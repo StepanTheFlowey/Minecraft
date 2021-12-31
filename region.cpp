@@ -8,8 +8,14 @@ Region::Region() {
 #ifdef DEBUG
   std::wcout << L"Region(): Constructor" << std::endl;
 #endif // DEBUG
-  chunk_[0][0][0].reset(new Chunk);
-  chunk_[0][0][0]->setPosition(ChunkPos(0, 0, 0));
+  for(uint8_t i = 0; i < 8; i++) {
+    for(uint8_t j = 0; j < 8; j++) {
+      chunk_[i][0][j].reset(new Chunk);
+      ñhunk_[i][0][j]->setWorldIn(worldIn_);
+      chunk_[i][0][j]->setPosition(ChunkPos(i, 0, j));
+      chunk_[i][0][j]->computeBlocksEdgeRender();
+    }
+  }
 }
 
 Region::~Region() {

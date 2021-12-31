@@ -43,6 +43,12 @@ public:
   //Takes chunk pointer from world grid
   const std::shared_ptr<Chunk> getChunkWorld(ChunkPos position);
 
+  //
+  void createChunk(SmallPos position);
+
+  //
+  void destroyChunk();
+
   //Takes block pointer from native grid
   const BlockRenderInfo getBlockNative(BlockPos position);
 

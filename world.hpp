@@ -17,7 +17,7 @@ public:
   //Default destructor
   ~World();
 
-  //creates test chunks
+  //Ñreates test chunks
   void test();
 
   //Check for region exist

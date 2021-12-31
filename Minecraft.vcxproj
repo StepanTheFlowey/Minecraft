@@ -103,10 +103,14 @@
     <ClInclude Include="math.inl" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="region.cpp" />
+    <ClInclude Include="renderer.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
     <ClCompile Include="time.cpp" />
     <ClInclude Include="plane3.hpp" />
     <ClInclude Include="rect2.hpp" />
     <ClInclude Include="rect3.hpp" />
+    <ClInclude Include="renderer.hpp" />
     <ClInclude Include="triangle2.hpp" />
     <ClInclude Include="vec2.inl" />
     <ClInclude Include="vec3.inl" />
@@ -129,7 +133,6 @@
     <ClInclude Include="side.hpp" />
     <ClInclude Include="time.hpp" />
     <ClInclude Include="types.hpp" />
-    <ClInclude Include="vbo.hpp" />
     <ClInclude Include="vec2.hpp" />
     <ClInclude Include="vec3.hpp" />
     <ClInclude Include="world.hpp" />
