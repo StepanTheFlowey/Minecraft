@@ -142,10 +142,10 @@ void Player::update(Time time) {
   const Aabb3<GLfloat> lineAABB(eyePos, viewPos);
 
   bool allSides = false;
-  CollisionResultf collisionResult;
+  CollisionResultd collisionResult;
   BlockRenderInfo block;
-  Rectf rect;
-  Vec3f pos;
+  Rect3d rect;
+  Vec3d pos;
   std::vector<BlockWithSide> mathed;
   mathed.reserve(10);
 
@@ -169,8 +169,8 @@ void Player::update(Time time) {
 
                       if(to_underlying(block.side & Side::Up) || allSides) {
                         //Up side collision check
-                        rect = Rectf::Up + pos;
-                        collisionResult = math::rectLineCollision<GLfloat>(rect, Vec3f(0, 1, 0), eyePos, viewPos);
+                        rect = Rect3d::Up + pos;
+                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 1, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::Up});
                           continue;
@@ -179,17 +179,18 @@ void Player::update(Time time) {
 
                       if(to_underlying(block.side & Side::Down) || allSides) {
                         //Down side collision check
-                        rect = Rectf::Down + pos;
-                        collisionResult = math::rectLineCollision<GLfloat>(rect, Vec3f(0, -1, 0), eyePos, viewPos);
+                        rect = Rect3d::Down + pos;
+                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, -1, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::Down});
                           continue;
                         }
                       }
-                      /*
+                      
                       if(to_underlying(block.side & Side::North) || allSides) {
                         //North side collision check
-                        collisionResult = math::planeLineCollision<GLfloat>(plane, Vec3d(-1, 0, 0), eyePos, viewPos);
+                        rect = Rect3d::North + pos;
+                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(-1, 0, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::North});
                           continue;
@@ -198,10 +199,8 @@ void Player::update(Time time) {
 
                       if(to_underlying(block.side & Side::South) || allSides) {
                         //South side collision check
-                        plane.A = SmallPos(i + 1, j, k);
-                        plane.B = SmallPos(i + 1, j + 1, k);
-                        plane.C = SmallPos(i + 1, j, k + 1);
-                        collisionResult = math::planeLineCollision<GLfloat>(plane, Vec3d(1, 0, 0), eyePos, viewPos);
+                        rect = Rect3d::South + pos;
+                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(1, 0, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::South});
                           continue;
@@ -210,10 +209,8 @@ void Player::update(Time time) {
 
                       if(to_underlying(block.side & Side::West) || allSides) {
                         //West side collision check
-                        plane.A = SmallPos(i + 1, j, k + 1);
-                        plane.B = SmallPos(i, j + 1, k + 1);
-                        plane.C = SmallPos(i, j, k + 1);
-                        collisionResult = math::planeLineCollision<GLfloat>(plane, Vec3d(0, 0, 1), eyePos, viewPos);
+                        rect = Rect3d::West + pos;
+                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 0, 1), eyePos, viewPos);
                         if(collisionResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::West});
                           continue;
@@ -222,16 +219,14 @@ void Player::update(Time time) {
 
                       if(to_underlying(block.side & Side::East) || allSides) {
                         //East side collision check
-                        plane.A = SmallPos(i + 1, j, k);
-                        plane.B = SmallPos(i, j + 1, k);
-                        plane.C = SmallPos(i, j, k);
-                        collisionResult = math::planeLineCollision<GLfloat>(plane, Vec3d(0, 0, -1), eyePos, viewPos);
+                        rect = Rect3d::East + pos;
+                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 0, -1), eyePos, viewPos);
                         if(collisionResult.hit) {
                           mathed.push_back({BlockPos(i, j, k), Side::East});
                           continue;
                         }
                       }
-                      */
+                      
                       if(mathed.size() == 10) {
                         goto exitTrace;
                       }

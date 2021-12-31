@@ -50,7 +50,7 @@
     <ClInclude Include="types.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="triangle.hpp">
+    <ClInclude Include="triangle3.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="collisionResult.hpp">
@@ -113,10 +113,16 @@
     <ClInclude Include="math.inl">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="rect.hpp">
+    <ClInclude Include="rect3.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="plane.hpp">
+    <ClInclude Include="plane3.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="rect2.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle2.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,13 +133,19 @@
     <None Include="region.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
-    <None Include="rect.inl">
+    <None Include="rect3.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
-    <None Include="triangle.inl">
+    <None Include="triangle3.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
-    <None Include="plane.inl">
+    <None Include="plane3.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="rect2.inl">
+      <Filter>Файлы заголовков</Filter>
+    </None>
+    <None Include="triangle2.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
   </ItemGroup>

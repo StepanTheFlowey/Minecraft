@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vec2.hpp"
+
 template <typename T>
 inline Vec2<T>::Vec2() {
   x = 0;
@@ -69,7 +71,7 @@ inline double_t Vec2<T>::lenght() const {
 template <typename T>
 inline Vec2<T> Vec2<T>::normalize() const {
   const T l = lenght();
-  return Vec3<T>(x / l, y / l, z / l);
+  return Vec2<T>(x / l, y / l);
 }
 
 template <typename T>

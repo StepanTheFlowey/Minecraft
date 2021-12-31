@@ -22,7 +22,8 @@ public:
   Aabb3(const Aabb3<T>&);
 
   //Template copy constructor
-  template <typename U> Aabb3(const Aabb3<U>&);
+  template <typename U>
+  Aabb3(const Aabb3<U>&);
 
   //
   void setComponent(T, T, T, T, T, T);
@@ -34,7 +35,8 @@ public:
   bool intersects(const Aabb3<T>) const;
 
   //
-  template <typename U> bool intersects(const Aabb3<U>) const;
+  template <typename U>
+  bool intersects(const Aabb3<U>) const;
 
   //
   bool intersects(T, T, T, T, T, T) const;

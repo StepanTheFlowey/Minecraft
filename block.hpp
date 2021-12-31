@@ -2,7 +2,7 @@
 #include "types.hpp"
 #include "vec3.hpp"
 #include "aabb3.hpp"
-#include "triangle.hpp"
+#include "triangle3.hpp"
 #include "side.hpp"
 
 using blockId_t = uint16_t;
@@ -12,11 +12,11 @@ using textureId_t = GLuint;
 
 using BlockPos = Vec3<blockPos_t>;
 using BlockAabb = Aabb3<blockPos_t>;
-using BlockPlane = Triangle<blockPos_t>;
+using BlockPlane = Triangle3<blockPos_t>;
 
 struct BlockRenderInfo {
   blockId_t blockId = 0;
-  Side side;
+  Side side = Side::Null;
 };
 
 struct BlockInfo {
@@ -33,7 +33,7 @@ struct BlockInfo {
 
 struct BlockWithSide {
   BlockPos pos;
-  Side side;
+  Side side = Side::Null;
 };
 
 class BaseBlock {
