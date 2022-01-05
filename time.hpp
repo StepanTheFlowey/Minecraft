@@ -7,24 +7,34 @@
 class Time {
   int64_t time_ = 0;
 public:
-  
+
   //Default constructor
   Time();
 
-  //Constructor from sfml time
+private:
+
+  //Microseconds constructor
+  explicit Time(const int64_t);
+
+public:
+
+  //Copy constructor
+  Time(const Time&);
+
+  //Copy constructor from sfml time
   Time(const sf::Time&);
 
   //Default destructor
   ~Time();
 
   //Seconds assignment
-  void setSeconds(float_t);
+  void setSeconds(const float_t);
 
   //Milliseconds assignment
-  void setMilliseconds(int32_t);
+  void setMilliseconds(const int32_t);
 
   //Microseconds assignment
-  void setMicroseconds(int64_t);
+  void setMicroseconds(const int64_t);
 
   //Seconds taking function
   float_t asSeconds() const;
@@ -34,4 +44,13 @@ public:
 
   //Microseconds taking function
   int64_t asMicroseconds() const;
+
+  //Construct a time value from a number of seconds
+  static Time seconds(const float_t);
+
+  //Construct a time value from a number of milliseconds
+  static Time milliseconds(const int32_t);
+
+  //Construct a time value from a number of microseconds
+  static Time microseconds(const int64_t);
 };

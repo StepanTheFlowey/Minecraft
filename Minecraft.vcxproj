@@ -97,15 +97,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="aabb3.inl" />
+    <ClCompile Include="blockRenderer.cpp" />
     <ClCompile Include="chunk.cpp" />
     <ClCompile Include="color.cpp" />
+    <ClCompile Include="glad.c" />
+    <ClCompile Include="glHelper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClInclude Include="blockRenderer.hpp" />
+    <ClInclude Include="glad.h" />
     <ClInclude Include="math.inl" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="region.cpp" />
     <ClInclude Include="renderer.inl">
       <FileType>Document</FileType>
     </ClInclude>
+    <ClCompile Include="renderer.cpp" />
     <ClCompile Include="time.cpp" />
     <ClInclude Include="plane3.hpp" />
     <ClInclude Include="rect2.hpp" />

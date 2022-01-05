@@ -1,5 +1,3 @@
-#pragma once
-
 #include "chunk.hpp"
 
 #include "world.hpp"
@@ -41,12 +39,8 @@ void Chunk::setBlockWorld(BlockPos position, BlockRenderInfo block) {
 
 void Chunk::setPosition(ChunkPos position) {
   position_ = position;
-  aabb_.min.x = position_.x;
-  aabb_.min.y = position_.y;
-  aabb_.min.z = position_.z;
-  aabb_.max.x = position_.x + 16;
-  aabb_.max.y = position_.y + 16;
-  aabb_.max.z = position_.z + 16;
+  aabb_.min = position_ * 16;
+  aabb_.max = position_ * 16 + 16;
 }
 
 ChunkPos& Chunk::getPosition() {
@@ -156,6 +150,7 @@ void Chunk::computeBlocksEdgeRender() {
 }
 
 void Chunk::draw() const {
+  glColor3ub(255, 255, 255);
   for(uint8_t i = 0; i < 16; i++) {
     for(uint8_t j = 0; j < 16; j++) {
       for(uint8_t k = 0; k < 16; k++) {
@@ -305,7 +300,9 @@ void Chunk::draw() const {
       }
     }
   }
-  aabb_.drawAxisf();
+#ifdef DEBUG
+  aabb_.drawAxisf(0.25F);
+#endif // DEBUG
 }
 
 std::shared_ptr<World> Chunk::getWorldPtr() {

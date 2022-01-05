@@ -42,16 +42,16 @@ public:
   bool intersects(T, T, T, T, T, T) const;
 
   //Draws axis of box in float
-  void drawColorf(const Color) const;
+  void drawAxisColorf(const Color,const float_t) const;
 
   //Draws axis of box in double with 
-  void drawColord(const Color) const;
+  void drawAxisColord(const Color,const double_t) const;
 
   //Draws axis of box in float
-  void drawAxisf() const;
+  void drawAxisf(const float_t) const;
 
   //Draws axis of box in double
-  void drawAxisd() const;
+  void drawAxisd(const double_t) const;
 };
 
 #include "aabb3.inl"

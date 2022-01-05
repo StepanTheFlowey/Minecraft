@@ -8,8 +8,8 @@
 
 #include <stb/stb_image.h>
 
-#include <gl/GL.h>
 #include <gl/GLU.h>
+#include "glad.h"
 
 #include <SFML/Graphics.hpp>
 

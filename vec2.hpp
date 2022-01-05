@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-#include <gl/GL.h>
+#include "glad.h"
 #include <SFML/System/Vector2.hpp>
 
 //Two component vector

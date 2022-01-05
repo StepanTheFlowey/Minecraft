@@ -4,7 +4,7 @@
 
 #include "vec2.hpp"
 
-#include <gl/GL.h>
+#include "glad.h"
 #include <SFML/System/Vector3.hpp>
 
 //Three component vector

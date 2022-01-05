@@ -5,17 +5,17 @@ Aabb3<T>::Aabb3() {
 
 }
 
-template <typename T> 
+template <typename T>
 Aabb3<T>::Aabb3(T x0, T y0, T z0, T x1, T y1, T z1) {
   setComponent(x0, y0, z0, x1, y1, z1);
 }
 
-template <typename T> 
+template <typename T>
 Aabb3<T>::Aabb3(const Vec3<T> _min, const Vec3<T> _max) {
   setVector(_min, _max);
 }
 
-template <typename T> 
+template <typename T>
 Aabb3<T>::Aabb3(const Aabb3<T>& aabb) {
   min = aabb.min;
   max = aabb.max;
@@ -57,7 +57,7 @@ bool Aabb3<T>::intersects(const Aabb3<U> aabb) const {
                     static_cast<T>(aabb.max.z));
 }
 
-template <typename T> 
+template <typename T>
 bool Aabb3<T>::intersects(T x0, T y0, T z0, T x1, T y1, T z1) const {
   return
     (min.x < x1) &&
@@ -68,14 +68,14 @@ bool Aabb3<T>::intersects(T x0, T y0, T z0, T x1, T y1, T z1) const {
     (max.z > z0);
 }
 
-template <typename T> 
-void Aabb3<T>::drawColorf(const Color color) const {
-  const GLfloat iX = static_cast<GLfloat>(min.x) - 0.001F;
-  const GLfloat iY = static_cast<GLfloat>(min.y) - 0.001F;
-  const GLfloat iZ = static_cast<GLfloat>(min.z) - 0.001F;
-  const GLfloat aX = static_cast<GLfloat>(max.x) + 0.001F;
-  const GLfloat aY = static_cast<GLfloat>(max.y) + 0.001F;
-  const GLfloat aZ = static_cast<GLfloat>(max.z) + 0.001F;
+template <typename T>
+void Aabb3<T>::drawAxisColorf(const Color color, const float_t offset) const {
+  const GLfloat iX = static_cast<GLfloat>(min.x) - offset;
+  const GLfloat iY = static_cast<GLfloat>(min.y) - offset;
+  const GLfloat iZ = static_cast<GLfloat>(min.z) - offset;
+  const GLfloat aX = static_cast<GLfloat>(max.x) + offset;
+  const GLfloat aY = static_cast<GLfloat>(max.y) + offset;
+  const GLfloat aZ = static_cast<GLfloat>(max.z) + offset;
 
   glBegin(GL_LINES);
 
@@ -122,13 +122,13 @@ void Aabb3<T>::drawColorf(const Color color) const {
 }
 
 template <typename T>
-void Aabb3<T>::drawColord(const Color color) const {
-  const GLdouble iX = static_cast<GLdouble>(min.x) - 0.001;
-  const GLdouble iY = static_cast<GLdouble>(min.y) - 0.001;
-  const GLdouble iZ = static_cast<GLdouble>(min.z) - 0.001;
-  const GLdouble aX = static_cast<GLdouble>(max.x) + 0.001;
-  const GLdouble aY = static_cast<GLdouble>(max.y) + 0.001;
-  const GLdouble aZ = static_cast<GLdouble>(max.z) + 0.001;
+void Aabb3<T>::drawAxisColord(const Color color, const double_t offset) const {
+  const GLdouble iX = static_cast<GLdouble>(min.x) - offset;
+  const GLdouble iY = static_cast<GLdouble>(min.y) - offset;
+  const GLdouble iZ = static_cast<GLdouble>(min.z) - offset;
+  const GLdouble aX = static_cast<GLdouble>(max.x) + offset;
+  const GLdouble aY = static_cast<GLdouble>(max.y) + offset;
+  const GLdouble aZ = static_cast<GLdouble>(max.z) + offset;
 
   glBegin(GL_LINES);
 
@@ -174,14 +174,14 @@ void Aabb3<T>::drawColord(const Color color) const {
   glEnd();
 }
 
-template <typename T> 
-void Aabb3<T>::drawAxisf() const {
-  const GLfloat iX = static_cast<GLfloat>(min.x) - 0.001F;
-  const GLfloat iY = static_cast<GLfloat>(min.y) - 0.001F;
-  const GLfloat iZ = static_cast<GLfloat>(min.z) - 0.001F;
-  const GLfloat aX = static_cast<GLfloat>(max.x) + 0.001F;
-  const GLfloat aY = static_cast<GLfloat>(max.y) + 0.001F;
-  const GLfloat aZ = static_cast<GLfloat>(max.z) + 0.001F;
+template <typename T>
+void Aabb3<T>::drawAxisf(const float_t offset) const {
+  const GLfloat iX = static_cast<GLfloat>(min.x) - offset;
+  const GLfloat iY = static_cast<GLfloat>(min.y) - offset;
+  const GLfloat iZ = static_cast<GLfloat>(min.z) - offset;
+  const GLfloat aX = static_cast<GLfloat>(max.x) + offset;
+  const GLfloat aY = static_cast<GLfloat>(max.y) + offset;
+  const GLfloat aZ = static_cast<GLfloat>(max.z) + offset;
 
   glBegin(GL_LINES);
 
@@ -228,13 +228,13 @@ void Aabb3<T>::drawAxisf() const {
 }
 
 template <typename T>
-void Aabb3<T>::drawAxisd() const {
-  GLdouble iX = static_cast<GLdouble>(min.x) - 0.001;
-  GLdouble iY = static_cast<GLdouble>(min.y) - 0.001;
-  GLdouble iZ = static_cast<GLdouble>(min.z) - 0.001;
-  GLdouble aX = static_cast<GLdouble>(max.x) + 0.001;
-  GLdouble aY = static_cast<GLdouble>(max.y) + 0.001;
-  GLdouble aZ = static_cast<GLdouble>(max.z) + 0.001;
+void Aabb3<T>::drawAxisd(const double_t offset) const {
+  GLdouble iX = static_cast<GLdouble>(min.x) - offset;
+  GLdouble iY = static_cast<GLdouble>(min.y) - offset;
+  GLdouble iZ = static_cast<GLdouble>(min.z) - offset;
+  GLdouble aX = static_cast<GLdouble>(max.x) + offset;
+  GLdouble aY = static_cast<GLdouble>(max.y) + offset;
+  GLdouble aZ = static_cast<GLdouble>(max.z) + offset;
 
   glBegin(GL_LINES);
 

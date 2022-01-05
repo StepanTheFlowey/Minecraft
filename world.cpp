@@ -1,5 +1,3 @@
-#pragma once
-
 #include "world.hpp"
 
 #include "math.hpp"
@@ -20,6 +18,7 @@ void World::test() {
   region_[0][0].reset(new Region);
   region_[0][0]->setPosition(RegionPos(0, 0));
   region_[0][0]->setWorldIn(weak_from_this());
+  region_[0][0]->test();
 }
 
 bool World::hasRegion(RegionPos position) {
@@ -50,7 +49,7 @@ std::shared_ptr<Chunk> World::getChunk(ChunkPos position) {
 }
 
 BlockRenderInfo World::getBlock(BlockPos position) {
-  ChunkPos chunkPos =getChunkPosFromBlock(position);
+  ChunkPos chunkPos = getChunkPosFromBlock(position);
   RegionPos regionPos = getRegionPosFromChunk(chunkPos);
   return getRegion(regionPos)->getChunkWorld(chunkPos)->getBlockWorld(position);
 }

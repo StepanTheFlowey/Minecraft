@@ -1,27 +1,28 @@
-#pragma once
-
 #include "region.hpp"
 
 #include "world.hpp"
 
 Region::Region() {
 #ifdef DEBUG
-  std::wcout << L"Region(): Constructor" << std::endl;
+  std::wcout << L"Region()" << std::endl;
 #endif // DEBUG
-  for(uint8_t i = 0; i < 8; i++) {
-    for(uint8_t j = 0; j < 8; j++) {
-      chunk_[i][0][j].reset(new Chunk);
-      ñhunk_[i][0][j]->setWorldIn(worldIn_);
-      chunk_[i][0][j]->setPosition(ChunkPos(i, 0, j));
-      chunk_[i][0][j]->computeBlocksEdgeRender();
-    }
-  }
 }
 
 Region::~Region() {
 #ifdef DEBUG
-  std::wcout << L"~Region(): Destructor" << std::endl;
+  std::wcout << L"~Region()" << std::endl;
 #endif // DEBUG
+}
+
+void Region::test() {
+  for(uint8_t i = 0; i < 8; i++) {
+    for(uint8_t j = 0; j < 8; j++) {
+      chunk_[i][0][j].reset(new Chunk);
+      chunk_[i][0][j]->setWorldIn(worldIn_);
+      chunk_[i][0][j]->setPosition(ChunkPos(i, 0, j));
+      chunk_[i][0][j]->computeBlocksEdgeRender();
+    }
+  }
 }
 
 bool Region::hasChunkWorld(ChunkPos position) {
@@ -85,14 +86,6 @@ const RegionAabb& Region::getAabb() const {
 
 void Region::setWorldIn(std::weak_ptr<World> worldIn) {
   worldIn_ = worldIn;
-
-  for(auto& [iKey, iVal] : chunk_) {
-    for(auto& [jKey, jVal] : iVal) {
-      for(auto& [kKey, kVal] : jVal) {
-        kVal->setWorldIn(worldIn_);
-      }
-    }
-  }
 }
 
 void Region::draw() const {

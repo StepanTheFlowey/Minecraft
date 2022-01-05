@@ -1,3 +1,4 @@
+#include "types.hpp"
 #include "assets.hpp"
 #include "world.hpp"
 #include "player.hpp"
@@ -9,28 +10,21 @@ int main() {
   setlocale(LC_ALL, "Russian");
 #ifdef DEBUG
   std::wcout << L"Minecraft Alpha Log" << std::endl;
-  std::wcout << L"sizeof(World):\t" << sizeof(World) << std::endl;
-  std::wcout << L"sizeof(Region):\t" << sizeof(Region) << std::endl;
-  std::wcout << L"sizeof(Chunk):\t" << sizeof(Chunk) << std::endl;
-  std::wcout << L"sizeof(BlockRenderInfo):\t" << sizeof(BlockRenderInfo) << std::endl;
-  std::wcout << L"sizeof(Player):\t" << sizeof(Player) << std::endl;
-  std::wcout << L"sizeof(Camera):\t" << sizeof(Camera) << std::endl;
 #else
   FreeConsole();
 #endif //DEBUG
+  sf::Context context;
+
+  std::shared_ptr<GlHelper> glHelper(new GlHelper);
+  glHelper->loadGL();
+  glHelper->loadInfo();
+
   std::shared_ptr<Assets> assets(new Assets);
   std::shared_ptr<World> world(new World);
   std::shared_ptr<Player> player(new Player);
 
   world->test();
   player->setWorldIn(world);
-
-  sf::Context context;
-
-  std::shared_ptr<GlHelper> glHelper(new GlHelper);
-  glHelper->loadInfo();
-  glHelper->loadExtensions();
-
   assets->textures->load();
 
 #define AXIS_LENGHT 17.0F

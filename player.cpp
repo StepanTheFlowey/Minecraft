@@ -1,5 +1,3 @@
-#pragma once 
-
 #include "player.hpp"
 
 #include "math.hpp"
@@ -8,14 +6,14 @@
 
 Player::Player():position_(1, 20, 1) {
 #ifdef DEBUG
-  std::wcout << L"Player(): Constructor" << std::endl;
+  std::wcout << L"Player()" << std::endl;
 #endif // DEBUG
   camera.setPosition(position_);
 }
 
 Player::~Player() {
 #ifdef DEBUG
-  std::wcout << L"~Player(): Destructor" << std::endl;
+  std::wcout << L"~Player()" << std::endl;
 #endif // DEBUG
   worldIn_.reset();
 }
@@ -160,14 +158,14 @@ void Player::update(Time time) {
                       }
 
                       allSides = block.side == Side::All;
-                      pos = Vec3f(i, j, k);
+                      pos = mVal->getPosition() + Vec3f(i, j, k);
 
                       if(to_underlying(block.side & Side::Up) || allSides) {
                         //Up side collision check
                         rect = Rect3d::Up + pos;
                         collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 1, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
-                          mathed.push_back({BlockPos(i, j, k), Side::Up});
+                          mathed.push_back({pos, Side::Up});
                           continue;
                         }
                       }
@@ -177,7 +175,7 @@ void Player::update(Time time) {
                         rect = Rect3d::Down + pos;
                         collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, -1, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
-                          mathed.push_back({BlockPos(i, j, k), Side::Down});
+                          mathed.push_back({pos, Side::Down});
                           continue;
                         }
                       }
@@ -187,7 +185,7 @@ void Player::update(Time time) {
                         rect = Rect3d::North + pos;
                         collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(-1, 0, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
-                          mathed.push_back({BlockPos(i, j, k), Side::North});
+                          mathed.push_back({pos, Side::North});
                           continue;
                         }
                       }
@@ -197,7 +195,7 @@ void Player::update(Time time) {
                         rect = Rect3d::South + pos;
                         collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(1, 0, 0), eyePos, viewPos);
                         if(collisionResult.hit) {
-                          mathed.push_back({BlockPos(i, j, k), Side::South});
+                          mathed.push_back({pos, Side::South});
                           continue;
                         }
                       }
@@ -207,7 +205,7 @@ void Player::update(Time time) {
                         rect = Rect3d::West + pos;
                         collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 0, 1), eyePos, viewPos);
                         if(collisionResult.hit) {
-                          mathed.push_back({BlockPos(i, j, k), Side::West});
+                          mathed.push_back({pos, Side::West});
                           continue;
                         }
                       }
@@ -217,7 +215,7 @@ void Player::update(Time time) {
                         rect = Rect3d::East + pos;
                         collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 0, -1), eyePos, viewPos);
                         if(collisionResult.hit) {
-                          mathed.push_back({BlockPos(i, j, k), Side::East});
+                          mathed.push_back({pos, Side::East});
                           continue;
                         }
                       }
@@ -265,7 +263,7 @@ void Player::draw() {
 
   Vec3f pos(blockMouseOver_.pos);
 #ifdef DEBUG
-  BlockAabb(pos, pos + Vec3f(1, 1, 1)).drawColorf(Color(0, 255, 0));
+  BlockAabb(pos, pos + Vec3f(1, 1, 1)).drawAxisColorf(Color(0, 255, 0), 0.0001F);
 
   glPushMatrix();
 
@@ -323,7 +321,7 @@ void Player::draw() {
 
   glPopMatrix();
 #else //!DEBUG
-  BlockAabb(pos, pos + Vec3f(1, 1, 1)).drawColorf(Color(0, 0, 0));
+  BlockAabb(pos, pos + Vec3f(1, 1, 1)).drawAxisColorf(Color(0, 0, 0), 0.0001F);
 #endif // DEBUG
 #ifdef DEBUG
   glBegin(GL_LINES);

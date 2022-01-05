@@ -16,140 +16,176 @@
     <Filter Include="Файлы заголовков\gl">
       <UniqueIdentifier>{960512da-39c8-417d-b2d5-bbb885ba33e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\mathematic">
+      <UniqueIdentifier>{eb7d47d5-a20a-4058-a7f0-c01ed47e69a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\utility">
+      <UniqueIdentifier>{7965748a-7224-4550-8a92-2a47732b9068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\utility">
+      <UniqueIdentifier>{a1d53408-c339-459f-9912-9092da093e3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\gl">
+      <UniqueIdentifier>{3b01738b-2d56-4e09-800e-c0c1ba52d84c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\game">
+      <UniqueIdentifier>{393dbc3a-0104-441e-94aa-64724b79f3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\game">
+      <UniqueIdentifier>{460c2762-d2f2-4e5b-8775-244c74e40ef0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="time.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="color.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\utility</Filter>
     </ClCompile>
-    <ClCompile Include="chunk.cpp">
-      <Filter>Исходные файлы</Filter>
+    <ClCompile Include="time.cpp">
+      <Filter>Исходные файлы\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Исходные файлы\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="glHelper.cpp">
+      <Filter>Исходные файлы\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Исходные файлы\gl</Filter>
     </ClCompile>
     <ClCompile Include="world.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\game</Filter>
     </ClCompile>
     <ClCompile Include="region.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\game</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>Исходные файлы\game</Filter>
+    </ClCompile>
+    <ClCompile Include="chunk.cpp">
+      <Filter>Исходные файлы\game</Filter>
+    </ClCompile>
+    <ClCompile Include="blockRenderer.cpp">
+      <Filter>Исходные файлы\gl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="aabb3.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="vec2.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="types.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="triangle3.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="collisionResult.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="math.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="color.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="chunk.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="block.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="region.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="assets.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="player.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="world.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="glHelper.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="displayList.hpp">
       <Filter>Файлы заголовков\gl</Filter>
     </ClInclude>
-    <ClInclude Include="side.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="time.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="vec3.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="aabb3.inl">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="vec2.inl">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="vec3.inl">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="math.inl">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="rect3.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="plane3.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="rect2.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="triangle2.hpp">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="renderer.inl">
+      <Filter>Файлы заголовков\gl</Filter>
     </ClInclude>
     <ClInclude Include="renderer.hpp">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\gl</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.inl">
-      <Filter>Файлы заголовков</Filter>
+    <ClInclude Include="aabb3.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="aabb3.inl">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="collisionResult.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="math.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="math.inl">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="plane3.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="rect2.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="rect3.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle2.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="triangle3.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="vec2.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="vec2.inl">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="vec3.hpp">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="vec3.inl">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </ClInclude>
+    <ClInclude Include="glHelper.hpp">
+      <Filter>Файлы заголовков\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="time.hpp">
+      <Filter>Файлы заголовков\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="color.hpp">
+      <Filter>Файлы заголовков\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="blockRenderer.hpp">
+      <Filter>Файлы заголовков\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="glad.h">
+      <Filter>Файлы заголовков\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="assets.hpp">
+      <Filter>Файлы заголовков\game</Filter>
+    </ClInclude>
+    <ClInclude Include="block.hpp">
+      <Filter>Файлы заголовков\game</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.hpp">
+      <Filter>Файлы заголовков\game</Filter>
+    </ClInclude>
+    <ClInclude Include="chunk.hpp">
+      <Filter>Файлы заголовков\game</Filter>
+    </ClInclude>
+    <ClInclude Include="region.hpp">
+      <Filter>Файлы заголовков\game</Filter>
+    </ClInclude>
+    <ClInclude Include="player.hpp">
+      <Filter>Файлы заголовков\game</Filter>
+    </ClInclude>
+    <ClInclude Include="side.hpp">
+      <Filter>Файлы заголовков\game</Filter>
+    </ClInclude>
+    <ClInclude Include="world.hpp">
+      <Filter>Файлы заголовков\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="chunk.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="region.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="rect3.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
-    <None Include="triangle3.inl">
-      <Filter>Файлы заголовков</Filter>
-    </None>
     <None Include="plane3.inl">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\mathematic</Filter>
     </None>
     <None Include="rect2.inl">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </None>
+    <None Include="rect3.inl">
+      <Filter>Файлы заголовков\mathematic</Filter>
     </None>
     <None Include="triangle2.inl">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </None>
+    <None Include="triangle3.inl">
+      <Filter>Файлы заголовков\mathematic</Filter>
+    </None>
+    <None Include="chunk.inl">
+      <Filter>Файлы заголовков\game</Filter>
+    </None>
+    <None Include="region.inl">
+      <Filter>Файлы заголовков\game</Filter>
     </None>
   </ItemGroup>
 </Project>

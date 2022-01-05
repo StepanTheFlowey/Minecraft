@@ -2,6 +2,7 @@
 
 #include "renderer.hpp"
 
+/*
 inline Renderer::Renderer() {
 
 }
@@ -9,7 +10,6 @@ inline Renderer::Renderer() {
 inline Renderer::~Renderer() {
 
 }
-
 inline void Renderer::create(GLsizei colorSize, GLsizei textureSize, GLsizei vertexSize, GLenum usage) {
   cSize_ = colorSize;
   tSize_ = textureSize;
@@ -45,3 +45,4 @@ inline void Renderer::draw(GLenum drawType, GLenum vertexDataType, GLsizei verte
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);
 }
+*/

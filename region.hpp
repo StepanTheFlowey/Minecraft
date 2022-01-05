@@ -31,6 +31,9 @@ public:
   //Default destructor
   ~Region();
 
+  //Test
+  void test();
+
   //Check for chunk exist in native grid
   bool hasChunkNative(SmallPos position);
 

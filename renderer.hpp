@@ -5,10 +5,6 @@
 #include "glHelper.hpp"
 
 class Renderer {
-  GLuint handle_ = 0;
-  GLsizei cSize_ = 0;
-  GLsizei tSize_ = 0;
-  GLsizei vSize_ = 0;
 public:
 
   //
@@ -18,16 +14,5 @@ public:
   ~Renderer();
 
   //
-  void create(GLsizei, GLsizei, GLsizei, GLenum);
-
-  //
-  void update(size_t, size_t, void*) const;
-
-  //
-  void destroy();
-
-  //
-  void draw(GLenum, GLenum, GLsizei) const;
+  virtual void draw();
 };
-
-#include "renderer.inl"
