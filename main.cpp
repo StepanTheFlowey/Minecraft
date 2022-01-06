@@ -17,7 +17,7 @@ int main() {
 
   std::shared_ptr<GlHelper> glHelper(new GlHelper);
   glHelper->loadGL();
-  glHelper->loadInfo();
+  //glHelper->loadInfo();
 
   std::shared_ptr<Assets> assets(new Assets);
   std::shared_ptr<World> world(new World);
@@ -25,7 +25,7 @@ int main() {
 
   world->test();
   player->setWorldIn(world);
-  assets->textures->load();
+  //assets->textures->load();
 
 #define AXIS_LENGHT 17.0F
 #define AXIS_OFFSET -0.1F
@@ -52,7 +52,7 @@ int main() {
 #undef AXIS_OFFSET
 
   sf::ContextSettings contextSettings;
-  contextSettings.antialiasingLevel = 0; //TODO: Enable multisampling
+  contextSettings.antialiasingLevel = 4; //TODO: Enable multisampling
   contextSettings.sRgbCapable = false;   //STUPID SRGB
   contextSettings.depthBits = 24;        //Depth buffer bits
   contextSettings.stencilBits = 0;       //Stencil buffer disabled
@@ -62,7 +62,7 @@ int main() {
 
   sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
   window.setVerticalSyncEnabled(true);
-
+  
   //Setup renderer
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
   glClearDepth(1.0);
@@ -208,6 +208,8 @@ int main() {
   assets.reset();
   player.reset();
   world.reset();
+
+  //_wsystem(L"pause");
 
   return 0;
 }

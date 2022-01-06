@@ -20,13 +20,13 @@ class TextureManager {
 public:
   TextureManager() {
 #ifdef DEBUG
-    std::wcout << L"TextureManager(): Constructor" << std::endl;
+    std::wcout << L"TextureManager()" << std::endl;
 #endif // DEBUG
   }
 
   ~TextureManager() {
 #ifdef DEBUG
-    std::wcout << L"~TextureManager(): Destructor" << std::endl;
+    std::wcout << L"~TextureManager()" << std::endl;
 #endif // DEBUG
   }
 
@@ -91,13 +91,13 @@ public:
 
   BlockManager() {
 #ifdef DEBUG
-    std::wcout << L"BlockManager(): Constructor" << std::endl;
+    std::wcout << L"BlockManager()" << std::endl;
 #endif // DEBUG
   }
 
   ~BlockManager() {
 #ifdef DEBUG
-    std::wcout << L"~BlockManager(): Destructor" << std::endl;
+    std::wcout << L"~BlockManager()" << std::endl;
 #endif // DEBUG
   }
 
@@ -117,7 +117,7 @@ public:
 
   Assets() {
 #ifdef DEBUG
-    std::wcout << L"Assets(): Constructor" << std::endl;
+    std::wcout << L"Assets()" << std::endl;
 #endif // DEBUG
     //TODO: Dir checking
     textures = new TextureManager;
@@ -126,7 +126,7 @@ public:
 
   ~Assets() {
 #ifdef DEBUG
-    std::wcout << L"~Assets(): Destructor" << std::endl;
+    std::wcout << L"~Assets()" << std::endl;
 #endif // DEBUG
     delete textures;
     delete blocks;

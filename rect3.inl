@@ -54,9 +54,9 @@ const Rect3<T> Rect3<T>::Up(
 template <typename T>
 const Rect3<T> Rect3<T>::Down(
   Vec3<T>(1, 0, 0),
-  Vec3<T>(0, 0, 0),
+  Vec3<T>(1, 0, 1),
   Vec3<T>(0, 0, 1),
-  Vec3<T>(1, 0, 1)
+  Vec3<T>(0, 0, 0)
 );
 
 template <typename T>
@@ -69,10 +69,10 @@ const Rect3<T> Rect3<T>::North(
 
 template <typename T>
 const Rect3<T> Rect3<T>::South(
-  Vec3<T>(1, 1, 0),
-  Vec3<T>(1, 0, 0),
+  Vec3<T>(1, 1, 1),
   Vec3<T>(1, 0, 1),
-  Vec3<T>(1, 1, 1)
+  Vec3<T>(1, 0, 0),
+  Vec3<T>(1, 1, 0)
 );
 
 template <typename T>
@@ -85,8 +85,8 @@ const Rect3<T> Rect3<T>::West(
 
 template <typename T>
 const Rect3<T> Rect3<T>::East(
-  Vec3<T>(0, 1, 0),
-  Vec3<T>(0, 0, 0),
+  Vec3<T>(1, 1, 0),
   Vec3<T>(1, 0, 0),
-  Vec3<T>(1, 1, 0)
+  Vec3<T>(0, 0, 0),
+  Vec3<T>(0, 1, 0)
 );

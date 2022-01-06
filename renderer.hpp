@@ -14,5 +14,5 @@ public:
   ~Renderer();
 
   //
-  virtual void draw();
+  virtual void draw() const;
 };

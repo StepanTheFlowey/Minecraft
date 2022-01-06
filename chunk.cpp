@@ -4,25 +4,21 @@
 
 Chunk::Chunk() {
 #ifdef DEBUG
-  std::wcout << L"Chunk(): Constructor" << std::endl;
+  std::wcout << L"Chunk()" << std::endl;
 #endif // DEBUG
-  for(uint8_t i = 0; i < 16; i++) {
-    for(uint8_t j = 0; j < 16; j++) {
-      for(uint8_t k = 0; k < 16; k++) {
-        block_[i][j][k].blockId = rand() % 25 < 2 ? rand() % 15 : 0;
-      }
-    }
+  for(uint16_t i = 0; i < 4096; i++) {
+    block_[i].blockId = rand() % 25 < 2 ? rand() % 15 : 0;
   }
 }
 
 Chunk::~Chunk() {
 #ifdef DEBUG
-  std::wcout << L"~Chunk(): Destructor" << std::endl;
+  std::wcout << L"~Chunk()" << std::endl;
 #endif // DEBUG
 }
 
 BlockRenderInfo& Chunk::getBlockNative(SmallPos position) {
-  return block_[position.x][position.y][position.z];
+  return block_[position.x + position.y * 16 + position.z * 256];
 }
 
 BlockRenderInfo& Chunk::getBlockWorld(BlockPos position) {
@@ -30,7 +26,7 @@ BlockRenderInfo& Chunk::getBlockWorld(BlockPos position) {
 }
 
 void Chunk::setBlockNative(BlockPos position, BlockRenderInfo block) {
-  block_[position.x][position.y][position.z] = block;
+  block_[position.x + position.y * 16 + position.z * 256] = block;
 }
 
 void Chunk::setBlockWorld(BlockPos position, BlockRenderInfo block) {
@@ -147,10 +143,11 @@ void Chunk::computeBlocksEdgeRender() {
       }
     }
   }
+  renderer.computeBuffer(block_);
 }
 
 void Chunk::draw() const {
-  glColor3ub(255, 255, 255);
+  /*glColor3ub(255, 255, 255);
   for(uint8_t i = 0; i < 16; i++) {
     for(uint8_t j = 0; j < 16; j++) {
       for(uint8_t k = 0; k < 16; k++) {
@@ -159,147 +156,151 @@ void Chunk::draw() const {
           continue;
         }
         glBindTexture(GL_TEXTURE_2D, block.blockId);
-        glPushMatrix();
+  glPushMatrix();
 
-        glTranslatef(i + static_cast<GLfloat>(position_.x) * 16, j + static_cast<GLfloat>(position_.y) * 16, k + static_cast<GLfloat>(position_.z) * 16);
+  glTranslatef(i + static_cast<GLfloat>(position_.x) * 16, j + static_cast<GLfloat>(position_.y) * 16, k + static_cast<GLfloat>(position_.z) * 16);
 
-        glBegin(GL_QUADS);
+  glBegin(GL_QUADS);
 
-        if(to_underlying(block.side & Side::All)) {
-          //Up side
-          glTexCoord2s(0, 0);
-          glVertex3s(0, 1, 1);
-          glTexCoord2s(0, 1);
-          glVertex3s(1, 1, 1);
-          glTexCoord2s(1, 1);
-          glVertex3s(1, 1, 0);
-          glTexCoord2s(1, 0);
-          glVertex3s(0, 1, 0);
+  if(to_underlying(block.side & Side::All)) {
+    //Up side
+    glTexCoord2s(0, 0);
+    glVertex3s(0, 1, 1);
+    glTexCoord2s(0, 1);
+    glVertex3s(1, 1, 1);
+    glTexCoord2s(1, 1);
+    glVertex3s(1, 1, 0);
+    glTexCoord2s(1, 0);
+    glVertex3s(0, 1, 0);
 
-          //Down side
-          glTexCoord2s(0, 0);
-          glVertex3s(1, 0, 1);
-          glTexCoord2s(0, 1);
-          glVertex3s(0, 0, 1);
-          glTexCoord2s(1, 1);
-          glVertex3s(0, 0, 0);
-          glTexCoord2s(1, 0);
-          glVertex3s(1, 0, 0);
+    //Down side
+    glTexCoord2s(0, 0);
+    glVertex3s(1, 0, 1);
+    glTexCoord2s(0, 1);
+    glVertex3s(0, 0, 1);
+    glTexCoord2s(1, 1);
+    glVertex3s(0, 0, 0);
+    glTexCoord2s(1, 0);
+    glVertex3s(1, 0, 0);
 
-          //North side
-          glTexCoord2s(0, 0);
-          glVertex3s(0, 1, 0);
-          glTexCoord2s(0, 1);
-          glVertex3s(0, 0, 0);
-          glTexCoord2s(1, 1);
-          glVertex3s(0, 0, 1);
-          glTexCoord2s(1, 0);
-          glVertex3s(0, 1, 1);
+    //North side
+    glTexCoord2s(0, 0);
+    glVertex3s(0, 1, 0);
+    glTexCoord2s(0, 1);
+    glVertex3s(0, 0, 0);
+    glTexCoord2s(1, 1);
+    glVertex3s(0, 0, 1);
+    glTexCoord2s(1, 0);
+    glVertex3s(0, 1, 1);
 
-          //South side
-          glTexCoord2s(0, 0);
-          glVertex3s(1, 1, 1);
-          glTexCoord2s(0, 1);
-          glVertex3s(1, 0, 1);
-          glTexCoord2s(1, 1);
-          glVertex3s(1, 0, 0);
-          glTexCoord2s(1, 0);
-          glVertex3s(1, 1, 0);
+    //South side
+    glTexCoord2s(0, 0);
+    glVertex3s(1, 1, 1);
+    glTexCoord2s(0, 1);
+    glVertex3s(1, 0, 1);
+    glTexCoord2s(1, 1);
+    glVertex3s(1, 0, 0);
+    glTexCoord2s(1, 0);
+    glVertex3s(1, 1, 0);
 
-          //West side
-          glTexCoord2s(0, 0);
-          glVertex3s(0, 1, 1);
-          glTexCoord2s(0, 1);
-          glVertex3s(0, 0, 1);
-          glTexCoord2s(1, 1);
-          glVertex3s(1, 0, 1);
-          glTexCoord2s(1, 0);
-          glVertex3s(1, 1, 1);
+    //West side
+    glTexCoord2s(0, 0);
+    glVertex3s(0, 1, 1);
+    glTexCoord2s(0, 1);
+    glVertex3s(0, 0, 1);
+    glTexCoord2s(1, 1);
+    glVertex3s(1, 0, 1);
+    glTexCoord2s(1, 0);
+    glVertex3s(1, 1, 1);
 
-          //East side
-          glTexCoord2s(0, 0);
-          glVertex3s(1, 1, 0);
-          glTexCoord2s(0, 1);
-          glVertex3s(1, 0, 0);
-          glTexCoord2s(1, 1);
-          glVertex3s(0, 0, 0);
-          glTexCoord2s(1, 0);
-          glVertex3s(0, 1, 0);
-        }
-        else {
-          if(to_underlying(block.side & Side::Up)) {
-            //Up side
-            glTexCoord2s(0, 0);
-            glVertex3s(0, 1, 1);
-            glTexCoord2s(0, 1);
-            glVertex3s(1, 1, 1);
-            glTexCoord2s(1, 1);
-            glVertex3s(1, 1, 0);
-            glTexCoord2s(1, 0);
-            glVertex3s(0, 1, 0);
-          }
-          if(to_underlying(block.side & Side::Down)) {
-            //Down side
-            glTexCoord2s(0, 0);
-            glVertex3s(1, 0, 1);
-            glTexCoord2s(0, 1);
-            glVertex3s(0, 0, 1);
-            glTexCoord2s(1, 1);
-            glVertex3s(0, 0, 0);
-            glTexCoord2s(1, 0);
-            glVertex3s(1, 0, 0);
-          }
-          if(to_underlying(block.side & Side::North)) {
-            //North side
-            glTexCoord2s(0, 0);
-            glVertex3s(0, 1, 0);
-            glTexCoord2s(0, 1);
-            glVertex3s(0, 0, 0);
-            glTexCoord2s(1, 1);
-            glVertex3s(0, 0, 1);
-            glTexCoord2s(1, 0);
-            glVertex3s(0, 1, 1);
-          }
-          if(to_underlying(block.side & Side::South)) {
-            //South side
-            glTexCoord2s(0, 0);
-            glVertex3s(1, 1, 1);
-            glTexCoord2s(0, 1);
-            glVertex3s(1, 0, 1);
-            glTexCoord2s(1, 1);
-            glVertex3s(1, 0, 0);
-            glTexCoord2s(1, 0);
-            glVertex3s(1, 1, 0);
-          }
-          if(to_underlying(block.side & Side::West)) {
-            //West side
-            glTexCoord2s(0, 0);
-            glVertex3s(0, 1, 1);
-            glTexCoord2s(0, 1);
-            glVertex3s(0, 0, 1);
-            glTexCoord2s(1, 1);
-            glVertex3s(1, 0, 1);
-            glTexCoord2s(1, 0);
-            glVertex3s(1, 1, 1);
-          }
-          if(to_underlying(block.side & Side::East)) {
-            //East side
-            glTexCoord2s(0, 0);
-            glVertex3s(1, 1, 0);
-            glTexCoord2s(0, 1);
-            glVertex3s(1, 0, 0);
-            glTexCoord2s(1, 1);
-            glVertex3s(0, 0, 0);
-            glTexCoord2s(1, 0);
-            glVertex3s(0, 1, 0);
-          }
-        }
-        glEnd();
-
-        glPopMatrix();
-      }
+    //East side
+    glTexCoord2s(0, 0);
+    glVertex3s(1, 1, 0);
+    glTexCoord2s(0, 1);
+    glVertex3s(1, 0, 0);
+    glTexCoord2s(1, 1);
+    glVertex3s(0, 0, 0);
+    glTexCoord2s(1, 0);
+    glVertex3s(0, 1, 0);
+  }
+  else {
+    if(to_underlying(block.side & Side::Up)) {
+      //Up side
+      glTexCoord2s(0, 0);
+      glVertex3s(0, 1, 1);
+      glTexCoord2s(0, 1);
+      glVertex3s(1, 1, 1);
+      glTexCoord2s(1, 1);
+      glVertex3s(1, 1, 0);
+      glTexCoord2s(1, 0);
+      glVertex3s(0, 1, 0);
+    }
+    if(to_underlying(block.side & Side::Down)) {
+      //Down side
+      glTexCoord2s(0, 0);
+      glVertex3s(1, 0, 1);
+      glTexCoord2s(0, 1);
+      glVertex3s(0, 0, 1);
+      glTexCoord2s(1, 1);
+      glVertex3s(0, 0, 0);
+      glTexCoord2s(1, 0);
+      glVertex3s(1, 0, 0);
+    }
+    if(to_underlying(block.side & Side::North)) {
+      //North side
+      glTexCoord2s(0, 0);
+      glVertex3s(0, 1, 0);
+      glTexCoord2s(0, 1);
+      glVertex3s(0, 0, 0);
+      glTexCoord2s(1, 1);
+      glVertex3s(0, 0, 1);
+      glTexCoord2s(1, 0);
+      glVertex3s(0, 1, 1);
+    }
+    if(to_underlying(block.side & Side::South)) {
+      //South side
+      glTexCoord2s(0, 0);
+      glVertex3s(1, 1, 1);
+      glTexCoord2s(0, 1);
+      glVertex3s(1, 0, 1);
+      glTexCoord2s(1, 1);
+      glVertex3s(1, 0, 0);
+      glTexCoord2s(1, 0);
+      glVertex3s(1, 1, 0);
+    }
+    if(to_underlying(block.side & Side::West)) {
+      //West side
+      glTexCoord2s(0, 0);
+      glVertex3s(0, 1, 1);
+      glTexCoord2s(0, 1);
+      glVertex3s(0, 0, 1);
+      glTexCoord2s(1, 1);
+      glVertex3s(1, 0, 1);
+      glTexCoord2s(1, 0);
+      glVertex3s(1, 1, 1);
+    }
+    if(to_underlying(block.side & Side::East)) {
+      //East side
+      glTexCoord2s(0, 0);
+      glVertex3s(1, 1, 0);
+      glTexCoord2s(0, 1);
+      glVertex3s(1, 0, 0);
+      glTexCoord2s(1, 1);
+      glVertex3s(0, 0, 0);
+      glTexCoord2s(1, 0);
+      glVertex3s(0, 1, 0);
     }
   }
+  glEnd();
+
+  glPopMatrix();
+}
+}
+}*/
+  glPushMatrix();
+  glTranslatef(position_.x * 16, position_.y * 16, position_.z * 16);
+  renderer.draw();
+  glPopMatrix();
 #ifdef DEBUG
   aabb_.drawAxisf(0.25F);
 #endif // DEBUG

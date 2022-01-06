@@ -4,6 +4,7 @@
 #include "vec3.hpp"
 #include "math.hpp"
 #include "block.hpp"
+#include "blockRenderer.hpp"
 
 using chunkPos_t = int32_t;
 using ChunkPos = Vec3<chunkPos_t>;
@@ -16,10 +17,11 @@ inline ChunkPos getChunkPosFromBlock(BlockPos);
 class World;
 
 class Chunk {
-  BlockRenderInfo block_[16][16][16];
+  BlockRenderInfo block_[4096];
   std::weak_ptr<World> worldIn_;
   ChunkAabb aabb_;
   ChunkPos position_;
+  BlockRenderer renderer;
 public:
 
   //Default constructor

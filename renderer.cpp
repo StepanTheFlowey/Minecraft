@@ -12,6 +12,6 @@ Renderer::~Renderer() {
 #endif // DEBUG
 }
 
-inline void Renderer::draw() {
+inline void Renderer::draw() const {
   throw;
 }

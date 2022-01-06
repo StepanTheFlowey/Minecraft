@@ -32,7 +32,7 @@ void GlHelper::init3D(GLdouble width, GLdouble height) {
 
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_TEXTURE_2D);
+  //glEnable(GL_TEXTURE_2D);
 }
 
 bool GlHelper::isExtensionSupport(std::wstring name) {
@@ -80,4 +80,12 @@ void GlHelper::loadInfo() {
 
 void GlHelper::loadGL() {
   gladLoadGL();
+}
+
+void GlHelper::clear() {
+  vendor.clear();
+  renderer.clear();
+  version.clear();
+  version.clear();
+  extensions.clear();
 }

@@ -17,10 +17,12 @@ Region::~Region() {
 void Region::test() {
   for(uint8_t i = 0; i < 8; i++) {
     for(uint8_t j = 0; j < 8; j++) {
-      chunk_[i][0][j].reset(new Chunk);
-      chunk_[i][0][j]->setWorldIn(worldIn_);
-      chunk_[i][0][j]->setPosition(ChunkPos(i, 0, j));
-      chunk_[i][0][j]->computeBlocksEdgeRender();
+      for(uint8_t k = 0; k < 8; k++) {
+        chunk_[i][j][k].reset(new Chunk);
+        chunk_[i][j][k]->setWorldIn(worldIn_);
+        chunk_[i][j][k]->setPosition(ChunkPos(i, j, k));
+        chunk_[i][j][k]->computeBlocksEdgeRender();
+      }
     }
   }
 }
@@ -66,14 +68,6 @@ void Region::setPosition(RegionPos position) {
   aabb_.max.x = position.x + 16;
   aabb_.max.y = 256;
   aabb_.max.z = position.y + 16;
-
-  for(auto& [iKey, iVal] : chunk_) {
-    for(auto& [jKey, jVal] : iVal) {
-      for(auto& [kKey, kVal] : jVal) {
-        kVal->setPosition(ChunkPos(position_.x, 0, position_.y) + SmallPos(iKey, jKey, kKey));
-      }
-    }
-  }
 }
 
 const RegionPos& Region::getPosition() const {
