@@ -51,7 +51,6 @@ void Chunk::setWorldIn(std::weak_ptr<World> worldIn) {
   worldIn_ = worldIn;
 }
 
-//HACK: sides
 void Chunk::computeBlocksEdgeRender() {
   std::shared_ptr<World> world = getWorldPtr();
 

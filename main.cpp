@@ -52,11 +52,11 @@ int main() {
 #undef AXIS_OFFSET
 
   sf::ContextSettings contextSettings;
-  contextSettings.antialiasingLevel = 4; //TODO: Enable multisampling
-  contextSettings.sRgbCapable = false;   //STUPID SRGB
-  contextSettings.depthBits = 24;        //Depth buffer bits
-  contextSettings.stencilBits = 0;       //Stencil buffer disabled
-  contextSettings.majorVersion = 2;      //Request OpenGL 2.1
+  contextSettings.antialiasingLevel = 16; //Multisampling level
+  contextSettings.sRgbCapable = false;    //STUPID SRGB
+  contextSettings.depthBits = 24;         //Depth buffer bits
+  contextSettings.stencilBits = 0;        //Stencil buffer disabled
+  contextSettings.majorVersion = 2;       //Request OpenGL 2.1
   contextSettings.minorVersion = 1;
   contextSettings.attributeFlags = sf::ContextSettings::Default; //No core render please
 

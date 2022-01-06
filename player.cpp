@@ -3,6 +3,7 @@
 #include "math.hpp"
 #include "color.hpp"
 #include "collisionResult.hpp"
+#include "chunk.hpp"
 
 Player::Player():position_(1, 20, 1) {
 #ifdef DEBUG
@@ -40,37 +41,28 @@ void Player::placeBlock() {
     switch(blockMouseOver_.side) {
       case Side::Up:
         pos.y++;
-        if(pos.y > 15)
-          return;
         break;
       case Side::Down:
         pos.y--;
-        if(pos.y < 0)
-          return;
         break;
       case Side::North:
         pos.x--;
-        if(pos.x < 0)
-          return;
         break;
       case Side::South:
         pos.x++;
-        if(pos.x > 15)
-          return;
         break;
       case Side::West:
         pos.z++;
-        if(pos.z > 15)
-          return;
         break;
       case Side::East:
         pos.z--;
-        if(pos.z < 0)
-          return;
         break;
     }
     worldIn_->setBlock(pos, BlockRenderInfo {static_cast<uint16_t>(rand() % 15 + 1)});
-    worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
+    if(blockMouseOver_.pos != pos) {
+      worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
+    }
+    worldIn_->getChunk(getChunkPosFromBlock(pos))->computeBlocksEdgeRender();
   }
 }
 
@@ -158,7 +150,7 @@ void Player::update(Time time) {
                       }
 
                       allSides = block.side == Side::All;
-                      pos = mVal->getPosition() + Vec3f(i, j, k);
+                      pos = mVal->getPosition() * 16 + Vec3f(i, j, k);
 
                       if(to_underlying(block.side & Side::Up) || allSides) {
                         //Up side collision check
