@@ -187,5 +187,9 @@
     <None Include="region.inl">
       <Filter>Файлы заголовков\game</Filter>
     </None>
+    <None Include="world.inl">
+      <Filter>Файлы заголовков\game</Filter>
+    </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

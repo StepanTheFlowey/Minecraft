@@ -233,5 +233,17 @@ public:
 
 #include "vec3.inl"
 
-using Vec3f = Vec3<GLfloat>;
-using Vec3d = Vec3<GLdouble>;
+using Vec3i = Vec3<int>;
+using Vec3i8 = Vec3<int8_t>;
+using Vec3i16 = Vec3<int16_t>;
+using Vec3i32 = Vec3<int32_t>;
+using Vec3i64 = Vec3<int64_t>;
+
+using Vec3u = Vec3<unsigned>;
+using Vec3u8 = Vec3<uint8_t>;
+using Vec3u16 = Vec3<uint16_t>;
+using Vec3u32 = Vec3<uint32_t>;
+using Vec3u64 = Vec3<uint64_t>;
+
+using Vec3f = Vec3<float_t>;
+using Vec3d = Vec3<double_t>;

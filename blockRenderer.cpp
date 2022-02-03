@@ -16,92 +16,63 @@ BlockRenderer::~BlockRenderer() {
 }
 
 
-void BlockRenderer::computeBuffer(BlockRenderInfo* renderInfo) {
+void BlockRenderer::computeBuffer(Block** blocks) {
   std::vector<Vertex> vertex;
   vertex.reserve(256);
 
+  bool allSides;
   SmallPos blockPos;
   for(uint16_t i = 0; i < 4096; i++) {
-    if(renderInfo[i].blockId == 0) continue;
+    if(blocks[i] == nullptr) continue;
+    if(blocks[i]->id == 0) continue;
+    
     blockPos.x = i % 16;
     blockPos.y = i % 256 / 16;
     blockPos.z = i / 256;
 
-    if(to_underlying(renderInfo[i].side & Side::All)) {
+    allSides = to_underlying(blocks[i]->side & Side::All);
+
+    if(to_underlying(blocks[i]->side & Side::Up) || allSides) {
       //Up side
       vertex.push_back(Vertex {Rect3<int16_t>::Up.a + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::Up.b + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::Up.c + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::Up.d + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
+    }
+    if(to_underlying(blocks[i]->side & Side::Down) || allSides) {
       //Down side
       vertex.push_back(Vertex {Rect3<int16_t>::Down.a + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::Down.b + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::Down.c + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::Down.d + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
+    }
+    if(to_underlying(blocks[i]->side & Side::North) || allSides) {
       //North side
       vertex.push_back(Vertex {Rect3<int16_t>::North.a + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::North.b + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::North.c + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::North.d + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
+    }
+    if(to_underlying(blocks[i]->side & Side::South) || allSides) {
       //South side
       vertex.push_back(Vertex {Rect3<int16_t>::South.a + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::South.b + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::South.c + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
       vertex.push_back(Vertex {Rect3<int16_t>::South.d + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
+    }
+    if(to_underlying(blocks[i]->side & Side::West) || allSides) {
       //West side
       vertex.push_back(Vertex {Rect3<int16_t>::West.a + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
       vertex.push_back(Vertex {Rect3<int16_t>::West.b + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
       vertex.push_back(Vertex {Rect3<int16_t>::West.c + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
       vertex.push_back(Vertex {Rect3<int16_t>::West.d + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
+    }
+    if(to_underlying(blocks[i]->side & Side::East) || allSides) {
       //East side
       vertex.push_back(Vertex {Rect3<int16_t>::East.a + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
       vertex.push_back(Vertex {Rect3<int16_t>::East.b + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
       vertex.push_back(Vertex {Rect3<int16_t>::East.c + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
       vertex.push_back(Vertex {Rect3<int16_t>::East.d + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-    }
-    else {
-      if(to_underlying(renderInfo[i].side & Side::Up)) {
-        //Up side
-        vertex.push_back(Vertex {Rect3<int16_t>::Up.a + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::Up.b + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::Up.c + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::Up.d + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-      }
-      if(to_underlying(renderInfo[i].side & Side::Down)) {
-        //Down side
-        vertex.push_back(Vertex {Rect3<int16_t>::Down.a + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::Down.b + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::Down.c + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::Down.d + blockPos,Vec2<int16_t>(0,0),Color(0,255,0)});
-      }
-      if(to_underlying(renderInfo[i].side & Side::North)) {
-        //North side
-        vertex.push_back(Vertex {Rect3<int16_t>::North.a + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::North.b + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::North.c + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::North.d + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-      }
-      if(to_underlying(renderInfo[i].side & Side::South)) {
-        //South side
-        vertex.push_back(Vertex {Rect3<int16_t>::South.a + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::South.b + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::South.c + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-        vertex.push_back(Vertex {Rect3<int16_t>::South.d + blockPos,Vec2<int16_t>(0,0),Color(255,0,0)});
-      }
-      if(to_underlying(renderInfo[i].side & Side::West)) {
-        //West side
-        vertex.push_back(Vertex {Rect3<int16_t>::West.a + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-        vertex.push_back(Vertex {Rect3<int16_t>::West.b + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-        vertex.push_back(Vertex {Rect3<int16_t>::West.c + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-        vertex.push_back(Vertex {Rect3<int16_t>::West.d + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-      }
-      if(to_underlying(renderInfo[i].side & Side::East)) {
-        //East side
-        vertex.push_back(Vertex {Rect3<int16_t>::East.a + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-        vertex.push_back(Vertex {Rect3<int16_t>::East.b + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-        vertex.push_back(Vertex {Rect3<int16_t>::East.c + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-        vertex.push_back(Vertex {Rect3<int16_t>::East.d + blockPos,Vec2<int16_t>(0,0),Color(0,0,255)});
-      }
     }
   }
   size_ = vertex.size();

@@ -6,143 +6,144 @@ Chunk::Chunk() {
 #ifdef DEBUG
   std::wcout << L"Chunk()" << std::endl;
 #endif // DEBUG
-  for(uint16_t i = 0; i < 4096; i++) {
-    block_[i].blockId = rand() % 25 < 2 ? rand() % 15 : 0;
-  }
+  for(uint16_t i = 0; i < 4096; i++)
+    if(rand() % 2) block_[i] = nullptr;
+    else {
+      block_[i] = createBlock<Block>();
+      block_[i]->id = 1;
+    }
 }
 
 Chunk::~Chunk() {
 #ifdef DEBUG
   std::wcout << L"~Chunk()" << std::endl;
 #endif // DEBUG
+  for(uint16_t i = 0; i < 4096; i++)
+    if(block_[i] != nullptr) delete block_[i];
 }
 
-BlockRenderInfo& Chunk::getBlockNative(SmallPos position) {
-  return block_[position.x + position.y * 16 + position.z * 256];
+ Block* Chunk::getBlock(const SmallPos position) const {
+  return block_[getBlockIndexFromPos(position)];
 }
 
-BlockRenderInfo& Chunk::getBlockWorld(BlockPos position) {
-  return getBlockNative(getBlockPosInChunk(position));
+void Chunk::setBlock(const SmallPos position, Block* block) {
+  const uint16_t index = getBlockIndexFromPos(position);
+  if(block_[index] != nullptr)
+    delete block_[index];
+  if(block != nullptr)
+    block_[index] = block;
 }
 
-void Chunk::setBlockNative(BlockPos position, BlockRenderInfo block) {
-  block_[position.x + position.y * 16 + position.z * 256] = block;
-}
-
-void Chunk::setBlockWorld(BlockPos position, BlockRenderInfo block) {
-  setBlockNative(getBlockPosInChunk(position), block);
-}
-
-void Chunk::setPosition(ChunkPos position) {
+void Chunk::setPosition(const ChunkPos position) {
   position_ = position;
   aabb_.min = position_ * 16;
-  aabb_.max = position_ * 16 + 16;
+  aabb_.max = (position_ + 1) * 16;
 }
 
-ChunkPos& Chunk::getPosition() {
+const ChunkPos& Chunk::getPosition() const {
   return position_;
 }
 
-ChunkAabb& Chunk::getAabb() {
+const ChunkAabb& Chunk::getAabb() const {
   return aabb_;
 }
 
-void Chunk::setWorldIn(std::weak_ptr<World> worldIn) {
+void Chunk::setWorldIn(World* worldIn) {
   worldIn_ = worldIn;
 }
 
 void Chunk::computeBlocksEdgeRender() {
-  std::shared_ptr<World> world = getWorldPtr();
-
-  std::shared_ptr<Chunk> upChunk = nullptr;
-  if(world->hasChunk(position_ + ChunkPos(0, 1, 0))) {
-    upChunk = world->getChunk(position_ + ChunkPos(0, 1, 0));
+  const Chunk* upChunk = nullptr;
+  if(worldIn_->hasChunk(position_ + ChunkPos(0, 1, 0))) {
+    upChunk = worldIn_->getChunk(position_ + ChunkPos(0, 1, 0));
   }
-  std::shared_ptr<Chunk> downChunk = nullptr;
-  if(world->hasChunk(position_ - ChunkPos(0, 1, 0))) {
-    downChunk = world->getChunk(position_ - ChunkPos(0, 1, 0));
+  const Chunk* downChunk = nullptr;
+  if(worldIn_->hasChunk(position_ - ChunkPos(0, 1, 0))) {
+    downChunk = worldIn_->getChunk(position_ - ChunkPos(0, 1, 0));
   }
-  std::shared_ptr<Chunk> northChunk = nullptr;
-  if(world->hasChunk(position_ - ChunkPos(1, 0, 0))) {
-    northChunk = world->getChunk(position_ - ChunkPos(1, 0, 0));
+  const Chunk* northChunk = nullptr;
+  if(worldIn_->hasChunk(position_ - ChunkPos(1, 0, 0))) {
+    northChunk = worldIn_->getChunk(position_ - ChunkPos(1, 0, 0));
   }
-  std::shared_ptr<Chunk> southChunk = nullptr;
-  if(world->hasChunk(position_ + ChunkPos(1, 0, 0))) {
-    southChunk = world->getChunk(position_ + ChunkPos(1, 0, 0));
+  const Chunk* southChunk = nullptr;
+  if(worldIn_->hasChunk(position_ + ChunkPos(1, 0, 0))) {
+    southChunk = worldIn_->getChunk(position_ + ChunkPos(1, 0, 0));
   }
-  std::shared_ptr<Chunk> westChunk = nullptr;
-  if(world->hasChunk(position_ + ChunkPos(0, 0, 1))) {
-    westChunk = world->getChunk(position_ + ChunkPos(0, 0, 1));
+  const Chunk* westChunk = nullptr;
+  if(worldIn_->hasChunk(position_ + ChunkPos(0, 0, 1))) {
+    westChunk = worldIn_->getChunk(position_ + ChunkPos(0, 0, 1));
   }
-  std::shared_ptr<Chunk> eastChunk = nullptr;
-  if(world->hasChunk(position_ - ChunkPos(0, 0, 1))) {
-    eastChunk = world->getChunk(position_ - ChunkPos(0, 0, 1));
+  const Chunk* eastChunk = nullptr;
+  if(worldIn_->hasChunk(position_ - ChunkPos(0, 0, 1))) {
+    eastChunk = worldIn_->getChunk(position_ - ChunkPos(0, 0, 1));
   }
 
   const BlockPos blockPos = position_ * 16;
+  Block* block;
 
   for(uint8_t i = 0; i < 16; i++) {
     for(uint8_t j = 0; j < 16; j++) {
       for(uint8_t k = 0; k < 16; k++) {
-        BlockRenderInfo& block = getBlockNative(BlockPos(i, j, k));
-        if(block.blockId == 0) {
-          block.side = Side::None;
+        block = block_[i + j * 16 + k * 256];
+        if(block == nullptr) {
           continue;
         }
-        block.side = Side::Null;
+        if(block->id == 0) {
+          block->side = Side::None;
+          continue;
+        }
+        block->side = Side::Null;
 
         if(j == 15) {
           if(upChunk)
-            block.side |= upChunk->getBlockNative(BlockPos(i, 0, k)).blockId == 0 ? Side::Up : Side::Null;
+            block->side |= upChunk->getBlock(BlockPos(i, 0, k))->id == 0 ? Side::Up : Side::Null;
         }
         else
-          block.side |= getBlockNative(BlockPos(i, j + 1, k)).blockId == 0 ? Side::Up : Side::Null;
+          block->side |= getBlock(BlockPos(i, j + 1, k))->id == 0 ? Side::Up : Side::Null;
 
         if(j == 0) {
           if(downChunk)
-            block.side |= downChunk->getBlockNative(BlockPos(i, 15, k)).blockId == 0 ? Side::Down : Side::Null;
+            block->side |= downChunk->getBlock(BlockPos(i, 15, k))->id == 0 ? Side::Down : Side::Null;
         }
         else
-          block.side |= getBlockNative(BlockPos(i, j - 1, k)).blockId == 0 ? Side::Down : Side::Null;
+          block->side |= getBlock(BlockPos(i, j - 1, k))->id == 0 ? Side::Down : Side::Null;
 
         if(i == 0) {
           if(northChunk)
-            block.side |= northChunk->getBlockNative(BlockPos(15, j, k)).blockId == 0 ? Side::North : Side::Null;
+            block->side |= northChunk->getBlock(BlockPos(15, j, k))->id == 0 ? Side::North : Side::Null;
         }
         else
-          block.side |= getBlockNative(BlockPos(i - 1, j, k)).blockId == 0 ? Side::North : Side::Null;
+          block->side |= getBlock(BlockPos(i - 1, j, k))->id == 0 ? Side::North : Side::Null;
 
         if(i == 15) {
           if(southChunk)
-            block.side |= southChunk->getBlockNative(BlockPos(0, j, k)).blockId == 0 ? Side::South : Side::Null;
+            block->side |= southChunk->getBlock(BlockPos(0, j, k))->id == 0 ? Side::South : Side::Null;
         }
         else
-          block.side |= getBlockNative(BlockPos(i + 1, j, k)).blockId == 0 ? Side::South : Side::Null;
+          block->side |= getBlock(BlockPos(i + 1, j, k))->id == 0 ? Side::South : Side::Null;
 
         if(k == 15) {
           if(westChunk)
-            block.side |= westChunk->getBlockNative(BlockPos(i, j, 0)).blockId == 0 ? Side::West : Side::Null;
+            block->side |= westChunk->getBlock(BlockPos(i, j, 0))->id == 0 ? Side::West : Side::Null;
         }
         else
-          block.side |= getBlockNative(BlockPos(i, j, k + 1)).blockId == 0 ? Side::West : Side::Null;
+          block->side |= getBlock(BlockPos(i, j, k + 1))->id == 0 ? Side::West : Side::Null;
 
         if(k == 0) {
           if(eastChunk)
-            block.side |= eastChunk->getBlockNative(BlockPos(i, j, 15)).blockId == 0 ? Side::East : Side::Null;
+            block->side |= eastChunk->getBlock(BlockPos(i, j, 15))->id == 0 ? Side::East : Side::Null;
         }
         else
-          block.side |= getBlockNative(BlockPos(i, j, k - 1)).blockId == 0 ? Side::East : Side::Null;
+          block->side |= getBlock(BlockPos(i, j, k - 1))->id == 0 ? Side::East : Side::Null;
 
-        if(block.side == Side::Full) {
-          block.side = Side::All;
-        }
-        else if(block.side == Side::Null) {
-          block.side = Side::None;
-        }
+        if(block->side == Side::Full)
+          block->side = Side::All;
+        else if(block->side == Side::Null)
+          block->side = Side::None;
       }
     }
   }
-  renderer.computeBuffer(block_);
+  renderer_.computeBuffer(block_);
 }
 
 void Chunk::draw() const {
@@ -150,7 +151,7 @@ void Chunk::draw() const {
   for(uint8_t i = 0; i < 16; i++) {
     for(uint8_t j = 0; j < 16; j++) {
       for(uint8_t k = 0; k < 16; k++) {
-        const BlockRenderInfo& block = block_[i][j][k];
+        const Block& block = block_[i][j][k];
         if(to_underlying(block.side & Side::None)) {
           continue;
         }
@@ -296,20 +297,15 @@ void Chunk::draw() const {
 }
 }
 }*/
+
   glPushMatrix();
-  glTranslatef(position_.x * 16, position_.y * 16, position_.z * 16);
-  renderer.draw();
+  glTranslated(static_cast<GLdouble>(position_.x * 16),
+               static_cast<GLdouble>(position_.y * 16),
+               static_cast<GLdouble>(position_.z * 16));
+  renderer_.draw();
   glPopMatrix();
+
 #ifdef DEBUG
   aabb_.drawAxisf(0.25F);
 #endif // DEBUG
-}
-
-std::shared_ptr<World> Chunk::getWorldPtr() {
-#ifdef DEBUG
-  if(worldIn_.expired()) {
-    throw std::out_of_range("worldIn_ is empty for chunk!");
-  }
-#endif // DEBUG
-  return worldIn_.lock();
 }

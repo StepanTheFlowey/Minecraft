@@ -4,28 +4,29 @@
 #include "player.hpp"
 #include "glHelper.hpp"
 #include "displayList.hpp"
+#include <SFML/Graphics.hpp>
 
+#ifdef DEBUG
 int main() {
+  std::wcout << L"Minecraft Alpha Log" << std::endl;
+#else 
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
+#endif // DEBUG
   //TODO: we can be not a russian
   setlocale(LC_ALL, "Russian");
-#ifdef DEBUG
-  std::wcout << L"Minecraft Alpha Log" << std::endl;
-#else
-  FreeConsole();
-#endif //DEBUG
+
   sf::Context context;
 
   std::shared_ptr<GlHelper> glHelper(new GlHelper);
   glHelper->loadGL();
   //glHelper->loadInfo();
 
-  std::shared_ptr<Assets> assets(new Assets);
-  std::shared_ptr<World> world(new World);
-  std::shared_ptr<Player> player(new Player);
+  Assets* assets(new Assets);
+  World* world(new World);
+  Player* player(new Player);
 
-  world->test();
   player->setWorldIn(world);
-  //assets->textures->load();
+  assets->textures.load();
 
 #define AXIS_LENGHT 17.0F
 #define AXIS_OFFSET -0.1F
@@ -62,10 +63,9 @@ int main() {
 
   sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
   window.setVerticalSyncEnabled(true);
-  
+
   //Setup renderer
-  glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
-  glClearDepth(1.0);
+  glHelper->initGL();
   glHelper->init3D(640, 360);
 
   sf::Event event;
@@ -205,9 +205,10 @@ int main() {
 
     window.display();
   }
-  assets.reset();
-  player.reset();
-  world.reset();
+
+  delete assets;
+  delete player;
+  delete world;
 
   //_wsystem(L"pause");
 

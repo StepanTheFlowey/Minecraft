@@ -4,66 +4,58 @@
 
 World::World() {
 #ifdef DEBUG
-  std::wcout << L"World(): Constructor" << std::endl;
+  std::wcout << L"World()" << std::endl;
 #endif // DEBUG
 }
 
 World::~World() {
 #ifdef DEBUG
-  std::wcout << L"~World(): Destructor" << std::endl;
+  std::wcout << L"~World()" << std::endl;
 #endif // DEBUG
 }
 
-void World::test() {
-  region_[0][0].reset(new Region);
-  region_[0][0]->setPosition(RegionPos(0, 0));
-  region_[0][0]->setWorldIn(weak_from_this());
-  region_[0][0]->test();
-}
-
-bool World::hasRegion(RegionPos position) {
-  if(region_.find(position.x) == region_.end()) {
-    return false;
-  }
-  if(region_[position.x].find(position.y) == region_[position.x].end()) {
-    return false;
-  }
-  return true;
-}
-
-std::shared_ptr<Region> World::getRegion(RegionPos position) {
-  return region_[position.x][position.y];
-}
-
-bool World::hasChunk(ChunkPos position) {
-  RegionPos regionPos = getRegionPosFromChunk(position);
-  if(!hasRegion(regionPos)) {
-    return false;
-  }
-  return getRegion(regionPos)->hasChunkWorld(position);
-}
-
-std::shared_ptr<Chunk> World::getChunk(ChunkPos position) {
-  RegionPos regionPos = getRegionPosFromChunk(position);
-  return getRegion(regionPos)->getChunkWorld(position);
-}
-
-BlockRenderInfo World::getBlock(BlockPos position) {
+Block* World::getBlock(const BlockPos position) const {
   ChunkPos chunkPos = getChunkPosFromBlock(position);
   RegionPos regionPos = getRegionPosFromChunk(chunkPos);
-  return getRegion(regionPos)->getChunkWorld(chunkPos)->getBlockWorld(position);
+  return getRegion(regionPos)->getChunk(chunkPos)->getBlock(position);
 }
 
-void World::setBlock(BlockPos position, BlockRenderInfo block) {
+void World::setBlock(const BlockPos position, Block* block) {
   ChunkPos chunkPos = getChunkPosFromBlock(position);
   RegionPos regionPos = getRegionPosFromChunk(chunkPos);
-  getRegion(regionPos)->getChunkWorld(chunkPos)->setBlockWorld(position, block);
+  getRegion(regionPos)->getChunk(chunkPos)->setBlock(position, block);
 }
 
-void World::draw() {
-  for(auto& [iKey, iVal] : region_) {
-    for(auto& [jKey, jVal] : iVal) {
-      jVal->draw();
-    }
-  }
+bool World::hasRegion(const RegionPos position) const {
+  return region_.find(getRegionIndexFromPos(position)) != region_.end();
+}
+
+Region* World::getRegion(const RegionPos position) const {
+  return region_.at(getRegionIndexFromPos(position));
+}
+
+//TODO: we can return pointer to created region
+void World::createRegion(const RegionPos position) {
+  region_[getRegionIndexFromPos(position)];
+}
+
+void World::destroyRegion(const RegionPos position) {
+  region_.erase(getRegionIndexFromPos(position));
+}
+
+bool World::hasChunk(const ChunkPos position) const {
+  RegionPos regionPos = getRegionPosFromChunk(position);
+  if(!hasRegion(regionPos))
+    return false;
+  return getRegion(regionPos)->hasChunk(position);
+}
+
+Chunk* World::getChunk(const ChunkPos position) const {
+  RegionPos regionPos = getRegionPosFromChunk(position);
+  return getRegion(regionPos)->getChunk(position);
+}
+
+void World::draw() const {
+  for(auto& i : region_)
+    i.second->draw();
 }

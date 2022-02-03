@@ -68,7 +68,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;glu32.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -89,6 +88,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;glu32.lib;sfml-system-s.lib;sfml-window-s.lib;sfml-graphics-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LargeAddressAware>true</LargeAddressAware>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -141,12 +141,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="chunk.inl" />
+    <None Include="cpp.hint" />
     <None Include="plane3.inl" />
     <None Include="rect2.inl" />
     <None Include="rect3.inl" />
     <None Include="region.inl" />
     <None Include="triangle2.inl" />
     <None Include="triangle3.inl" />
+    <None Include="world.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

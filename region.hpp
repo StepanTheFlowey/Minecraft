@@ -12,15 +12,19 @@ using regionPos_t = int16_t;
 using RegionPos = Vec2<regionPos_t>;
 using RegionAabb = Aabb3<regionPos_t>;
 
-inline SmallPos getChunkPosInRegion(ChunkPos);
+inline ChunkPos getChunkPosFromBlock(const BlockPos);
 
-inline RegionPos getRegionPosFromChunk(ChunkPos);
+inline SmallPos getChunkPosInRegion(const ChunkPos);
+
+inline uint16_t getChunkIndexFromPos(const SmallPos);
+
+inline SmallPos getPosFromChunkIndex(const uint16_t index);
 
 class Player;
 
 class Region {
-  std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::unordered_map<uint8_t, std::shared_ptr<Chunk>>>> chunk_;
-  std::weak_ptr<World> worldIn_;
+  Chunk* chunk_[4096];
+  World* worldIn_ = 0;
   RegionAabb aabb_;
   RegionPos position_;
 public:
@@ -31,44 +35,35 @@ public:
   //Default destructor
   ~Region();
 
-  //Test
-  void test();
+  //Takes block pointer from native grid
+  NODISCARD const Block* getBlock(const SmallPos) const;
 
-  //Check for chunk exist in native grid
-  bool hasChunkNative(SmallPos position);
+  //
+  void setBlock(const SmallPos, Block*);
 
-  //Check for chunk exist in world grid
-  bool hasChunkWorld(ChunkPos position);
+  //Check for chunk exist
+  bool hasChunk(const SmallPos) const;
 
   //Takes chunk pointer from native grid
-  const std::shared_ptr<Chunk> getChunkNative(SmallPos position);
-
-  //Takes chunk pointer from world grid
-  const std::shared_ptr<Chunk> getChunkWorld(ChunkPos position);
+  NODISCARD Chunk* getChunk(const SmallPos) const;
 
   //
-  void createChunk(SmallPos position);
+  void createChunk(const SmallPos);
 
   //
-  void destroyChunk();
-
-  //Takes block pointer from native grid
-  const BlockRenderInfo getBlockNative(BlockPos position);
-
-  //Takes block pointer from world grid 
-  //const BlockRenderInfo getBlockWorld(BlockPos position);
+  void destroyChunk(const SmallPos);
 
   //Assign region position
-  void setPosition(RegionPos position);
+  void setPosition(const RegionPos);
 
   //Takes region position
-  const RegionPos& getPosition() const;
+  NODISCARD const RegionPos& getPosition() const;
 
   //Takes region position
-  const RegionAabb& getAabb() const;
+  NODISCARD const RegionAabb& getAabb() const;
 
   //Assign world in pointer
-  void setWorldIn(std::weak_ptr<World> worldIn);
+  void setWorldIn(World*);
 
   //Draws underlying chunks
   void draw() const;

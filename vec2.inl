@@ -44,8 +44,8 @@ inline void Vec2<T>::print() const {
 }
 
 template <typename T>
-inline void Vec2<T>::print(std::string str) const {
-  std::cout << str << " X: " << x << " Y: " << y << std::endl;
+inline void Vec2<T>::print(std::string string) const {
+  std::cout << string << " X: " << x << " Y: " << y << std::endl;
 }
 
 template <typename T>
@@ -54,8 +54,8 @@ inline void Vec2<T>::wprint() const {
 }
 
 template <typename T>
-inline void Vec2<T>::wprint(std::wstring str) const {
-  std::wcout << str << L" X: " << x << L" Y: " << y << std::endl;
+inline void Vec2<T>::wprint(std::wstring string) const {
+  std::wcout << string << L" X: " << x << L" Y: " << y << std::endl;
 }
 
 template <typename T>
@@ -134,22 +134,22 @@ inline Vec2<T> Vec2<T>::operator*(const T scalar) const {
   return Vec2<T>(x * scalar, y * scalar);
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline Vec2<T> Vec2<T>::operator*(const U scalar) const {
   return Vec2<T>(x * static_cast<T>(scalar), y * static_cast<T>(scalar));
 }
 
-template <typename T> 
+template <typename T>
 inline Vec2<T> Vec2<T>::operator*(const Vec2<T>& vector) const {
   return Vec2<T>(x * vector.x, y * vector.y);
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline Vec2<T> Vec2<T>::operator*(const Vec2<U>& vector) const {
   return Vec2<T>(x * static_cast<T>(vector.x), y * static_cast<T>(vector.y));
 }
 
-template <typename T> 
+template <typename T>
 inline Vec2<T> Vec2<T>::operator/(const T scalar) const {
   return Vec2<T>(x / scalar, y / scalar);
 }
@@ -159,18 +159,18 @@ inline Vec2<T> Vec2<T>::operator/(const U scalar) const {
   return Vec2<T>(x / static_cast<T>(scalar), y / static_cast<T>(scalar));
 }
 
-template <typename T> 
+template <typename T>
 
 inline Vec2<T> Vec2<T>::operator/(const Vec2<T>& vector) const {
   return Vec2<T>(x / vector.x, y / vector.y);
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline Vec2<T> Vec2<T>::operator/(const Vec2<U>& vector) const {
   return Vec2<T>(x / static_cast<T>(vector.x), y / static_cast<T>(vector.y));
 }
 
-template <typename T> 
+template <typename T>
 inline Vec2<T> Vec2<T>::operator%(const T scalar) const {
   return Vec2<T>(x % scalar, y % scalar);
 }
@@ -185,21 +185,33 @@ inline Vec2<T> Vec2<T>::operator%(const Vec2<T>& vector) const {
   return Vec2<T>(x % vector.x, y % vector.y);
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline Vec2<T> Vec2<T>::operator%(const Vec2<U>& vector) const {
   return Vec2<T>(x % static_cast<T>(vector.x), y % static_cast<T>(vector.y));
 }
 
-template <typename T> 
+template <typename T>
 inline void Vec2<T>::operator=(const Vec2<T>& vector) {
   x = vector.x;
   y = vector.y;
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline void Vec2<T>::operator=(const Vec2<U>& vector) {
   x = static_cast<T>(vector.x);
   y = static_cast<T>(vector.y);
+}
+
+template <typename T>
+inline void Vec2<T>::operator+=(const T scalar) {
+  x += scalar;
+  y += scalar;
+}
+
+template <typename T> template <typename U>
+inline void Vec2<T>::operator+=(const U scalar) {
+  x += static_cast<T>(scalar);
+  y += static_cast<T>(scalar);
 }
 
 template <typename T>
@@ -208,10 +220,22 @@ inline void Vec2<T>::operator+=(const Vec2<T>& vector) {
   y += vector.y;
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline void Vec2<T>::operator+=(const Vec2<U>& vector) {
   x += static_cast<T>(vector.x);
   y += static_cast<T>(vector.y);
+}
+
+template <typename T>
+inline void Vec2<T>::operator-=(const T scalar) {
+  x -= scalar;
+  y -= scalar;
+}
+
+template <typename T> template <typename U>
+inline void Vec2<T>::operator-=(const U scalar) {
+  x -= static_cast<T>(scalar);
+  y -= static_cast<T>(scalar);
 }
 
 template <typename T>
@@ -232,7 +256,7 @@ inline void Vec2<T>::operator*=(const T scalar) {
   y *= scalar;
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline void Vec2<T>::operator*=(const U scalar) {
   x *= static_cast<T>(scalar);
   y *= static_cast<T>(scalar);
@@ -244,43 +268,43 @@ inline void Vec2<T>::operator*=(const Vec2<T>& vector) {
   y *= vector.y;
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline void Vec2<T>::operator*=(const Vec2<U>& vector) {
   x *= static_cast<T>(vector.x);
   y *= static_cast<T>(vector.y);
 }
 
-template <typename T> 
+template <typename T>
 inline void Vec2<T>::operator/=(const T scalar) {
   x /= scalar;
   y /= scalar;
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline void Vec2<T>::operator/=(const U scalar) {
   x /= static_cast<T>(scalar);
   y /= static_cast<T>(scalar);
 }
 
-template <typename T> 
+template <typename T>
 inline void Vec2<T>::operator/=(const Vec2<T>& vector) {
   x /= vector.x;
   y /= vector.y;
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline void Vec2<T>::operator/=(const Vec2<U>& vector) {
   x /= static_cast<T>(vector.x);
   y /= static_cast<T>(vector.y);
 }
 
-template <typename T> 
+template <typename T>
 inline void Vec2<T>::operator%=(const T scalar) {
   x %= scalar;
   y %= scalar;
 }
 
-template <typename T> template <typename U> 
+template <typename T> template <typename U>
 inline void Vec2<T>::operator%=(const U scalar) {
   x %= static_cast<T>(scalar);
   y %= static_cast<T>(scalar);

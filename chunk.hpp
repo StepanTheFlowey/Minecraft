@@ -10,18 +10,21 @@ using chunkPos_t = int32_t;
 using ChunkPos = Vec3<chunkPos_t>;
 using ChunkAabb = Aabb3<chunkPos_t>;
 
-inline SmallPos getBlockPosInChunk(BlockPos);
+inline SmallPos getBlockPosInChunk(const BlockPos);
 
-inline ChunkPos getChunkPosFromBlock(BlockPos);
+inline uint16_t getBlockIndexFromPos(const SmallPos);
+
+inline SmallPos getBlockPosFromIndex(const uint16_t index);
 
 class World;
+class Player;
 
 class Chunk {
-  BlockRenderInfo block_[4096];
-  std::weak_ptr<World> worldIn_;
+  Block* block_[4096];
+  World* worldIn_ = nullptr;
   ChunkAabb aabb_;
   ChunkPos position_;
-  BlockRenderer renderer;
+  BlockRenderer renderer_;
 public:
 
   //Default constructor
@@ -30,39 +33,31 @@ public:
   //Default destructor
   ~Chunk();
 
-  //Takes block from native chunk grid
-  BlockRenderInfo& getBlockNative(SmallPos position);
+  //Takes block
+  NODISCARD Block* getBlock(const SmallPos) const;
 
-  //Takes block from world grid
-  BlockRenderInfo& getBlockWorld(BlockPos position);
-
-  //Sets block in native chunk`s grid
-  void setBlockNative(BlockPos position, BlockRenderInfo block);
-
-  //Sets block in world grid
-  void setBlockWorld(BlockPos position, BlockRenderInfo block);
+  //Sets block
+  void setBlock(const SmallPos, Block*);
 
   //Sets chunk position
-  void setPosition(ChunkPos position);
+  void setPosition(const ChunkPos);
 
   //Returns chunk position
-  ChunkPos& getPosition();
+  NODISCARD const ChunkPos& getPosition() const;
 
   //Returns chunk AABB
-  ChunkAabb& getAabb();
+  NODISCARD const ChunkAabb& getAabb() const;
 
   //Sets world in ptr
-  void setWorldIn(std::weak_ptr<World> worldIn);
+  void setWorldIn(World*);
 
   //Calculates blocks edge render
   void computeBlocksEdgeRender();
 
   //Draws blocks
   void draw() const;
-private:
 
-  //Makes shared pointer from weak one
-  std::shared_ptr<World> getWorldPtr();
+  friend Player;
 };
 
 #include "chunk.inl"

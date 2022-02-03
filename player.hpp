@@ -13,11 +13,11 @@ class Player {
   double_t moveSpeed_ = 0.005;
   bool onGround_ = false;
 
-  std::shared_ptr<World> worldIn_ = nullptr;
-
   float_t colorDeg = 0;
   BlockWithSide blockMouseOver_;
   bool isBlockMouseOver_ = false;
+
+  World* worldIn_ = nullptr;
 public:
   Camera camera;
 
@@ -30,21 +30,21 @@ public:
   //Assign move direction
   void setMoveDirection(Side, bool);
 
+  //Tries to place block
+  void placeBlock();
+  
   //Tries to break block
   void breakBlock();
 
-  //Tries to place block
-  void placeBlock();
-
   //Set world pointer
-  void setWorldIn(std::shared_ptr<World>);
+  void setWorldIn(World* worldInPtr);
 
   //Move player by offest
-  void move(Vec3d);
+  void move(const Vec3d);
 
   //Updating player
-  void update(Time);
+  void update(const Time);
 
   //Draws player and block mouse over
-  void draw();
+  void draw() const;
 };

@@ -11,7 +11,7 @@
 #include <gl/GLU.h>
 #include "glad.h"
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
 namespace fs = std::filesystem;
 
@@ -35,7 +35,7 @@ public:
     int height = 0;
     int comp = 0;
     uint8_t* image;
-    textureId_t texture = 0;
+    uint32_t texture = 0;
     for(const auto& i : fs::directory_iterator(path)) {
       if(!i.is_directory()) {
         char buff[1024];
@@ -86,8 +86,8 @@ public:
 };
 
 class BlockManager {
-  std::vector<BlockInfo> blocks_;
 public:
+  static std::vector<Block*> blocks_;
 
   BlockManager() {
 #ifdef DEBUG
@@ -101,35 +101,27 @@ public:
 #endif // DEBUG
   }
 
-  void load(std::wstring path = L"blocks\\") {
+  void load() {
 
-  }
-
-  std::vector<BlockInfo>& getBlocks() {
-    return blocks_;
   }
 };
 
 class Assets {
 public:
-  TextureManager* textures = nullptr;
-  BlockManager* blocks = nullptr;
+  TextureManager textures;
+  BlockManager blocks;
 
   Assets() {
 #ifdef DEBUG
     std::wcout << L"Assets()" << std::endl;
 #endif // DEBUG
     //TODO: Dir checking
-    textures = new TextureManager;
-    blocks = new BlockManager;
   }
 
   ~Assets() {
 #ifdef DEBUG
     std::wcout << L"~Assets()" << std::endl;
 #endif // DEBUG
-    delete textures;
-    delete blocks;
   }
 
   void bindTextures() {

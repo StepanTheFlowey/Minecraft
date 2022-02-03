@@ -6,68 +6,46 @@ Region::Region() {
 #ifdef DEBUG
   std::wcout << L"Region()" << std::endl;
 #endif // DEBUG
+  for(uint16_t i = 0; i < 4096; i++) chunk_[i] = nullptr;
 }
 
 Region::~Region() {
 #ifdef DEBUG
   std::wcout << L"~Region()" << std::endl;
 #endif // DEBUG
+  for(uint16_t i = 0; i < 4096; i++)
+    if(chunk_[i] != nullptr) delete chunk_[i];
 }
 
-void Region::test() {
-  for(uint8_t i = 0; i < 8; i++) {
-    for(uint8_t j = 0; j < 8; j++) {
-      for(uint8_t k = 0; k < 8; k++) {
-        chunk_[i][j][k].reset(new Chunk);
-        chunk_[i][j][k]->setWorldIn(worldIn_);
-        chunk_[i][j][k]->setPosition(ChunkPos(i, j, k));
-      }
-    }
-  }
-
-  for(uint8_t i = 0; i < 8; i++) {
-    for(uint8_t j = 0; j < 8; j++) {
-      for(uint8_t k = 0; k < 8; k++) {
-        chunk_[i][j][k]->computeBlocksEdgeRender();
-      }
-    }
-  }
+const Block* Region::getBlock(const SmallPos position) const {
+  return getChunk(getChunkPosInRegion(getChunkPosFromBlock(position)))->getBlock(position);
 }
 
-bool Region::hasChunkWorld(ChunkPos position) {
-  return hasChunkNative(getChunkPosInRegion(position));
+void Region::setBlock(const SmallPos position, Block* block) {
+  getChunk(getChunkPosInRegion(getChunkPosFromBlock(position)))->setBlock(getBlockPosInChunk(position), block);
 }
 
-bool Region::hasChunkNative(SmallPos position) {
-  if(chunk_.find(position.x) == chunk_.end()) {
-    return false;
-  }
-  if(chunk_[position.x].find(position.y) == chunk_[position.x].end()) {
-    return false;
-  }
-  if(chunk_[position.x][position.y].find(position.z) == chunk_[position.x][position.y].end()) {
-    return false;
-  }
-  return true;
+bool Region::hasChunk(const SmallPos position) const {
+  return getChunk(position) == nullptr;
 }
 
-const std::shared_ptr<Chunk> Region::getChunkNative(SmallPos position) {
-  return chunk_[position.x][position.y][position.z];
+Chunk* Region::getChunk(const SmallPos position) const {
+  return chunk_[getChunkIndexFromPos(position)];
 }
 
-const std::shared_ptr<Chunk> Region::getChunkWorld(ChunkPos position) {
-  return getChunkNative(getChunkPosInRegion(position));
+void Region::createChunk(const SmallPos position) {
+  uint16_t index = getChunkIndexFromPos(position);
+  if(chunk_[index] != nullptr) throw std::logic_error("chunk not destroyed");
+  chunk_[index] = new Chunk;
 }
 
-const BlockRenderInfo Region::getBlockNative(BlockPos position) {
-  return getChunkWorld(getChunkPosFromBlock(position))->getBlockWorld(position);
+void Region::destroyChunk(const SmallPos position) {
+  uint16_t index = getChunkIndexFromPos(position);
+  if(chunk_[index] == nullptr) throw std::logic_error("chunk not created");
+  delete chunk_[index];
 }
 
-//const BlockRenderInfo Region::getBlockWorld(BlockPos position) {
-  //return getBlockNative(getBlock);
-//}
-
-void Region::setPosition(RegionPos position) {
+void Region::setPosition(const RegionPos position) {
   position_ = position;
   aabb_.min.x = position.x;
   aabb_.min.y = 0;
@@ -85,16 +63,11 @@ const RegionAabb& Region::getAabb() const {
   return aabb_;
 }
 
-void Region::setWorldIn(std::weak_ptr<World> worldIn) {
+void Region::setWorldIn(World* worldIn) {
   worldIn_ = worldIn;
 }
 
 void Region::draw() const {
-  for(auto& [iKey, iVal] : chunk_) {
-    for(auto& [jKey, jVal] : iVal) {
-      for(auto& [kKey, kVal] : jVal) {
-        kVal->draw();
-      }
-    }
-  }
+  for(auto& i : chunk_)
+    if(i != nullptr) i->draw();
 }

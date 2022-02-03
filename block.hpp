@@ -1,42 +1,44 @@
 #pragma once
+
 #include "types.hpp"
 #include "vec3.hpp"
 #include "aabb3.hpp"
-#include "triangle3.hpp"
 #include "side.hpp"
+#include <vector>
+#include <functional>
 
 using blockId_t = uint16_t;
-using blockPos_t = int32_t;
+using sourceId_t = uint16_t;
 using modelId_t = uint16_t;
-using textureId_t = GLuint;
+using textureId_t = uint16_t;
+using blockPos_t = int32_t;
 
 using BlockPos = Vec3<blockPos_t>;
 using BlockAabb = Aabb3<blockPos_t>;
-using BlockPlane = Triangle3<blockPos_t>;
-
-struct BlockRenderInfo {
-  blockId_t blockId = 0;
-  Side side = Side::Null;
-};
-
-struct BlockInfo {
-  uint8_t solidSides = 0b00000010;  //All, None, Up, Down, North, South, West, East
-  blockId_t blockId = 0;
-  blockId_t sourceId = 0;
-  modelId_t blockModel = 0;
-  textureId_t textureId[6] = {0,0,0,0,0,0};
-  std::wstring blockSourceDisplayName = L"no_source";
-  std::wstring blockDisplayName = L"No display name";
-  std::wstring blockInternalName = L"no_internal_name";
-  std::wstring textureName[6] = {L"none",L"none",L"none",L"none",L"none",L"none"};
-};
 
 struct BlockWithSide {
   BlockPos pos;
   Side side = Side::Null;
 };
 
-class BaseBlock {
-public:
-  blockId_t Id;
+struct BlockInfo {
+  static sourceId_t sourceId;
+  static modelId_t modelId;
+  static std::wstring displayName;
+  static std::wstring internalName;
+  static std::wstring tilesetName;
 };
+
+class Block {
+public:
+  Side side = Side::Null;
+  blockId_t id = 0;
+};
+
+template <typename T> Block* createBlock() {
+  throw std::logic_error("no block with such type");
+}
+
+template <> Block* createBlock<Block>() {
+  return new Block;
+}

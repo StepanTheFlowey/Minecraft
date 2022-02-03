@@ -16,7 +16,6 @@ Player::~Player() {
 #ifdef DEBUG
   std::wcout << L"~Player()" << std::endl;
 #endif // DEBUG
-  worldIn_.reset();
 }
 
 void Player::setMoveDirection(Side direction, bool enable = true) {
@@ -25,13 +24,6 @@ void Player::setMoveDirection(Side direction, bool enable = true) {
   }
   else {
     moveDir_ ^= direction;
-  }
-}
-
-void Player::breakBlock() {
-  if(isBlockMouseOver_) {
-    worldIn_->setBlock(blockMouseOver_.pos, BlockRenderInfo());
-    worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
   }
 }
 
@@ -58,7 +50,7 @@ void Player::placeBlock() {
         pos.z--;
         break;
     }
-    worldIn_->setBlock(pos, BlockRenderInfo {static_cast<uint16_t>(rand() % 15 + 1)});
+    worldIn_->setBlock(pos, new Block {static_cast<Side>(rand() % 15 + 1)});
     if(blockMouseOver_.pos != pos) {
       worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
     }
@@ -66,7 +58,14 @@ void Player::placeBlock() {
   }
 }
 
-void Player::setWorldIn(std::shared_ptr<World> worldIn) {
+void Player::breakBlock() {
+  if(isBlockMouseOver_) {
+    worldIn_->setBlock(blockMouseOver_.pos, createBlock<Block>());
+    worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
+  }
+}
+
+void Player::setWorldIn(World* worldIn) {
   worldIn_ = worldIn;
 }
 
@@ -75,7 +74,7 @@ void Player::move(Vec3d offset) {
   camera.setPosition(position_);
 }
 
-void Player::update(Time time) {
+void Player::update(const Time time) {
   const Vec2f& rotation = camera.getRotation();
   const float_t millis = static_cast<float_t>(time.asMilliseconds());
   if(to_underlying(moveDir_ & Side::Forward)) {
@@ -128,97 +127,84 @@ void Player::update(Time time) {
 
   bool allSides = false;
   CollisionResultd collisionResult;
-  BlockRenderInfo block;
+  const Block* block;
   Rect3d rect;
+  SmallPos blockPosInChunk;
   Vec3d pos;
   std::vector<BlockWithSide> mathed;
   mathed.reserve(10);
 
   for(auto& [iKey, iVal] : worldIn_->region_) {
-    for(auto& [jKey, jVal] : iVal) {
-      if(jVal->getAabb().intersects(lineBox)) {
-        for(auto& [kKey, kVal] : jVal->chunk_) {
-          for(auto& [lKey, lVal] : kVal) {
-            for(auto& [mKey, mVal] : lVal) {
-              if(mVal->getAabb().intersects(lineBox)) {
-                for(uint8_t i = 0; i < 16; i++) {
-                  for(uint8_t j = 0; j < 16; j++) {
-                    for(uint8_t k = 0; k < 16; k++) {
-                      block = mVal->getBlockNative(BlockPos(i, j, k));
-                      if(block.blockId == 0 || block.side == Side::None) {
-                        continue;
-                      }
+    if(iVal == nullptr) continue;
+    if(iVal->getAabb().intersects(lineBox)) {
+      for(auto& j : iVal->chunk_) {
+        if(j == nullptr) continue;
+        if(j->getAabb().intersects(lineBox)) {
+          for(uint16_t i = 0; i < 4096; i++) {
+            blockPosInChunk = getPosFromBlockIndex(i);
+            block = j->getBlock(blockPosInChunk);
+            if(block == nullptr) continue;
+            if(block->id == 0 || block->side == Side::None) continue;
 
-                      allSides = block.side == Side::All;
-                      pos = mVal->getPosition() * 16 + Vec3f(i, j, k);
+            allSides = block->side == Side::All;
+            pos = j->getPosition() * 16 + blockPosInChunk;
 
-                      if(to_underlying(block.side & Side::Up) || allSides) {
-                        //Up side collision check
-                        rect = Rect3d::Up + pos;
-                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 1, 0), eyePos, viewPos);
-                        if(collisionResult.hit) {
-                          mathed.push_back({pos, Side::Up});
-                          continue;
-                        }
-                      }
-
-                      if(to_underlying(block.side & Side::Down) || allSides) {
-                        //Down side collision check
-                        rect = Rect3d::Down + pos;
-                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, -1, 0), eyePos, viewPos);
-                        if(collisionResult.hit) {
-                          mathed.push_back({pos, Side::Down});
-                          continue;
-                        }
-                      }
-
-                      if(to_underlying(block.side & Side::North) || allSides) {
-                        //North side collision check
-                        rect = Rect3d::North + pos;
-                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(-1, 0, 0), eyePos, viewPos);
-                        if(collisionResult.hit) {
-                          mathed.push_back({pos, Side::North});
-                          continue;
-                        }
-                      }
-
-                      if(to_underlying(block.side & Side::South) || allSides) {
-                        //South side collision check
-                        rect = Rect3d::South + pos;
-                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(1, 0, 0), eyePos, viewPos);
-                        if(collisionResult.hit) {
-                          mathed.push_back({pos, Side::South});
-                          continue;
-                        }
-                      }
-
-                      if(to_underlying(block.side & Side::West) || allSides) {
-                        //West side collision check
-                        rect = Rect3d::West + pos;
-                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 0, 1), eyePos, viewPos);
-                        if(collisionResult.hit) {
-                          mathed.push_back({pos, Side::West});
-                          continue;
-                        }
-                      }
-
-                      if(to_underlying(block.side & Side::East) || allSides) {
-                        //East side collision check
-                        rect = Rect3d::East + pos;
-                        collisionResult = math::rectLineCollision<GLdouble>(rect, Vec3d(0, 0, -1), eyePos, viewPos);
-                        if(collisionResult.hit) {
-                          mathed.push_back({pos, Side::East});
-                          continue;
-                        }
-                      }
-
-                      if(mathed.size() == 10) {
-                        goto exitTrace;
-                      }
-                    }
-                  }
-                }
+            if(to_underlying(block->side & Side::Up) || allSides) {
+              //Up side collision check
+              collisionResult = math::rectLineCollision<GLdouble>(Rect3d::Up + pos, Vec3d(0, 1, 0), eyePos, viewPos);
+              if(collisionResult.hit) {
+                mathed.push_back({pos, Side::Up});
+                continue;
               }
+            }
+
+            if(to_underlying(block->side & Side::Down) || allSides) {
+              //Down side collision check
+              collisionResult = math::rectLineCollision<GLdouble>(Rect3d::Down + pos, Vec3d(0, -1, 0), eyePos, viewPos);
+              if(collisionResult.hit) {
+                mathed.push_back({pos, Side::Down});
+                continue;
+              }
+            }
+
+            if(to_underlying(block->side & Side::North) || allSides) {
+              //North side collision check
+              collisionResult = math::rectLineCollision<GLdouble>(Rect3d::North + pos, Vec3d(-1, 0, 0), eyePos, viewPos);
+              if(collisionResult.hit) {
+                mathed.push_back({pos, Side::North});
+                continue;
+              }
+            }
+
+            if(to_underlying(block->side & Side::South) || allSides) {
+              //South side collision check
+              collisionResult = math::rectLineCollision<GLdouble>(Rect3d::South + pos, Vec3d(1, 0, 0), eyePos, viewPos);
+              if(collisionResult.hit) {
+                mathed.push_back({pos, Side::South});
+                continue;
+              }
+            }
+
+            if(to_underlying(block->side & Side::West) || allSides) {
+              //West side collision check
+              collisionResult = math::rectLineCollision<GLdouble>(Rect3d::West + pos, Vec3d(0, 0, 1), eyePos, viewPos);
+              if(collisionResult.hit) {
+                mathed.push_back({pos, Side::West});
+                continue;
+              }
+            }
+
+            if(to_underlying(block->side & Side::East) || allSides) {
+              //East side collision check
+              collisionResult = math::rectLineCollision<GLdouble>(Rect3d::East + pos, Vec3d(0, 0, -1), eyePos, viewPos);
+              if(collisionResult.hit) {
+                mathed.push_back({pos, Side::East});
+                continue;
+              }
+            }
+
+            if(mathed.size() == 10) {
+              goto exitTrace;
             }
           }
         }
@@ -250,21 +236,23 @@ exitTrace:
   }
 }
 
-void Player::draw() {
+void Player::draw() const {
   //TODO: Drawing player model
 
   Vec3f pos(blockMouseOver_.pos);
+
 #ifdef DEBUG
   BlockAabb(pos, pos + Vec3f(1, 1, 1)).drawAxisColorf(Color(0, 255, 0), 0.0001F);
 
   glPushMatrix();
 
-  glTranslated(pos.x, pos.y, pos.z);
 
-  glBegin(GL_QUADS);
+  glTranslated(pos.x, pos.y, pos.z);
 
   float_t sinValue = abs(sinf(colorDeg * (float_t) DEG_TO_RAD)) * 255;
   glColor3ub(0, 0, static_cast<GLubyte>(sinValue));
+
+  glBegin(GL_QUADS);
 
   if(blockMouseOver_.side == Side::Up) {
     //Up side
@@ -319,15 +307,15 @@ void Player::draw() {
   glBegin(GL_LINES);
 
   glColor3ub(255, 0, 0);
-  glVertex3f(pos.x + 3, pos.y + 0.5F, pos.z + 0.5F);
+  glVertex3f(pos.x + 3.5F, pos.y + 0.5F, pos.z + 0.5F);
   glVertex3f(pos.x - 2.5F, pos.y + 0.5F, pos.z + 0.5F);
 
   glColor3ub(0, 255, 0);
-  glVertex3f(pos.x + 0.5F, pos.y + 3, pos.z + 0.5F);
+  glVertex3f(pos.x + 0.5F, pos.y + 3.5F, pos.z + 0.5F);
   glVertex3f(pos.x + 0.5F, pos.y - 2.5F, pos.z + 0.5F);
 
   glColor3ub(0, 0, 255);
-  glVertex3f(pos.x + 0.5F, pos.y + 0.5F, pos.z + 3);
+  glVertex3f(pos.x + 0.5F, pos.y + 0.5F, pos.z + 3.5F);
   glVertex3f(pos.x + 0.5F, pos.y + 0.5F, pos.z - 2.5F);
 
   glEnd();
