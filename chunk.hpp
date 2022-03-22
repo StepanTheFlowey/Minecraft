@@ -49,7 +49,7 @@ public:
   NODISCARD const ChunkAabb& getAabb() const;
 
   //Sets world in ptr
-  void setWorldIn(World*);
+  void setWorldIn(World* const worldIn);
 
   //Calculates blocks edge render
   void computeBlocksEdgeRender();

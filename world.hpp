@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "main.hpp"
 #include "block.hpp"
 #include "chunk.hpp"
 #include "region.hpp"
@@ -23,11 +23,14 @@ public:
   //Default destructor
   ~World();
 
+  //Makes this world current
+  void makeCurrent() const;
+
   //Takes block from global grid
   NODISCARD Block* getBlock(const BlockPos position) const;
 
   //Assign block in global grid
-  void setBlock(const BlockPos position, Block* block);
+  void setBlock(const BlockPos position, Block* const block);
 
   //Check for region exist
   NODISCARD bool hasChunk(const ChunkPos position) const;
@@ -52,6 +55,7 @@ public:
 
   friend Player;
 };
+extern World* world;
 
 #include "world.inl"
 

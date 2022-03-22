@@ -1,4 +1,5 @@
-#include "types.hpp"
+#include "main.hpp"
+
 #include "assets.hpp"
 #include "world.hpp"
 #include "player.hpp"
@@ -6,9 +7,17 @@
 #include "displayList.hpp"
 #include <SFML/Graphics.hpp>
 
+NODISCARD __forceinline std::wstring wide(std::string str) {
+  return std::wstring(str.begin(), str.end());
+}
+
+NODISCARD __forceinline std::string shrink(std::wstring wstr) {
+  return std::string(wstr.begin(), wstr.end());
+}
+
 #ifdef DEBUG
 int main() {
-  std::wcout << L"Minecraft Alpha Log" << std::endl;
+  SetConsoleTitleW(L"Minecraft Alpha Log");
 #else 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
 #endif // DEBUG
@@ -21,12 +30,13 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
   glHelper->loadGL();
   //glHelper->loadInfo();
 
-  Assets* assets(new Assets);
-  World* world(new World);
-  Player* player(new Player);
-
-  player->setWorldIn(world);
+  Assets* assets = new Assets;
   assets->textures.load();
+
+  World* world = new World;
+  world->makeCurrent();
+
+  Player* player = new Player;
 
 #define AXIS_LENGHT 17.0F
 #define AXIS_OFFSET -0.1F
@@ -56,19 +66,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
   contextSettings.antialiasingLevel = 16; //Multisampling level
   contextSettings.sRgbCapable = false;    //STUPID SRGB
   contextSettings.depthBits = 24;         //Depth buffer bits
-  contextSettings.stencilBits = 0;        //Stencil buffer disabled
   contextSettings.majorVersion = 2;       //Request OpenGL 2.1
   contextSettings.minorVersion = 1;
   contextSettings.attributeFlags = sf::ContextSettings::Default; //No core render please
 
-  sf::Window window(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
+  sf::Event event;
+
+  sf::Window window(sf::VideoMode(800, 600), "Minecraft Alpha", sf::Style::Default, contextSettings);
   window.setVerticalSyncEnabled(true);
 
   //Setup renderer
   glHelper->initGL();
   glHelper->init3D(640, 360);
-
-  sf::Event event;
 
   bool grab = false;
   bool fullscreen = false;
@@ -100,8 +109,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
             sf::Mouse::setPosition(sf::Vector2i(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y)), window);
             player->camera.rotate(rotation);
           }
-          break;
         }
+        break;
         case sf::Event::MouseButtonPressed:
           switch(event.mouseButton.button) {
             case sf::Mouse::Left:
@@ -146,8 +155,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
                 glHelper->init3D(videoMode.width, videoMode.height);
               }
               else {
-                window.create(sf::VideoMode(640, 360), "Minecraft Alpha", sf::Style::Default, contextSettings);
-                glHelper->init3D(640, 360);
+                window.create(sf::VideoMode(800, 600), "Minecraft Alpha", sf::Style::Default, contextSettings);
+                glHelper->init3D(800, 600);
               }
               if(grab) {
                 window.setMouseCursorGrabbed(true);
@@ -187,6 +196,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glPushMatrix();
+
     player->camera.doTranlate();
 
     world->draw();

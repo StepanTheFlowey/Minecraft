@@ -17,9 +17,19 @@
 #define DEPRECATED [[deprecated("don`t use it")]]
 #define NODISCARD [[nodiscard("did you left something")]]
 
-NODISCARD __forceinline std::wstring wide(std::string str) {
-  return std::wstring(str.begin(), str.end());
-}
+#ifdef DEBUG
+
+#define debug(str) std::wcout << str << std::endl
+
+#else
+
+#define debug(str)
+
+#endif
+
+NODISCARD std::wstring wide(std::string str);
+
+NODISCARD std::string shrink(std::wstring wstr);
 
 template <class E, typename T = std::underlying_type_t<E>> 
 NODISCARD __forceinline T to_underlying(E enumeration) {

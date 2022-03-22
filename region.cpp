@@ -6,22 +6,25 @@ Region::Region() {
 #ifdef DEBUG
   std::wcout << L"Region()" << std::endl;
 #endif // DEBUG
-  for(uint16_t i = 0; i < 4096; i++) chunk_[i] = nullptr;
+  for(uint16_t i = 0; i < 4096; ++i) chunk_[i] = nullptr;
 }
 
 Region::~Region() {
 #ifdef DEBUG
   std::wcout << L"~Region()" << std::endl;
 #endif // DEBUG
-  for(uint16_t i = 0; i < 4096; i++)
-    if(chunk_[i] != nullptr) delete chunk_[i];
+  for(uint16_t i = 0; i < 4096; ++i)
+    if(chunk_[i] != nullptr) {
+      delete chunk_[i];
+      chunk_[i] = nullptr;
+    }
 }
 
 const Block* Region::getBlock(const SmallPos position) const {
   return getChunk(getChunkPosInRegion(getChunkPosFromBlock(position)))->getBlock(position);
 }
 
-void Region::setBlock(const SmallPos position, Block* block) {
+void Region::setBlock(const SmallPos position, Block* const block) {
   getChunk(getChunkPosInRegion(getChunkPosFromBlock(position)))->setBlock(getBlockPosInChunk(position), block);
 }
 
@@ -35,7 +38,7 @@ Chunk* Region::getChunk(const SmallPos position) const {
 
 void Region::createChunk(const SmallPos position) {
   uint16_t index = getChunkIndexFromPos(position);
-  if(chunk_[index] != nullptr) throw std::logic_error("chunk not destroyed");
+  if(chunk_[index] != nullptr) throw std::logic_error("chunk already created");
   chunk_[index] = new Chunk;
 }
 
@@ -61,10 +64,6 @@ const RegionPos& Region::getPosition() const {
 
 const RegionAabb& Region::getAabb() const {
   return aabb_;
-}
-
-void Region::setWorldIn(World* worldIn) {
-  worldIn_ = worldIn;
 }
 
 void Region::draw() const {

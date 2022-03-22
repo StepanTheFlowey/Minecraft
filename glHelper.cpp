@@ -2,14 +2,14 @@
 
 #include <gl/GLU.h>
 
-void GlHelper::init2D(GLdouble width, GLdouble height) {
+void GlHelper::init2D(const GLdouble width, const GLdouble height) {
   glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
   gluOrtho2D(0, 0, width, height);
 
   glDisable(GL_DEPTH_TEST);
 }
 
-void GlHelper::init3D(GLdouble width, GLdouble height) {
+void GlHelper::init3D(const GLdouble width, const GLdouble height) {
   if(height != 0) {
     aspect_ = width / height;
   }
@@ -50,12 +50,12 @@ void GlHelper::loadInfo() {
   extensions.shrink_to_fit();
 
 #ifdef DEBUG
-  std::wcout << L"OpenGL info: " << std::endl;
+  std::wcout << L"OpenGL info:" << std::endl;
   std::wcout << L"GL_VENDOR:\t" << vendor << std::endl;
   std::wcout << L"GL_RENDERER:\t" << renderer << std::endl;
   std::wcout << L"GL_VERSION:\t" << version << std::endl;
   std::wcout << L"GL_EXTENSIONS:" << std::endl;
-  for(std::size_t i = 0; i < extensions.size(); i++)
+  for(std::size_t i = 0; i < extensions.size(); ++i)
     std::wcout << extensions[i] << std::endl;
   std::wcout << L"Loading OpenGL extensions" << std::endl;
 #endif // DEBUG

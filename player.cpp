@@ -32,44 +32,40 @@ void Player::placeBlock() {
     BlockPos pos = blockMouseOver_.pos;
     switch(blockMouseOver_.side) {
       case Side::Up:
-        pos.y++;
+        ++pos.y;
         break;
       case Side::Down:
-        pos.y--;
+        --pos.y;
         break;
       case Side::North:
-        pos.x--;
+        --pos.x;
         break;
       case Side::South:
-        pos.x++;
+        ++pos.x;
         break;
       case Side::West:
-        pos.z++;
+        ++pos.z;
         break;
       case Side::East:
-        pos.z--;
+        --pos.z;
         break;
     }
-    worldIn_->setBlock(pos, new Block {static_cast<Side>(rand() % 15 + 1)});
+    world->setBlock(pos, new Block {static_cast<Side>(rand() % 15 + 1)});
     if(blockMouseOver_.pos != pos) {
-      worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
+      world->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
     }
-    worldIn_->getChunk(getChunkPosFromBlock(pos))->computeBlocksEdgeRender();
+    world->getChunk(getChunkPosFromBlock(pos))->computeBlocksEdgeRender();
   }
 }
 
 void Player::breakBlock() {
   if(isBlockMouseOver_) {
-    worldIn_->setBlock(blockMouseOver_.pos, createBlock<Block>());
-    worldIn_->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
+    world->setBlock(blockMouseOver_.pos, createBlock<Block>());
+    world->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
   }
 }
 
-void Player::setWorldIn(World* worldIn) {
-  worldIn_ = worldIn;
-}
-
-void Player::move(Vec3d offset) {
+void Player::move(const Vec3d offset) {
   position_ += offset;
   camera.setPosition(position_);
 }
@@ -134,13 +130,13 @@ void Player::update(const Time time) {
   std::vector<BlockWithSide> mathed;
   mathed.reserve(10);
 
-  for(auto& [iKey, iVal] : worldIn_->region_) {
+  for(auto& [iKey, iVal] : world->region_) {
     if(iVal == nullptr) continue;
     if(iVal->getAabb().intersects(lineBox)) {
       for(auto& j : iVal->chunk_) {
         if(j == nullptr) continue;
         if(j->getAabb().intersects(lineBox)) {
-          for(uint16_t i = 0; i < 4096; i++) {
+          for(uint16_t i = 0; i < 4096; ++i) {
             blockPosInChunk = getPosFromBlockIndex(i);
             block = j->getBlock(blockPosInChunk);
             if(block == nullptr) continue;

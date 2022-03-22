@@ -18,14 +18,14 @@ public:
   Vec2(T X, T Y);
 
   //Copy constrcutor
-  Vec2(const Vec2<T>& vector);
+  explicit Vec2(const Vec2<T>& vector);
 
   //Different type copy constructor
   template <typename U>
   Vec2(const Vec2<U>& vector);
 
   //SFML compitaability constructor
-  Vec2(const sf::Vector2<T>& vector);
+  explicit Vec2(const sf::Vector2<T>& vector);
 
   //SFML different type compitablity constructor
   template <typename U>

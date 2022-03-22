@@ -2,6 +2,8 @@
 
 #include "vec2.hpp"
 
+#include <cmath>
+
 template <typename T>
 inline Vec2<T>::Vec2() {
   x = 0;
@@ -60,7 +62,7 @@ inline void Vec2<T>::wprint(std::wstring string) const {
 
 template <typename T>
 inline Vec2<T> Vec2<T>::abs() const {
-  return Vec2<T>(std::abs(x), abs(y));
+  return Vec2<T>(std::abs(x), std::abs(y));
 }
 
 template <typename T>
@@ -79,6 +81,22 @@ inline double_t Vec2<T>::distanceTo(Vec2<T> vector) const {
   T X = x - vector.x;
   T Y = y - vector.y;
   return std::sqrt(X * X + Y * Y);
+}
+
+inline void Vec2<short>::glVertex() const {
+  glVertex2s(x, y);
+}
+
+inline void Vec2<int>::glVertex() const {
+  glVertex2i(x, y);
+}
+
+inline void Vec2<float_t>::glVertex() const {
+  glVertex2f(x, y);
+}
+
+inline void Vec2<double_t>::glVertex() const {
+  glVertex2d(x, y);
 }
 
 template <typename T>

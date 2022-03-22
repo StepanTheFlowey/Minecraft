@@ -36,7 +36,7 @@ inline void Vec3<T>::print() const {
 }
 
 template <typename T>
-inline void Vec3<T>::print(std::string str) const {
+inline void Vec3<T>::print(const std::string str) const {
   std::cout << str << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
 }
 
@@ -46,8 +46,8 @@ inline void Vec3<T>::wprint() const {
 }
 
 template <typename T>
-inline void Vec3<T>::wprint(std::wstring str) const {
-  std::wcout << str << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+inline void Vec3<T>::wprint(const std::wstring wstr) const {
+  std::wcout << wstr << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
 }
 
 template <typename T>

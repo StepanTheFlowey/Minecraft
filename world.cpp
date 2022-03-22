@@ -2,16 +2,18 @@
 
 #include "math.hpp"
 
+World* world = nullptr;
+
 World::World() {
-#ifdef DEBUG
-  std::wcout << L"World()" << std::endl;
-#endif // DEBUG
+  debug(L"World()")
 }
 
 World::~World() {
-#ifdef DEBUG
-  std::wcout << L"~World()" << std::endl;
-#endif // DEBUG
+  debug(L"~World()")
+}
+
+void World::makeCurrent() const {
+  world = const_cast<World*>(this);
 }
 
 Block* World::getBlock(const BlockPos position) const {
@@ -20,7 +22,7 @@ Block* World::getBlock(const BlockPos position) const {
   return getRegion(regionPos)->getChunk(chunkPos)->getBlock(position);
 }
 
-void World::setBlock(const BlockPos position, Block* block) {
+void World::setBlock(const BlockPos position, Block* const block) {
   ChunkPos chunkPos = getChunkPosFromBlock(position);
   RegionPos regionPos = getRegionPosFromChunk(chunkPos);
   getRegion(regionPos)->getChunk(chunkPos)->setBlock(position, block);

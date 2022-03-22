@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "main.hpp"
 #include "world.hpp"
 #include "block.hpp"
 #include "camera.hpp"
@@ -16,8 +16,6 @@ class Player {
   float_t colorDeg = 0;
   BlockWithSide blockMouseOver_;
   bool isBlockMouseOver_ = false;
-
-  World* worldIn_ = nullptr;
 public:
   Camera camera;
 
@@ -28,7 +26,7 @@ public:
   ~Player();
 
   //Assign move direction
-  void setMoveDirection(Side, bool);
+  void setMoveDirection(Side side, bool value);
 
   //Tries to place block
   void placeBlock();
@@ -36,14 +34,11 @@ public:
   //Tries to break block
   void breakBlock();
 
-  //Set world pointer
-  void setWorldIn(World* worldInPtr);
-
   //Move player by offest
-  void move(const Vec3d);
+  void move(const Vec3d offset);
 
   //Updating player
-  void update(const Time);
+  void update(const Time time);
 
   //Draws player and block mouse over
   void draw() const;

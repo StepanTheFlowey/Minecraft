@@ -4,7 +4,6 @@
 
 #include "vec2.hpp"
 
-#include "glad.h"
 #include <SFML/System/Vector3.hpp>
 
 //Three component vector
@@ -30,13 +29,13 @@ public:
   void print() const;
 
   //Print with prefix to std::cout
-  void print(std::string) const;
+  void print(const std::string str) const;
 
   //Print to std::wcout
   void wprint() const;
 
   //Print with prefix to std::wcout
-  void wprint(std::wstring) const;
+  void wprint(const std::wstring wstr) const;
 
   //Absolute vector
   Vec3<T> abs() const;
@@ -48,13 +47,13 @@ public:
   Vec3<T> normalize() const;
 
   //Distance to other vector
-  double_t distanceTo(const Vec3<T>) const;
+  double_t distanceTo(const Vec3<T> vector) const;
 
   //
-  T dotProduct(const Vec3<T>) const;
+  T dotProduct(const Vec3<T> vector) const;
 
   //
-  Vec3<T> vectorProduct(const Vec3<T>) const;
+  Vec3<T> vectorProduct(const Vec3<T> vector) const;
 
   //Call glVertex3d(x,y,z)
   void glVertex() const;
@@ -78,10 +77,10 @@ public:
   Vec2<T> cutZ() const;
 
   //Vector equals
-  bool operator==(const Vec3<T>&) const;
+  bool operator==(const Vec3<T>& vector) const;
 
   //Vector not equals
-  bool operator!=(const Vec3<T>&) const;
+  bool operator!=(const Vec3<T>& vector) const;
 
   //TODO: Description
   Vec3<T> operator+(const T) const;
