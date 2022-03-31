@@ -31,7 +31,7 @@ NODISCARD std::wstring wide(std::string str);
 
 NODISCARD std::string shrink(std::wstring wstr);
 
-template <class E, typename T = std::underlying_type_t<E>> 
-NODISCARD __forceinline T to_underlying(E enumeration) {
-  return static_cast<T>(enumeration);
+template <class E, typename T = std::underlying_type_t<E>>
+NODISCARD __forceinline T to_underlying(E& enumeration) {
+  return static_cast<T&>(enumeration);
 }

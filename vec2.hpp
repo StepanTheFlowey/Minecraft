@@ -1,7 +1,5 @@
 #pragma once
 
-#include "types.hpp"
-
 #include "glad.h"
 #include <SFML/System/Vector2.hpp>
 

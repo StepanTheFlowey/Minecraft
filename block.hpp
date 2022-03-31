@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "main.hpp"
 #include "vec3.hpp"
 #include "aabb3.hpp"
 #include "side.hpp"

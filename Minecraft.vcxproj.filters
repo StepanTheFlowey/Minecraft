@@ -37,6 +37,15 @@
     <Filter Include="Includes\assets">
       <UniqueIdentifier>{f997d656-7c99-4226-a4e2-069b90031714}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\assets">
+      <UniqueIdentifier>{bdc225a6-b4dc-460b-8b29-18114c3fffbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\displays">
+      <UniqueIdentifier>{b59e1650-9f90-4ec8-828d-04b8d6a0947b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\displays">
+      <UniqueIdentifier>{7bbe83f9-297d-451c-a6d1-8aa4c2c2d896}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,18 +81,27 @@
     <ClCompile Include="blockRenderer.cpp">
       <Filter>Sources\gl</Filter>
     </ClCompile>
+    <ClCompile Include="ModelManager.cpp">
+      <Filter>Sources\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsManager.cpp">
+      <Filter>Sources\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockManager.cpp">
+      <Filter>Sources\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Sources\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScreen.cpp">
+      <Filter>Sources\displays</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
       <Filter>Includes</Filter>
     </ClInclude>
     <ClInclude Include="displayList.hpp">
-      <Filter>Includes\gl</Filter>
-    </ClInclude>
-    <ClInclude Include="renderer.inl">
-      <Filter>Includes\gl</Filter>
-    </ClInclude>
-    <ClInclude Include="renderer.hpp">
       <Filter>Includes\gl</Filter>
     </ClInclude>
     <ClInclude Include="aabb3.hpp">
@@ -143,35 +161,47 @@
     <ClInclude Include="glad.h">
       <Filter>Includes\gl</Filter>
     </ClInclude>
-    <ClInclude Include="block.hpp">
+    <ClInclude Include="Block.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="camera.hpp">
+    <ClInclude Include="Camera.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="chunk.hpp">
+    <ClInclude Include="Chunk.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="region.hpp">
+    <ClInclude Include="Region.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="player.hpp">
+    <ClInclude Include="Player.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="side.hpp">
+    <ClInclude Include="Side.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="world.hpp">
+    <ClInclude Include="World.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="assets.hpp">
+    <ClInclude Include="Assets.hpp">
       <Filter>Includes\assets</Filter>
     </ClInclude>
-    <ClInclude Include="textureManager.hpp">
+    <ClInclude Include="TextureManager.hpp">
       <Filter>Includes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockManager.hpp">
+      <Filter>Includes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelManager.hpp">
+      <Filter>Includes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsManager.hpp">
+      <Filter>Includes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScreen.hpp">
+      <Filter>Includes\displays</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -190,13 +220,13 @@
     <None Include="triangle3.inl">
       <Filter>Includes\mathematic</Filter>
     </None>
-    <None Include="chunk.inl">
+    <None Include="Chunk.inl">
       <Filter>Includes\game</Filter>
     </None>
-    <None Include="region.inl">
+    <None Include="Region.inl">
       <Filter>Includes\game</Filter>
     </None>
-    <None Include="world.inl">
+    <None Include="World.inl">
       <Filter>Includes\game</Filter>
     </None>
     <None Include="cpp.hint" />
