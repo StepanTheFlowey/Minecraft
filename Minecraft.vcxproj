@@ -97,27 +97,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="aabb3.inl" />
+    <ClCompile Include="Assets.cpp" />
     <ClCompile Include="BlockManager.cpp" />
     <ClCompile Include="blockRenderer.cpp" />
-    <ClCompile Include="chunk.cpp" />
-    <ClCompile Include="color.cpp" />
+    <ClCompile Include="Chunk.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DisplayHelper.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="glHelper.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="BlockManager.hpp" />
-    <ClInclude Include="blockRenderer.hpp" />
+    <ClInclude Include="BlockRenderer.hpp" />
+    <ClInclude Include="DisplayHelper.hpp" />
+    <ClInclude Include="GameScreen.hpp" />
     <ClInclude Include="glad.h" />
     <ClInclude Include="LoadingScreen.hpp" />
     <ClInclude Include="math.inl" />
+    <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="ModelManager.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="region.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Region.cpp" />
+    <ClInclude Include="MenuScreen.hpp" />
     <ClInclude Include="ModelManager.hpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="SettingsManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="time.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClInclude Include="plane3.hpp" />
     <ClInclude Include="rect2.hpp" />
     <ClInclude Include="rect3.hpp" />
@@ -127,7 +134,7 @@
     <ClInclude Include="triangle2.hpp" />
     <ClInclude Include="vec2.inl" />
     <ClInclude Include="vec3.inl" />
-    <ClCompile Include="world.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aabb3.hpp" />
@@ -135,16 +142,16 @@
     <ClInclude Include="Block.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Chunk.hpp" />
-    <ClInclude Include="color.hpp" />
-    <ClInclude Include="displayList.hpp" />
-    <ClInclude Include="glHelper.hpp" />
+    <ClInclude Include="Color.hpp" />
+    <ClInclude Include="DisplayList.hpp" />
+    <ClInclude Include="GlHelper.hpp" />
     <ClInclude Include="math.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="collisionResult.hpp" />
     <ClInclude Include="triangle3.hpp" />
     <ClInclude Include="Region.hpp" />
     <ClInclude Include="Side.hpp" />
-    <ClInclude Include="time.hpp" />
+    <ClInclude Include="Time.hpp" />
     <ClInclude Include="main.hpp" />
     <ClInclude Include="vec2.hpp" />
     <ClInclude Include="vec3.hpp" />
@@ -163,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Minecraft.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="loading.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

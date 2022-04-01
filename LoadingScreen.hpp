@@ -2,7 +2,7 @@
 
 #include <thread>
 #include <mutex>
-#include "glHelper.hpp"
+#include "GlHelper.hpp"
 
 class LoadingScreen {
   std::thread renderThread_;
@@ -10,17 +10,10 @@ class LoadingScreen {
   std::atomic_bool work_;
 public:
 
-  LoadingScreen() :renderThread_(&LoadingScreen::task, this) {
+  LoadingScreen();
 
-  }
-
-  ~LoadingScreen() {
-
-  }
-
+  ~LoadingScreen();
 private:
 
-  void task() {
-
-  }
+  void task();
 };

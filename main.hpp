@@ -27,9 +27,9 @@
 
 #endif
 
-NODISCARD std::wstring wide(std::string str);
+NODISCARD std::wstring wide(const std::string str);
 
-NODISCARD std::string shrink(std::wstring wstr);
+NODISCARD std::string shrink(const std::wstring wstr);
 
 template <class E, typename T = std::underlying_type_t<E>>
 NODISCARD __forceinline T to_underlying(E& enumeration) {

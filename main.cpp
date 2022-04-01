@@ -1,17 +1,19 @@
 #include "main.hpp"
 
-#include "assets.hpp"
-#include "world.hpp"
-#include "player.hpp"
-#include "glHelper.hpp"
-#include "displayList.hpp"
+#include "Assets.hpp"
+#include "World.hpp"
+#include "Player.hpp"
+#include "GlHelper.hpp"
+#include "DisplayHelper.hpp"
+#include "DisplayList.hpp"
+#include "LoadingScreen.hpp"
 #include <SFML/Graphics.hpp>
 
-NODISCARD __forceinline std::wstring wide(std::string str) {
+NODISCARD __forceinline std::wstring wide(const std::string str) {
   return std::wstring(str.begin(), str.end());
 }
 
-NODISCARD __forceinline std::string shrink(std::wstring wstr) {
+NODISCARD __forceinline std::string shrink(const std::wstring wstr) {
   return std::string(wstr.begin(), wstr.end());
 }
 
@@ -21,22 +23,28 @@ int main() {
 #else 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
 #endif // DEBUG
-  //TODO: we can be not a russian
-  setlocale(LC_ALL, "Russian");
 
-  sf::Context context;
+  GlHelper::loadGL();
 
-  std::shared_ptr<GlHelper> glHelper(new GlHelper);
-  glHelper->loadGL();
-  //glHelper->loadInfo();
+  display = new DisplayHelper;
+  display->videoMode = sf::VideoMode(800, 600);
+  display->init();
 
-  Assets* assets = new Assets;
-  assets->textures.load();
+  gl = new GlHelper;
+  gl->loadInfo();
 
-  World* world = new World;
+  LoadingScreen loadingScreen;
+
+  assets = new Assets;
+  assets->blockManager.load();
+  assets->modelManager.load();
+  assets->textureManager.load();
+  assets->settingsManager.load();
+
+  World* const world = new World;
   world->makeCurrent();
 
-  Player* player = new Player;
+  Player* const player = new Player;
 
 #define AXIS_LENGHT 17.0F
 #define AXIS_OFFSET -0.1F
@@ -62,22 +70,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
 #undef AXIS_LENGHT
 #undef AXIS_OFFSET
 
-  sf::ContextSettings contextSettings;
-  contextSettings.antialiasingLevel = 16; //Multisampling level
-  contextSettings.sRgbCapable = false;    //STUPID SRGB
-  contextSettings.depthBits = 24;         //Depth buffer bits
-  contextSettings.majorVersion = 2;       //Request OpenGL 2.1
-  contextSettings.minorVersion = 1;
-  contextSettings.attributeFlags = sf::ContextSettings::Default; //No core render please
-
-  sf::Event event;
-
-  sf::Window window(sf::VideoMode(800, 600), "Minecraft Alpha", sf::Style::Default, contextSettings);
-  window.setVerticalSyncEnabled(true);
-
   //Setup renderer
-  glHelper->initGL();
-  glHelper->init3D(640, 360);
+  gl->initGL();
+  gl->init3D();
+
+  glFrontFace(GL_CCW);
+  glLineWidth(3);
+  glPointSize(10);
+
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_TEXTURE_2D);
 
   bool grab = false;
   bool fullscreen = false;
@@ -94,7 +96,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
           event.size.width -= event.size.width % 2;
           event.size.height -= event.size.height % 2;
           window.setSize(sf::Vector2u(event.size.width, event.size.height));
-          glHelper->init3D(event.size.width, event.size.height);
+          gl->init3D(event.size.width, event.size.height);
           break;
         case sf::Event::MouseMoved:
         {//Mouse in a trap™
@@ -152,11 +154,11 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
               if(fullscreen) {
                 sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
                 window.create(videoMode, "Minecraft Alpha", sf::Style::Fullscreen, contextSettings);
-                glHelper->init3D(videoMode.width, videoMode.height);
+                gl->init3D(videoMode.width, videoMode.height);
               }
               else {
                 window.create(sf::VideoMode(800, 600), "Minecraft Alpha", sf::Style::Default, contextSettings);
-                glHelper->init3D(800, 600);
+                gl->init3D(800, 600);
               }
               if(grab) {
                 window.setMouseCursorGrabbed(true);
@@ -219,6 +221,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
   delete assets;
   delete player;
   delete world;
+
+  delete display;
+  delete gl;
 
   //_wsystem(L"pause");
 

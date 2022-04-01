@@ -1,31 +1,40 @@
-#include "glHelper.hpp"
+#include "GlHelper.hpp"
 
+#include "DisplayHelper.hpp"
 #include <gl/GLU.h>
 
-void GlHelper::init2D(const GLdouble width, const GLdouble height) {
-  glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-  gluOrtho2D(0, 0, width, height);
+GlHelper* gl = nullptr;
+
+void GlHelper::init2D() {
+  glViewport(
+    0,
+    0,
+    static_cast<GLsizei>(display->videoMode.width),
+    static_cast<GLsizei>(display->videoMode.height)
+  );
+  gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
 
   glDisable(GL_DEPTH_TEST);
 }
 
-void GlHelper::init3D(const GLdouble width, const GLdouble height) {
-  if(height != 0) {
-    aspect_ = width / height;
+void GlHelper::init3D() {
+  if(display->videoMode.height != 0) {
+    aspect_ = display->videoMode.width / display->videoMode.height;
   }
 
-  glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
-  gluPerspective(60, aspect_, 1e-2, 1e+3);
+  glViewport(
+    0,
+    0,
+    static_cast<GLsizei>(display->videoMode.width),
+    static_cast<GLsizei>(display->videoMode.height)
+  );
+  gluPerspective(70, aspect_, 1e-2, 1e+3);
 
   glEnable(GL_DEPTH_TEST);
 }
 
 bool GlHelper::isExtensionSupport(const std::wstring name) const {
-  bool found = false;
-  for(std::size_t i = 0; i < extensions.size(); i++) {
-    found = extensions[i] == name || found;
-  }
-  return found;
+  return extensions.find(name) != extensions.end();
 }
 
 void GlHelper::loadInfo() {
@@ -40,14 +49,12 @@ void GlHelper::loadInfo() {
 
   std::wstring extensionslist = wide(std::string(reinterpret_cast<const char*>(glGetString(GL_EXTENSIONS))));
   std::size_t lastPos = 0;
-  extensions.reserve(300);
-  for(std::size_t i = 0; i < extensionslist.length(); i++)
+  for(std::size_t i = 0; i < extensionslist.length(); ++i) {
     if(extensionslist[i] == L' ') {
-      extensions.push_back(extensionslist.substr(lastPos == 0 ? 0 : lastPos + 1, i - lastPos));
-      extensions.back().shrink_to_fit();
+      extensions.insert(extensionslist.substr(lastPos == 0 ? 0 : lastPos + 1, i - lastPos));
       lastPos = i;
     }
-  extensions.shrink_to_fit();
+  }
 
 #ifdef DEBUG
   std::wcout << L"OpenGL info:" << std::endl;
@@ -55,9 +62,8 @@ void GlHelper::loadInfo() {
   std::wcout << L"GL_RENDERER:\t" << renderer << std::endl;
   std::wcout << L"GL_VERSION:\t" << version << std::endl;
   std::wcout << L"GL_EXTENSIONS:" << std::endl;
-  for(std::size_t i = 0; i < extensions.size(); ++i)
-    std::wcout << extensions[i] << std::endl;
-  std::wcout << L"Loading OpenGL extensions" << std::endl;
+  for(const auto& i : extensions)
+    std::wcout << i << std::endl;
 #endif // DEBUG
 }
 
@@ -71,16 +77,9 @@ void GlHelper::initGL() {
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  
+
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
   glClearDepth(1.0);
-
-  glFrontFace(GL_CCW);
-  glLineWidth(3);
-  glPointSize(10);
-
-  glEnable(GL_CULL_FACE);
-  glEnable(GL_TEXTURE_2D);
 }
 
 void GlHelper::clearInfo() {

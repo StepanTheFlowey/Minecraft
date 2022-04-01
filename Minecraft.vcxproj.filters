@@ -51,10 +51,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="color.cpp">
+    <ClCompile Include="Color.cpp">
       <Filter>Sources\utility</Filter>
     </ClCompile>
-    <ClCompile Include="time.cpp">
+    <ClCompile Include="Time.cpp">
       <Filter>Sources\utility</Filter>
     </ClCompile>
     <ClCompile Include="renderer.cpp">
@@ -66,16 +66,16 @@
     <ClCompile Include="glad.c">
       <Filter>Sources\gl</Filter>
     </ClCompile>
-    <ClCompile Include="world.cpp">
+    <ClCompile Include="World.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
-    <ClCompile Include="region.cpp">
+    <ClCompile Include="Region.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
-    <ClCompile Include="player.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
-    <ClCompile Include="chunk.cpp">
+    <ClCompile Include="Chunk.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
     <ClCompile Include="blockRenderer.cpp">
@@ -96,12 +96,24 @@
     <ClCompile Include="LoadingScreen.cpp">
       <Filter>Sources\displays</Filter>
     </ClCompile>
+    <ClCompile Include="Assets.cpp">
+      <Filter>Sources\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayHelper.cpp">
+      <Filter>Sources\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuScreen.cpp">
+      <Filter>Sources\displays</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScreen.cpp">
+      <Filter>Sources\displays</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
       <Filter>Includes</Filter>
     </ClInclude>
-    <ClInclude Include="displayList.hpp">
+    <ClInclude Include="DisplayList.hpp">
       <Filter>Includes\gl</Filter>
     </ClInclude>
     <ClInclude Include="aabb3.hpp">
@@ -146,16 +158,16 @@
     <ClInclude Include="vec3.inl">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="glHelper.hpp">
+    <ClInclude Include="GlHelper.hpp">
       <Filter>Includes\gl</Filter>
     </ClInclude>
-    <ClInclude Include="time.hpp">
+    <ClInclude Include="Time.hpp">
       <Filter>Includes\utility</Filter>
     </ClInclude>
-    <ClInclude Include="color.hpp">
+    <ClInclude Include="Color.hpp">
       <Filter>Includes\utility</Filter>
     </ClInclude>
-    <ClInclude Include="blockRenderer.hpp">
+    <ClInclude Include="BlockRenderer.hpp">
       <Filter>Includes\gl</Filter>
     </ClInclude>
     <ClInclude Include="glad.h">
@@ -203,6 +215,15 @@
     <ClInclude Include="LoadingScreen.hpp">
       <Filter>Includes\displays</Filter>
     </ClInclude>
+    <ClInclude Include="MenuScreen.hpp">
+      <Filter>Includes\displays</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.hpp">
+      <Filter>Includes\displays</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayHelper.hpp">
+      <Filter>Includes\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="plane3.inl">
@@ -235,5 +256,10 @@
     <ResourceCompile Include="Minecraft.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="loading.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

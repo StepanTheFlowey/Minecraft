@@ -2,7 +2,7 @@
 
 #include "main.hpp"
 
-#include <vector>
+#include <set>
 #include "glad.h"
 
 class GlHelper {
@@ -15,11 +15,11 @@ public:
   std::wstring vendor;
   std::wstring renderer;
   std::wstring version;
-  std::vector<std::wstring> extensions;
+  std::set<std::wstring> extensions;
 
-  void init2D(const GLdouble width, const GLdouble height);
+  void init2D();
 
-  void init3D(const GLdouble width, const GLdouble height);
+  void init3D();
 
   bool isExtensionSupport(const std::wstring name) const;
 
@@ -33,3 +33,4 @@ public:
 
   static void checkForErrors(const uint32_t line);
 };
+extern GlHelper* gl;
