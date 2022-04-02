@@ -8,9 +8,10 @@
 class GlHelper {
   GLdouble aspect_ = 0;
 public:
- 
-  bool vboSupport = false;
+
   bool vaoSupport = false;
+  bool vboSupport = false;
+  bool shaderSupport = false;
 
   std::wstring vendor;
   std::wstring renderer;
@@ -31,6 +32,6 @@ public:
 
   static void initGL();
 
-  static void checkForErrors(const uint32_t line);
+  static void checkForErrors(const char* file, const uint32_t line);
 };
 extern GlHelper* gl;

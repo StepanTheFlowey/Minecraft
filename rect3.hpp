@@ -1,9 +1,10 @@
 #pragma once
 
-#include "vec3.hpp"
-#include "triangle3.hpp"
+#include "Vec3.hpp"
+#include "Triangle3.hpp"
 
-template <typename T> class Rect3 {
+template <typename T>
+class Rect3 {
 public:
   Vec3<T> a;
   Vec3<T> b;
@@ -12,15 +13,17 @@ public:
 
   Rect3();
 
-  Rect3(Vec3<T>, Vec3<T>, Vec3<T>, Vec3<T>);
+  Rect3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c, const Vec3<T> _d);
+
+  ~Rect3();
 
   T square() const;
 
-  bool isPointInside(const Vec3<T>) const;
+  bool isPointInside(const Vec3<T> vector) const;
 
-  Rect3<T> operator+(const Vec3<T> offset) const ;
+  Rect3<T> operator+(const Vec3<T> offset) const;
 
-  void operator+=(const Vec3<T> offset) ;
+  void operator+=(const Vec3<T> offset);
 
   static const Rect3<T> Up;
   static const Rect3<T> Down;
@@ -30,7 +33,7 @@ public:
   static const Rect3<T> East;
 };
 
-#include "rect3.inl"
+#include "Rect3.inl"
 
 using Rect3f = Rect3<GLfloat>;
 using Rect3d = Rect3<GLdouble>;

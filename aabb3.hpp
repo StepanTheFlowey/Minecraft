@@ -1,10 +1,11 @@
 #pragma once
 
-#include "types.hpp"
-#include "vec3.hpp"
-#include "color.hpp"
+#include "main.hpp"
+#include "Vec3.hpp"
+#include "Color.hpp"
 
-template <typename T> class Aabb3 {
+template <typename T>
+class Aabb3 {
 public:
   Vec3<T> min;
   Vec3<T> max;
@@ -12,49 +13,39 @@ public:
   //Default constructor
   Aabb3();
 
-  //Component construtor
-  Aabb3(T, T, T, T, T, T);
-
   //Vector constructor
-  Aabb3(const Vec3<T>, const Vec3<T>);
+  Aabb3(const Vec3<T> _min, const Vec3<T> _max);
 
   //Copy constructor
-  Aabb3(const Aabb3<T>&);
+  Aabb3(const Aabb3<T>& aabb);
 
   //Template copy constructor
   template <typename U>
-  Aabb3(const Aabb3<U>&);
+  Aabb3(const Aabb3<U>& aabb);
 
   //
-  void setComponent(T, T, T, T, T, T);
+  ~Aabb3();
 
   //
-  void setVector(Vec3<T>, Vec3<T>);
+  void set(const Vec3<T> _min, const Vec3<T> _max);
 
   //
   bool intersects(const Aabb3<T>) const;
 
-  //
-  template <typename U>
-  bool intersects(const Aabb3<U>) const;
-
-  //
-  bool intersects(T, T, T, T, T, T) const;
-
   //Draws axis of box in float
-  void drawAxisColorf(const Color,const float_t) const;
-
-  //Draws axis of box in double with 
-  void drawAxisColord(const Color,const double_t) const;
-
-  //Draws axis of box in float
-  void drawAxisf(const float_t) const;
+  void drawAxisColorf(const Color color, const float_t offset) const;
 
   //Draws axis of box in double
-  void drawAxisd(const double_t) const;
+  void drawAxisColord(const Color color, const double_t offset) const;
+
+  //Draws axis of box in float
+  void drawAxisf(const float_t offset) const;
+
+  //Draws axis of box in double
+  void drawAxisd(const double_t offset) const;
 };
 
-#include "aabb3.inl"
+#include "Aabb3.inl"
 
 using Aabb3f = Aabb3<GLfloat>;
 using Aabb3d = Aabb3<GLdouble>;

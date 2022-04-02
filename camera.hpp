@@ -73,8 +73,8 @@ private:
     if(rotation_.y < -89.99F) {
       rotation_.y = -89.99F;
     }
-    centerPos_.x = eyePos_.x + static_cast<double_t>(sinf(rotation_.x * DEG_TO_RAD_F) * cosf(rotation_.y * DEG_TO_RAD_F) * 5.0F);
-    centerPos_.y = eyePos_.y + static_cast<double_t>(sinf(rotation_.y * DEG_TO_RAD_F) * 5.0F);
-    centerPos_.z = eyePos_.z + static_cast<double_t>(cosf(rotation_.x * DEG_TO_RAD_F) * cosf(rotation_.y * DEG_TO_RAD_F) * 5.0F);
+    centerPos_.x = eyePos_.x + static_cast<double_t>(sinf(rotation_.x * F_DEG_TO_RAD) * cosf(rotation_.y * F_DEG_TO_RAD) * 5.0F);
+    centerPos_.y = eyePos_.y + static_cast<double_t>(sinf(rotation_.y * F_DEG_TO_RAD) * 5.0F);
+    centerPos_.z = eyePos_.z + static_cast<double_t>(cosf(rotation_.x * F_DEG_TO_RAD) * cosf(rotation_.y * F_DEG_TO_RAD) * 5.0F);
   }
 };

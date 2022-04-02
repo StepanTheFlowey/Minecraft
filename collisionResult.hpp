@@ -1,7 +1,7 @@
 #pragma once
 
-#include "vec3.hpp"
-#include "side.hpp"
+#include "Vec3.hpp"
+#include "Side.hpp"
 
 template <typename T> struct CollisionResult {
   bool hit = false;

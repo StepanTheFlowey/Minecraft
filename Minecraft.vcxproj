@@ -96,16 +96,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="aabb3.inl" />
+    <ClInclude Include="Aabb3.inl" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="BlockManager.cpp" />
-    <ClCompile Include="blockRenderer.cpp" />
+    <ClCompile Include="BlockRenderer.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DisplayHelper.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="glHelper.cpp" />
+    <ClCompile Include="GlHelper.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="BlockManager.hpp" />
@@ -114,30 +114,29 @@
     <ClInclude Include="GameScreen.hpp" />
     <ClInclude Include="glad.h" />
     <ClInclude Include="LoadingScreen.hpp" />
-    <ClInclude Include="math.inl" />
+    <ClInclude Include="Math.inl" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Region.cpp" />
     <ClInclude Include="MenuScreen.hpp" />
     <ClInclude Include="ModelManager.hpp" />
-    <ClCompile Include="renderer.cpp" />
     <ClCompile Include="SettingsManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Time.cpp" />
-    <ClInclude Include="plane3.hpp" />
-    <ClInclude Include="rect2.hpp" />
-    <ClInclude Include="rect3.hpp" />
+    <ClInclude Include="Plane3.hpp" />
+    <ClInclude Include="Rect2.hpp" />
+    <ClInclude Include="Rect3.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingsManager.hpp" />
     <ClInclude Include="TextureManager.hpp" />
-    <ClInclude Include="triangle2.hpp" />
-    <ClInclude Include="vec2.inl" />
-    <ClInclude Include="vec3.inl" />
+    <ClInclude Include="Triangle2.hpp" />
+    <ClInclude Include="Vec2.inl" />
+    <ClInclude Include="Vec3.inl" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="aabb3.hpp" />
+    <ClInclude Include="Aabb3.hpp" />
     <ClInclude Include="Assets.hpp" />
     <ClInclude Include="Block.hpp" />
     <ClInclude Include="Camera.hpp" />
@@ -145,27 +144,27 @@
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="DisplayList.hpp" />
     <ClInclude Include="GlHelper.hpp" />
-    <ClInclude Include="math.hpp" />
+    <ClInclude Include="Math.hpp" />
     <ClInclude Include="Player.hpp" />
-    <ClInclude Include="collisionResult.hpp" />
-    <ClInclude Include="triangle3.hpp" />
+    <ClInclude Include="CollisionResult.hpp" />
+    <ClInclude Include="Triangle3.hpp" />
     <ClInclude Include="Region.hpp" />
     <ClInclude Include="Side.hpp" />
     <ClInclude Include="Time.hpp" />
     <ClInclude Include="main.hpp" />
-    <ClInclude Include="vec2.hpp" />
-    <ClInclude Include="vec3.hpp" />
+    <ClInclude Include="Vec2.hpp" />
+    <ClInclude Include="Vec3.hpp" />
     <ClInclude Include="World.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Chunk.inl" />
     <None Include="cpp.hint" />
-    <None Include="plane3.inl" />
-    <None Include="rect2.inl" />
-    <None Include="rect3.inl" />
+    <None Include="Plane3.inl" />
+    <None Include="Rect2.inl" />
+    <None Include="Rect3.inl" />
     <None Include="Region.inl" />
-    <None Include="triangle2.inl" />
-    <None Include="triangle3.inl" />
+    <None Include="Triangle2.inl" />
+    <None Include="Triangle3.inl" />
     <None Include="World.inl" />
   </ItemGroup>
   <ItemGroup>

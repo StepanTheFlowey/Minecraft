@@ -6,13 +6,8 @@ inline Aabb3<T>::Aabb3() {
 }
 
 template <typename T>
-inline Aabb3<T>::Aabb3(T x0, T y0, T z0, T x1, T y1, T z1) {
-  setComponent(x0, y0, z0, x1, y1, z1);
-}
-
-template <typename T>
 inline Aabb3<T>::Aabb3(const Vec3<T> _min, const Vec3<T> _max) {
-  setVector(_min, _max);
+  set(_min, _max);
 }
 
 template <typename T>
@@ -27,45 +22,30 @@ inline Aabb3<T>::Aabb3(const Aabb3<U>& aabb) {
   max = Vec3<T>(aabb.max);
 }
 
-template <typename T>
-inline void Aabb3<T>::setComponent(T x0, T y0, T z0, T x1, T y1, T z1) {
-  min.x = std::min(x0, x1);
-  min.y = std::min(y0, y1);
-  min.z = std::min(z0, z1);
-  max.x = std::max(x0, x1);
-  max.y = std::max(y0, y1);
-  max.z = std::max(z0, z1);
+template<typename T>
+inline Aabb3<T>::~Aabb3() {
+
 }
 
 template <typename T>
-inline void Aabb3<T>::setVector(const Vec3<T> _min, const Vec3<T> _max) {
-  setComponent(_min.x, _min.y, _min.z, _max.x, _max.y, _max.z);
+void Aabb3<T>::set(const Vec3<T> _min, const Vec3<T> _max) {
+  min.x = std::min(_min.x, _max.x);
+  min.y = std::min(_min.y, _max.y);
+  min.z = std::min(_min.z, _max.z);
+  max.x = std::max(_min.x, _max.x);
+  max.y = std::max(_min.y, _max.y);
+  max.z = std::max(_min.z, _max.z);
 }
 
 template <typename T>
-inline bool Aabb3<T>::intersects(const Aabb3<T> aabb) const {
-  return intersects(aabb.min.x, aabb.min.y, aabb.min.z, aabb.max.x, aabb.max.y, aabb.max.z);
-}
-
-template <typename T> template <typename U>
-inline bool Aabb3<T>::intersects(const Aabb3<U> aabb) const {
-  return intersects(static_cast<T>(aabb.min.x),
-                    static_cast<T>(aabb.min.y),
-                    static_cast<T>(aabb.min.z),
-                    static_cast<T>(aabb.max.x),
-                    static_cast<T>(aabb.max.y),
-                    static_cast<T>(aabb.max.z));
-}
-
-template <typename T>
-inline bool Aabb3<T>::intersects(T x0, T y0, T z0, T x1, T y1, T z1) const {
+bool Aabb3<T>::intersects(const Aabb3<T> aabb) const {
   return
-    (min.x < x1) &&
-    (max.x > x0) &&
-    (min.y < y1) &&
-    (max.y > y0) &&
-    (min.z < z1) &&
-    (max.z > z0);
+    (min.x < aabb.max.x) &&
+    (max.x > aabb.min.x) &&
+    (min.y < aabb.max.y) &&
+    (max.y > aabb.min.y) &&
+    (min.z < aabb.max.z) &&
+    (max.z > aabb.min.z);
 }
 
 template <typename T>
@@ -130,7 +110,7 @@ void Aabb3<T>::drawAxisColord(const Color color, const double_t offset) const {
   const GLdouble aX = static_cast<GLdouble>(max.x) + offset;
   const GLdouble aY = static_cast<GLdouble>(max.y) + offset;
   const GLdouble aZ = static_cast<GLdouble>(max.z) + offset;
-  
+
   color.glColor();
 
   glBegin(GL_LINES);
@@ -185,10 +165,9 @@ void Aabb3<T>::drawAxisf(const float_t offset) const {
   const GLfloat aY = static_cast<GLfloat>(max.y) + offset;
   const GLfloat aZ = static_cast<GLfloat>(max.z) + offset;
 
-  glColor3ub(255, 0, 0);
-
   glBegin(GL_LINES);
 
+  glColor3ub(255, 0, 0);
   glVertex3f(iX, iY, iZ);
   glVertex3f(aX, iY, iZ);
 
@@ -239,10 +218,9 @@ void Aabb3<T>::drawAxisd(const double_t offset) const {
   GLdouble aY = static_cast<GLdouble>(max.y) + offset;
   GLdouble aZ = static_cast<GLdouble>(max.z) + offset;
 
-  glColor3ub(255, 0, 0);
-
   glBegin(GL_LINES);
 
+  glColor3ub(255, 0, 0);
   glVertex3d(iX, iY, iZ);
   glVertex3d(aX, iY, iZ);
 

@@ -1,14 +1,13 @@
-#include "player.hpp"
+#include "Player.hpp"
 
-#include "math.hpp"
-#include "color.hpp"
-#include "collisionResult.hpp"
-#include "chunk.hpp"
+#include "main.hpp"
+#include "Math.hpp"
+#include "Color.hpp"
+#include "CollisionResult.hpp"
+#include "Chunk.hpp"
 
 Player::Player():position_(1, 20, 1) {
-#ifdef DEBUG
-  std::wcout << L"Player()" << std::endl;
-#endif // DEBUG
+  debug(L"Player()");
   camera.setPosition(position_);
 }
 
@@ -76,33 +75,33 @@ void Player::update(const Time time) {
   if(to_underlying(moveDir_ & Side::Forward)) {
     move(
       Vec3d(
-      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis),
+      static_cast<double_t>(sinf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * millis),
       0.0,
-      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis))
+      static_cast<double_t>(cosf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * millis))
     );
   }
   if(to_underlying(moveDir_ & Side::Back)) {
     move(
       Vec3d(
-      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis),
+      static_cast<double_t>(sinf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * -millis),
       0.0,
-      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis))
+      static_cast<double_t>(cosf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * -millis))
     );
   }
   if(to_underlying(moveDir_ & Side::Left)) {
     move(
       Vec3d(
-      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis),
+      static_cast<double_t>(cosf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * millis),
       0.0,
-      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis))
+      static_cast<double_t>(sinf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * -millis))
     );
   }
   if(to_underlying(moveDir_ & Side::Right)) {
     move(
       Vec3d(
-      static_cast<double_t>(cosf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * -millis),
+      static_cast<double_t>(cosf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * -millis),
       0.0,
-      static_cast<double_t>(sinf(rotation.x * DEG_TO_RAD_F) * moveSpeed_ * millis))
+      static_cast<double_t>(sinf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * millis))
     );
   }
   if(to_underlying(moveDir_ & Side::Up)) {

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "vec3.hpp"
+#include "Vec3.hpp"
 
-template <typename T> class Triangle3 {
+template <typename T>
+class Triangle3 {
 public:
   Vec3<T> a;
   Vec3<T> b;
@@ -12,14 +13,14 @@ public:
   Triangle3();
 
   //Component constructor
-  Triangle3(Vec3<T>, Vec3<T>, Vec3<T>);
-
-  //Copy constructor
-  Triangle3(const Triangle3<T>&);
+  Triangle3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c);
 
   //Different type copy constructor
   template <typename U>
-  Triangle3(const Triangle3<U>&);
+  Triangle3(const Triangle3<U>& triangle);
+
+  //Default destructor
+  ~Triangle3();
 
   //
   Vec3<T> getNormal() const;
@@ -28,10 +29,10 @@ public:
   T square() const;
 
   //
-  bool isPointInside(const Vec3<T>, const Vec3<T> = getNormal());
+  bool isPointInside(const Vec3<T> vector, const Vec3<T> normal = getNormal()) const;
 };
 
-#include "triangle3.inl"
+#include "Triangle3.inl"
 
 using Triangle3d = Triangle3<GLdouble>;
 using Triangle3f = Triangle3<GLfloat>;

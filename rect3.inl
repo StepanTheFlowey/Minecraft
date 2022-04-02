@@ -1,29 +1,30 @@
 #pragma once
 
-#include "rect3.hpp"
-
-#include "rect2.hpp"
-
 template <typename T>
 inline Rect3<T>::Rect3() {
 
 }
 
 template <typename T>
-inline Rect3<T>::Rect3(Vec3<T> A, Vec3<T> B, Vec3<T> C, Vec3<T> D) {
-  a = A;
-  b = B;
-  c = C;
-  d = D;
+inline Rect3<T>::Rect3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c, const Vec3<T> _d) {
+  a = _a;
+  b = _b;
+  c = _c;
+  d = _d;
 }
 
 template <typename T>
-inline T Rect3<T>::square() const {
+inline Rect3<T>::~Rect3() {
+
+}
+
+template <typename T>
+T Rect3<T>::square() const {
   return Triangle3<T>(a, b, c).square() + Triangle3<T>(a, d, c).square();
 }
 
 template <typename T>
-inline bool Rect3<T>::isPointInside(const Vec3<T> vector) const {
+bool Rect3<T>::isPointInside(const Vec3<T> vector) const {
   return
     Rect2<T>(a.cutX(), b.cutX(), c.cutX(), d.cutX()).isPointInside(vector.cutX()) &&
     Rect2<T>(a.cutY(), b.cutY(), c.cutY(), d.cutY()).isPointInside(vector.cutY()) &&

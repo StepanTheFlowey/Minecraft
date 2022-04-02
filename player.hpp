@@ -30,7 +30,7 @@ public:
 
   //Tries to place block
   void placeBlock();
-  
+
   //Tries to break block
   void breakBlock();
 

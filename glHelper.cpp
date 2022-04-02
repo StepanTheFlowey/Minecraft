@@ -90,27 +90,28 @@ void GlHelper::clearInfo() {
   extensions.clear();
 }
 
-void GlHelper::checkForErrors(const uint32_t line) {
+void GlHelper::checkForErrors(const char* file, const uint32_t line) {
+  std::wcout << wide(file) << L':' << line << " GL error ";
   switch(glGetError()) {
-    case GL_NO_ERROR:
-      break;
     case GL_INVALID_ENUM:
-      std::wcout << L"Line " << line << L" error GL_INVALID_ENUM" << std::endl;
+      std::wcout << L"GL_INVALID_ENUM";
       break;
     case GL_INVALID_VALUE:
-      std::wcout << L"Line " << line << L" error GL_INVALID_VALUE" << std::endl;
+      std::wcout << L"GL_INVALID_VALUE";
       break;
     case GL_INVALID_OPERATION:
-      std::wcout << L"Line " << line << L" error GL_INVALID_OPERATION" << std::endl;
+      std::wcout << L"GL_INVALID_OPERATION";
       break;
     case GL_STACK_OVERFLOW:
-      std::wcout << L"Line " << line << L" error GL_STACK_OVERFLOW" << std::endl;
+      std::wcout << L"GL_STACK_OVERFLOW";
       break;
     case GL_STACK_UNDERFLOW:
-      std::wcout << L"Line " << line << L" error GL_STACK_UNDERFLOW" << std::endl;
+      std::wcout << L"GL_STACK_UNDERFLOW";
       break;
     case GL_OUT_OF_MEMORY:
-      std::wcout << L"Line " << line << L" error GL_OUT_OF_MEMORY" << std::endl;
+      std::wcout << L"GL_OUT_OF_MEMORY";
       break;
   }
+  std::wcout << std::endl;
 }
+#define checkGLerrors() GlHelper::checkForErrors(__FILE__,__LINE__)

@@ -57,10 +57,7 @@
     <ClCompile Include="Time.cpp">
       <Filter>Sources\utility</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>Sources\gl</Filter>
-    </ClCompile>
-    <ClCompile Include="glHelper.cpp">
+    <ClCompile Include="GlHelper.cpp">
       <Filter>Sources\gl</Filter>
     </ClCompile>
     <ClCompile Include="glad.c">
@@ -78,7 +75,7 @@
     <ClCompile Include="Chunk.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
-    <ClCompile Include="blockRenderer.cpp">
+    <ClCompile Include="BlockRenderer.cpp">
       <Filter>Sources\gl</Filter>
     </ClCompile>
     <ClCompile Include="ModelManager.cpp">
@@ -116,46 +113,46 @@
     <ClInclude Include="DisplayList.hpp">
       <Filter>Includes\gl</Filter>
     </ClInclude>
-    <ClInclude Include="aabb3.hpp">
+    <ClInclude Include="Aabb3.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="aabb3.inl">
+    <ClInclude Include="Aabb3.inl">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="collisionResult.hpp">
+    <ClInclude Include="CollisionResult.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="math.hpp">
+    <ClInclude Include="Math.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="math.inl">
+    <ClInclude Include="Math.inl">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="plane3.hpp">
+    <ClInclude Include="Plane3.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="rect2.hpp">
+    <ClInclude Include="Rect2.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="rect3.hpp">
+    <ClInclude Include="Rect3.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="triangle2.hpp">
+    <ClInclude Include="Triangle2.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="triangle3.hpp">
+    <ClInclude Include="Triangle3.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="vec2.hpp">
+    <ClInclude Include="Vec2.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="vec2.inl">
+    <ClInclude Include="Vec2.inl">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="vec3.hpp">
+    <ClInclude Include="Vec3.hpp">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
-    <ClInclude Include="vec3.inl">
+    <ClInclude Include="Vec3.inl">
       <Filter>Includes\mathematic</Filter>
     </ClInclude>
     <ClInclude Include="GlHelper.hpp">
@@ -226,19 +223,19 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="plane3.inl">
+    <None Include="Plane3.inl">
       <Filter>Includes\mathematic</Filter>
     </None>
-    <None Include="rect2.inl">
+    <None Include="Rect2.inl">
       <Filter>Includes\mathematic</Filter>
     </None>
-    <None Include="rect3.inl">
+    <None Include="Rect3.inl">
       <Filter>Includes\mathematic</Filter>
     </None>
-    <None Include="triangle2.inl">
+    <None Include="Triangle2.inl">
       <Filter>Includes\mathematic</Filter>
     </None>
-    <None Include="triangle3.inl">
+    <None Include="Triangle3.inl">
       <Filter>Includes\mathematic</Filter>
     </None>
     <None Include="Chunk.inl">
