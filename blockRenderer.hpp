@@ -1,13 +1,12 @@
 #pragma once
 
-#include "renderer.hpp"
-#include "color.hpp"
-#include "vec2.hpp"
-#include "vec3.hpp"
-#include "rect3.hpp"
-#include "block.hpp"
+#include "Color.hpp"
+#include "Vec2.hpp"
+#include "Vec3.hpp"
+#include "Rect3.hpp"
+#include "Block.hpp"
 
-class BlockRenderer : public Renderer {
+class BlockRenderer {
   GLuint bufferHandle_ = 0;
   GLuint indexHandle_ = 0;
   size_t size_ = 0;
@@ -26,8 +25,8 @@ public:
   ~BlockRenderer();
 
   //
-  void computeBuffer(Block**);
+  void computeBuffer(const Block** const blocks);
 
   //
-  virtual void draw() const override;
+  void draw() const;
 };

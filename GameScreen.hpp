@@ -1,5 +1,17 @@
 #pragma once
 
-class GameScreen {
+#include "main.hpp"
 
+class GameScreen {
+public:
+
+  inline GameScreen() {
+    debug(L"GameScreen()");
+  }
+
+  inline ~GameScreen() {
+    debug(L"~GameScreen()");
+  }
+
+  void operator()();
 };

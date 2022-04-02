@@ -5,14 +5,20 @@
 #include "GlHelper.hpp"
 
 class LoadingScreen {
+  bool work_ = true;
+  uint32_t progress_ = 0;
+  uint32_t all_ = 0;
   std::thread renderThread_;
   std::mutex mutex_;
-  std::atomic_bool work_;
 public:
 
-  LoadingScreen();
+  LoadingScreen(const uint32_t all);
 
   ~LoadingScreen();
+
+  inline void next() {
+    ++progress_;
+  }
 private:
 
   void task();

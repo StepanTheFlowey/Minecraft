@@ -27,6 +27,10 @@ public:
 
   void init();
 
+  inline bool alive() {
+    return window.isOpen();
+  }
+
   inline void autoEvent() {
     while(window.pollEvent(event)) {
       if(event.type == sf::Event::Closed) {
@@ -38,6 +42,10 @@ public:
 
   inline void autoClock() {
     time = clock.restart();
+  }
+
+  inline bool pollEvent() {
+    return window.pollEvent(event);
   }
 };
 extern DisplayHelper* display;

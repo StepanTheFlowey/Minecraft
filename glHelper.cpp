@@ -79,7 +79,7 @@ void GlHelper::initGL() {
   glLoadIdentity();
 
   glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
-  glClearDepth(1.0);
+  glClearDepth(0.0);
 }
 
 void GlHelper::clearInfo() {
