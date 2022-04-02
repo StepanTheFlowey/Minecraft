@@ -1491,4 +1491,3 @@ int gladLoadGLLoader(GLADloadproc load) {
 	load_GL_ARB_vertex_buffer_object(load);
 	return GLVersion.major != 0 || GLVersion.minor != 0;
 }
-

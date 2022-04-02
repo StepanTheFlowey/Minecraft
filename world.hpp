@@ -58,8 +58,3 @@ public:
 extern World* world;
 
 #include "world.inl"
-
-//Лера дура тупая
-//Вера дура
-//Соня дура (нет)
-// >:)
