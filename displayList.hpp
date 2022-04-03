@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "glad.h"
 
 class DisplayList {
   GLuint handle_ = 0;

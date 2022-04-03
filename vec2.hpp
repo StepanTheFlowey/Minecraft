@@ -1,6 +1,7 @@
 #pragma once
 
 #include "glad.h"
+#include <string>
 #include <SFML/System/Vector2.hpp>
 
 //Two component vector

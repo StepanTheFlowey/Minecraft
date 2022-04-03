@@ -1,9 +1,9 @@
 #include "BlockManager.hpp"
 
-inline void BlockManager::load() {
+void BlockManager::load() {
 
 }
 
-inline void BlockManager::save() {
+void BlockManager::save() {
 
 }

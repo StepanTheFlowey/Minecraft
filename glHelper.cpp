@@ -6,13 +6,17 @@
 GlHelper* gl = nullptr;
 
 void GlHelper::init2D() {
+  if(display->videoMode.height != 0) {
+    aspect_ = display->videoMode.width / display->videoMode.height;
+  }
+
   glViewport(
     0,
     0,
     static_cast<GLsizei>(display->videoMode.width),
     static_cast<GLsizei>(display->videoMode.height)
   );
-  gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
+  gluOrtho2D(-1.0 - aspect_ / 2, 1.0 + aspect_ / 2, 1.0, -1.0);
 
   glDisable(GL_DEPTH_TEST);
 }
@@ -91,8 +95,10 @@ void GlHelper::clearInfo() {
 }
 
 void GlHelper::checkForErrors(const char* file, const uint32_t line) {
+  GLenum e = glGetError();
+  if(e == GL_NO_ERROR) return;
   std::wcout << wide(file) << L':' << line << " GL error ";
-  switch(glGetError()) {
+  switch(e) {
     case GL_INVALID_ENUM:
       std::wcout << L"GL_INVALID_ENUM";
       break;
@@ -114,4 +120,3 @@ void GlHelper::checkForErrors(const char* file, const uint32_t line) {
   }
   std::wcout << std::endl;
 }
-#define checkGLerrors() GlHelper::checkForErrors(__FILE__,__LINE__)

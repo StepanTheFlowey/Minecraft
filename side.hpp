@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "main.hpp"
 
 enum class Side: uint8_t {
   Null = 0,         //0b00000000

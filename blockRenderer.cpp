@@ -1,4 +1,8 @@
-#include "blockRenderer.hpp"
+#include "BlockRenderer.hpp"
+
+#include "main.hpp"
+#include "Math.hpp"
+#include "Rect3.hpp"
 
 BlockRenderer::BlockRenderer() {
   debug(L"BlockRenderer()");
@@ -10,13 +14,13 @@ BlockRenderer::~BlockRenderer() {
   glDeleteBuffers(1, &bufferHandle_);
 }
 
-void BlockRenderer::computeBuffer(const Block** const blocks) {
+void BlockRenderer::computeBuffer(Block** const blocks) {
   std::vector<Vertex> vertex;
   vertex.reserve(256);
 
   bool allSides;
   SmallPos blockPos;
-  for(uint16_t i = 0; i < 4096; i++) {
+  for(uint16_t i = 0; i < 4096; ++i) {
     if(blocks[i] == nullptr) continue;
     if(blocks[i]->id == 0) continue;
 

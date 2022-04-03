@@ -46,40 +46,38 @@ void GameScreen::operator()() {
   glEnable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);
 
-  bool grab = false;
-  bool fullscreen = false;
+  display->window.setMouseCursorGrabbed(true);
+
   Time gametime;
   sf::Clock clock;
   while(true) {
     display->autoClock();
-    while(window.pollEvent(event)) {
-      switch(event.type) {
+    while(display->pollEvent()) {
+      switch(display->event.type) {
         case sf::Event::Closed:
-          window.close();
+          display->window.close();
           break;
         case sf::Event::Resized:
-          event.size.width -= event.size.width % 2;
-          event.size.height -= event.size.height % 2;
-          window.setSize(sf::Vector2u(event.size.width, event.size.height));
-          gl->init3D(event.size.width, event.size.height);
+          display->window.setSize(sf::Vector2u(display->event.size.width, display->event.size.height));
+          display->videoMode.width = display->event.size.width;
+          display->videoMode.height = display->event.size.height;
+          gl->init3D();
           break;
         case sf::Event::MouseMoved:
-        {//Mouse in a trap™
-          if(grab) {
-            Vec2f windowSize = window.getSize();
-            Vec2f mousePos = sf::Mouse::getPosition(window);
-            Vec2f rotation;
-            windowSize /= 2;
-            rotation = windowSize - mousePos;
-            rotation /= windowSize * 2;
-            rotation *= Vec2f(360, 180);
-            sf::Mouse::setPosition(sf::Vector2i(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y)), window);
-            player->camera.rotate(rotation);
-          }
+        {
+          Vec2f windowSize = display->window.getSize();
+          Vec2f mousePos(display->event.mouseMove.x, display->event.mouseMove.y);
+          Vec2f rotation;
+          windowSize /= 2;
+          rotation = windowSize - mousePos;
+          rotation /= windowSize * 2;
+          rotation *= Vec2f(360, 180);
+          sf::Mouse::setPosition(sf::Vector2i(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y)), display->window);
+          player->camera.rotate(rotation);
         }
         break;
         case sf::Event::MouseButtonPressed:
-          switch(event.mouseButton.button) {
+          switch(display->event.mouseButton.button) {
             case sf::Mouse::Left:
               player->placeBlock();
               break;
@@ -89,7 +87,7 @@ void GameScreen::operator()() {
           }
           break;
         case sf::Event::KeyPressed:
-          switch(event.key.code) {
+          switch(display->event.key.code) {
             case sf::Keyboard::W:
               player->setMoveDirection(Side::Forward, true);
               break;
@@ -108,33 +106,14 @@ void GameScreen::operator()() {
             case sf::Keyboard::LShift:
               player->setMoveDirection(Side::Down, true);
               break;
-            case sf::Keyboard::G:
-              grab = !grab;
-              window.setMouseCursorGrabbed(grab);
-              window.setMouseCursorVisible(!grab);
-              break;
             case sf::Keyboard::F11:
-            {
-              fullscreen = !fullscreen;
-              if(fullscreen) {
-                sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
-                window.create(videoMode, "Minecraft Alpha", sf::Style::Fullscreen, contextSettings);
-                gl->init3D(videoMode.width, videoMode.height);
-              }
-              else {
-                window.create(sf::VideoMode(800, 600), "Minecraft Alpha", sf::Style::Default, contextSettings);
-                gl->init3D(800, 600);
-              }
-              if(grab) {
-                window.setMouseCursorGrabbed(true);
-                window.setMouseCursorVisible(false);
-              }
+              display->toggleFullscreen();
+              gl->init3D();
               break;
-            }
           }
           break;
         case sf::Event::KeyReleased:
-          switch(event.key.code) {
+          switch(display->event.key.code) {
             case sf::Keyboard::W:
               player->setMoveDirection(Side::Forward, false);
               break;
@@ -180,8 +159,10 @@ void GameScreen::operator()() {
 
     //glEnd();
 
-    window.display();
+    display->window.display();
   }
+
+  display->window.setMouseCursorGrabbed(false);
 
   delete player;
   delete world;

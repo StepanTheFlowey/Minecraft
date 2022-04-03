@@ -3,7 +3,6 @@
 #include "Color.hpp"
 #include "Vec2.hpp"
 #include "Vec3.hpp"
-#include "Rect3.hpp"
 #include "Block.hpp"
 
 class BlockRenderer {
@@ -25,7 +24,7 @@ public:
   ~BlockRenderer();
 
   //
-  void computeBuffer(const Block** const blocks);
+  void computeBuffer(Block** const blocks);
 
   //
   void draw() const;

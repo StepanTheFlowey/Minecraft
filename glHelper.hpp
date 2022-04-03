@@ -5,6 +5,8 @@
 #include <set>
 #include "glad.h"
 
+#define checkGLerrors() GlHelper::checkForErrors(__FILE__,__LINE__)
+
 class GlHelper {
   GLdouble aspect_ = 0;
 public:
@@ -17,6 +19,14 @@ public:
   std::wstring renderer;
   std::wstring version;
   std::set<std::wstring> extensions;
+
+  inline GlHelper() {
+    debug(L"GlHelper()");
+  }
+
+  inline ~GlHelper() {
+    debug(L"~GlHelper()");
+  }
 
   void init2D();
 

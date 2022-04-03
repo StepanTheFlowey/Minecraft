@@ -27,11 +27,15 @@
 
 #endif
 
-NODISCARD std::wstring wide(const std::string str);
+inline NODISCARD std::wstring wide(const std::string str) {
+  return std::wstring(str.begin(), str.end());
+}
 
-NODISCARD std::string shrink(const std::wstring wstr);
+inline NODISCARD std::string shrink(const std::wstring wstr) {
+  return std::string(wstr.begin(), wstr.end());
+}
 
 template <class E, typename T = std::underlying_type_t<E>>
-NODISCARD __forceinline T to_underlying(E& enumeration) {
-  return static_cast<T&>(enumeration);
+NODISCARD __forceinline T to_underlying(E enumeration) {
+  return static_cast<T>(enumeration);
 }

@@ -35,10 +35,10 @@ public:
   blockId_t id = 0;
 };
 
-template <typename T> Block* createBlock() {
+template <typename T> inline Block* createBlock() {
   throw std::logic_error("no block with such type");
 }
 
-template <> Block* createBlock<Block>() {
+template <> inline Block* createBlock<Block>() {
   return new Block;
 }

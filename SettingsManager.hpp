@@ -119,7 +119,6 @@ public:
 
   inline SettingsManager() {
     debug(L"SettingsManager");
-    debug(L"sizeof Settings: " << sizeof(Settings));
   }
 
   inline ~SettingsManager() {

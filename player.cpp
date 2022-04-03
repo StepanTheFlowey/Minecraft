@@ -136,7 +136,7 @@ void Player::update(const Time time) {
         if(j == nullptr) continue;
         if(j->getAabb().intersects(lineBox)) {
           for(uint16_t i = 0; i < 4096; ++i) {
-            blockPosInChunk = getPosFromBlockIndex(i);
+            blockPosInChunk = getBlockPosFromIndex(i);
             block = j->getBlock(blockPosInChunk);
             if(block == nullptr) continue;
             if(block->id == 0 || block->side == Side::None) continue;

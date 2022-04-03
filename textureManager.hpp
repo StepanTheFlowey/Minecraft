@@ -1,7 +1,7 @@
 #pragma once
 
 #include <map>
-#include <stb/stb_image.h>
+#include "Block.hpp"
 
 class TextureManager {
   std::map<std::wstring, textureId_t> textures_;

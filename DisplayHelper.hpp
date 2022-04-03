@@ -13,10 +13,12 @@ public:
   sf::Clock clock;
   sf::Time time;
 
+  bool fullscreen = false;
+
   inline DisplayHelper() {
     debug(L"DisplayHelper");
     contextSettings.antialiasingLevel = 16; //Multisampling level
-    contextSettings.depthBits = 32;         //Depth buffer bits
+    contextSettings.depthBits = 24;         //Depth buffer bits
     contextSettings.majorVersion = 2;       //Request OpenGL 2.1
     contextSettings.minorVersion = 1;
   }
@@ -46,6 +48,16 @@ public:
 
   inline bool pollEvent() {
     return window.pollEvent(event);
+  }
+
+  inline void toggleFullscreen() {
+    fullscreen = !fullscreen;
+    if(fullscreen) {
+      window.create(sf::VideoMode::getDesktopMode(), "Minecraft Alpha", sf::Style::Fullscreen, contextSettings);
+    }
+    else {
+      window.create(videoMode, "Minecraft Alpha", sf::Style::Default, contextSettings);
+    }
   }
 };
 extern DisplayHelper* display;

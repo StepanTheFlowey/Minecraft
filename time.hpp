@@ -1,8 +1,7 @@
 #pragma once
 
-#include "types.hpp"
-
 #include <SFML\System\Time.hpp>
+#include "main.hpp"
 
 class Time {
   int64_t time_ = 0;

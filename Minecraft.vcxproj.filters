@@ -21,9 +21,6 @@
     <Filter Include="Includes\gl">
       <UniqueIdentifier>{960512da-39c8-417d-b2d5-bbb885ba33e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Includes\mathematic">
-      <UniqueIdentifier>{eb7d47d5-a20a-4058-a7f0-c01ed47e69a0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Includes\utility">
       <UniqueIdentifier>{7965748a-7224-4550-8a92-2a47732b9068}</UniqueIdentifier>
     </Filter>
@@ -45,6 +42,12 @@
     </Filter>
     <Filter Include="Sources\displays">
       <UniqueIdentifier>{7bbe83f9-297d-451c-a6d1-8aa4c2c2d896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\math">
+      <UniqueIdentifier>{eb7d47d5-a20a-4058-a7f0-c01ed47e69a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\math">
+      <UniqueIdentifier>{8d2b04ab-8079-455f-9ac0-aa1abcea663c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +108,12 @@
     <ClCompile Include="GameScreen.cpp">
       <Filter>Sources\displays</Filter>
     </ClCompile>
+    <ClCompile Include="Vec2.cpp">
+      <Filter>Sources\math</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec3.cpp">
+      <Filter>Sources\math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
@@ -114,46 +123,46 @@
       <Filter>Includes\gl</Filter>
     </ClInclude>
     <ClInclude Include="Aabb3.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Aabb3.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="CollisionResult.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Math.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Math.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Plane3.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Rect2.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Rect3.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Triangle2.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Triangle3.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Vec2.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Vec2.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Vec3.hpp">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Vec3.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="GlHelper.hpp">
       <Filter>Includes\gl</Filter>
@@ -224,19 +233,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Plane3.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </None>
     <None Include="Rect2.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </None>
     <None Include="Rect3.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </None>
     <None Include="Triangle2.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </None>
     <None Include="Triangle3.inl">
-      <Filter>Includes\mathematic</Filter>
+      <Filter>Includes\math</Filter>
     </None>
     <None Include="Chunk.inl">
       <Filter>Includes\game</Filter>

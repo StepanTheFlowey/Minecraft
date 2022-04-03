@@ -1,8 +1,8 @@
 #pragma once
 
-#include "types.hpp"
-#include "vec3.hpp"
-#include "vec2.hpp"
+#include "main.hpp"
+#include "Vec3.hpp"
+#include "Vec2.hpp"
 
 #include <gl/GLU.h>
 
@@ -11,38 +11,34 @@ class Camera {
   Vec3d centerPos_;
   Vec2f rotation_;
 public:
-  Camera() {
-#ifdef DEBUG
-    std::wcout << L"Camera(): Constructor" << std::endl;
-#endif // DEBUG
+  inline Camera() {
+    debug(L"Camera()");
   }
 
-  ~Camera() {
-#ifdef DEBUG
-    std::wcout << L"~Camera(): Destructor" << std::endl;
-#endif // DEBUG
+  inline ~Camera() {
+    debug(L"~Camera()");
   }
 
   inline void doTranlate() const {
     gluLookAt(eyePos_.x, eyePos_.y, eyePos_.z, centerPos_.x, centerPos_.y, centerPos_.z, 0.0, 1.0, 0.0);
   }
 
-  void setPosition(Vec3d position) {
+  void setPosition(const Vec3d position) {
     eyePos_ = position;
     process();
   }
 
-  void setRotation(Vec2f rotation) {
+  void setRotation(const Vec2f rotation) {
     rotation_ = rotation;
     process();
   }
 
-  void move(Vec3d offset) {
+  void move(const Vec3d offset) {
     eyePos_ += offset;
     process();
   }
 
-  void rotate(Vec2f rotation) {
+  void rotate(const Vec2f rotation) {
     rotation_ += rotation;
     process();
   }

@@ -133,6 +133,8 @@
     <ClInclude Include="Triangle2.hpp" />
     <ClInclude Include="Vec2.inl" />
     <ClInclude Include="Vec3.inl" />
+    <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Vec3.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>

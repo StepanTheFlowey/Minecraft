@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Rect2.hpp"
+
 template <typename T>
 inline Rect3<T>::Rect3() {
 

@@ -5,11 +5,11 @@
 World* world = nullptr;
 
 World::World() {
-  debug(L"World()")
+  debug(L"World()");
 }
 
 World::~World() {
-  debug(L"~World()")
+  debug(L"~World()");
 }
 
 void World::makeCurrent() const {
