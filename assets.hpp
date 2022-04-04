@@ -2,24 +2,33 @@
 
 #include "main.hpp"
 
+#include <atomic>
+#include <thread>
+#include "LoadingScreen.hpp"
 #include "SettingsManager.hpp"
-#include "TextureManager.hpp"
 #include "ModelManager.hpp"
+#include "TextureManager.hpp"
 #include "BlockManager.hpp"
 
 class Assets {
+  std::thread thread_;
+  std::atomic_bool done_;
 public:
   SettingsManager settingsManager;
-  TextureManager textureManager;
   ModelManager modelManager;
+  TextureManager textureManager;
   BlockManager blockManager;
 
-  inline Assets() {
-    debug(L"Assets()");
+  Assets();
+
+  ~Assets();
+
+  inline bool done() {
+    return done_;
   }
 
-  inline ~Assets() {
-    debug(L"~Assets()");
-  }
+private:
+
+  void task();
 };
 extern Assets* assets;

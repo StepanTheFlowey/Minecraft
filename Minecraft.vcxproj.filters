@@ -114,6 +114,9 @@
     <ClCompile Include="Vec3.cpp">
       <Filter>Sources\math</Filter>
     </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Sources\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="DisplayHelper.hpp">
       <Filter>Includes\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Includes\gl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,9 +4,10 @@
 #include <stb/stb_image.h>
 #include "DisplayHelper.hpp"
 #include "resource.h"
-#include "Time.hpp"
 
-LoadingScreen::LoadingScreen(const uint32_t all) :renderThread_(&LoadingScreen::task, this) {
+LoadingScreen* loading = nullptr;
+
+LoadingScreen::LoadingScreen(const uint32_t all) :thread_(&LoadingScreen::task, this) {
   debug(L"LoadingScreen()");
   all_ = all;
 }
@@ -14,7 +15,7 @@ LoadingScreen::LoadingScreen(const uint32_t all) :renderThread_(&LoadingScreen::
 LoadingScreen::~LoadingScreen() {
   debug(L"~LoadingScreen()");
   work_ = false;
-  renderThread_.join();
+  thread_.join();
 }
 
 void LoadingScreen::task() {
@@ -121,7 +122,6 @@ void LoadingScreen::task() {
     }
 
     display->window.display();
-    display->autoEvent();
   }
 
   glDeleteTextures(1, &texture);

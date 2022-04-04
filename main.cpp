@@ -28,22 +28,14 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
 
   display->window.setActive(false);
 
-  LoadingScreen* loading = new LoadingScreen(5);
-
   _wsystem(L"pause");
-  assets = new Assets;            loading->next();
-  _wsystem(L"pause");
-  assets->blockManager.load();    loading->next();
-  _wsystem(L"pause");
-  assets->modelManager.load();    loading->next();
-  _wsystem(L"pause");
-  assets->textureManager.load();  loading->next();
-  _wsystem(L"pause");
-  assets->settingsManager.load(); loading->next();
+  assets = new Assets;
+  while(!assets->done()) {
+    display->autoEvent();
+    sf::sleep(sf::milliseconds(16));
+  }
 
   MenuScreen menu;
-  _wsystem(L"pause");
-  delete loading;
 
   delete assets;
   delete display;

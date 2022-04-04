@@ -122,6 +122,7 @@
     <ClInclude Include="MenuScreen.hpp" />
     <ClInclude Include="ModelManager.hpp" />
     <ClCompile Include="SettingsManager.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClInclude Include="Plane3.hpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="Rect3.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingsManager.hpp" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Triangle2.hpp" />
     <ClInclude Include="Vec2.inl" />
