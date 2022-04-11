@@ -7,17 +7,26 @@
 
 class LoadingScreen {
   std::atomic_bool work_ = true;
-  std::atomic_uint32_t progress_ = 0;
-  std::atomic_uint32_t all_ = 0;
-  std::thread thread_;
+
+  bool update_ = true;
+  uint16_t all_ = 0;
+  uint16_t progress_ = 0;
+  std::wstring what_;
+  std::mutex mutex_;
+
+  std::thread* thread_;
 public:
 
-  LoadingScreen(const uint32_t all);
+  LoadingScreen(const uint32_t all, const std::wstring what);
 
   ~LoadingScreen();
 
-  inline void next() {
+  void next(const std::wstring what) {
+    mutex_.lock();
+    update_ = true;
     ++progress_;
+    what_ = what;
+    mutex_.unlock();
   }
 private:
 

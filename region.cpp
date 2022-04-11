@@ -1,23 +1,20 @@
-#include "region.hpp"
+#include "Region.hpp"
 
-#include "world.hpp"
+#include "World.hpp"
 
 Region::Region() {
-#ifdef DEBUG
-  std::wcout << L"Region()" << std::endl;
-#endif // DEBUG
+  debug(L"Region()");
   for(uint16_t i = 0; i < 4096; ++i) chunk_[i] = nullptr;
 }
 
 Region::~Region() {
-#ifdef DEBUG
-  std::wcout << L"~Region()" << std::endl;
-#endif // DEBUG
-  for(uint16_t i = 0; i < 4096; ++i)
+  debug(L"~Region()");
+  for(uint16_t i = 0; i < 4096; ++i) {
     if(chunk_[i] != nullptr) {
       delete chunk_[i];
       chunk_[i] = nullptr;
     }
+  }
 }
 
 const Block* Region::getBlock(const SmallPos position) const {
@@ -26,10 +23,6 @@ const Block* Region::getBlock(const SmallPos position) const {
 
 void Region::setBlock(const SmallPos position, Block* const block) {
   getChunk(getChunkPosInRegion(getChunkPosFromBlock(position)))->setBlock(getBlockPosInChunk(position), block);
-}
-
-bool Region::hasChunk(const SmallPos position) const {
-  return getChunk(position) == nullptr;
 }
 
 Chunk* Region::getChunk(const SmallPos position) const {

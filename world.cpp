@@ -49,7 +49,7 @@ bool World::hasChunk(const ChunkPos position) const {
   RegionPos regionPos = getRegionPosFromChunk(position);
   if(!hasRegion(regionPos))
     return false;
-  return getRegion(regionPos)->hasChunk(position);
+  return getRegion(regionPos)->getChunk(position) != nullptr;
 }
 
 Chunk* World::getChunk(const ChunkPos position) const {

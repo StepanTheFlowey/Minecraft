@@ -1,8 +1,7 @@
 #pragma once
 
-#include "main.hpp"
-
 #include <set>
+#include "main.hpp"
 #include "glad.h"
 
 #define checkGLerrors() GlHelper::checkForErrors(__FILE__,__LINE__)

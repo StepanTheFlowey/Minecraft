@@ -19,4 +19,9 @@ public:
   void load();
 
   void save();
+private:
+
+  void loadFromModule() {
+
+  }
 };

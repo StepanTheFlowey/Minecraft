@@ -10,15 +10,8 @@ public:
   //Default constructor
   Time();
 
-private:
-
   //Microseconds constructor
   explicit Time(const int64_t);
-
-public:
-
-  //Copy constructor
-  Time(const Time&);
 
   //Copy constructor from sfml time
   Time(const sf::Time&);

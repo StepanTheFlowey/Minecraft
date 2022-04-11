@@ -60,7 +60,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // PNG
 //
 
-IDB_PNG1                PNG                     "loading.png"
+ID_PNG1                PNG                     "assets\\loading.png"
+
+ID_PNG2                PNG                     "assets\\ascii.png"
 
 #endif    // Английский (США) resources
 /////////////////////////////////////////////////////////////////////////////

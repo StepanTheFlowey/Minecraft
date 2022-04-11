@@ -64,7 +64,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessToFile>false</PreprocessToFile>
       <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;glu32.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -83,8 +84,9 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -100,6 +102,7 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="BlockManager.cpp" />
     <ClCompile Include="BlockRenderer.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DisplayHelper.cpp" />
@@ -130,7 +133,7 @@
     <ClInclude Include="Rect3.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingsManager.hpp" />
-    <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="TextRenderer.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Triangle2.hpp" />
     <ClInclude Include="Vec2.inl" />
@@ -175,7 +178,8 @@
     <ResourceCompile Include="Minecraft.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="loading.png" />
+    <Image Include="assets\ascii.png" />
+    <Image Include="assets\loading.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

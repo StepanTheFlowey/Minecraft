@@ -40,9 +40,6 @@ public:
   //Sets block
   void setBlock(const SmallPos position, Block* const block);
 
-  //Check for chunk exist
-  bool hasChunk(const SmallPos position) const;
-
   //Takes chunk pointer from native grid
   NODISCARD Chunk* getChunk(const SmallPos position) const;
 

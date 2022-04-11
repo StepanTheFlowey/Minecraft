@@ -117,6 +117,9 @@
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Sources\gl</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
@@ -233,7 +236,7 @@
     <ClInclude Include="DisplayHelper.hpp">
       <Filter>Includes\utility</Filter>
     </ClInclude>
-    <ClInclude Include="TextRenderer.h">
+    <ClInclude Include="TextRenderer.hpp">
       <Filter>Includes\gl</Filter>
     </ClInclude>
   </ItemGroup>
@@ -270,7 +273,10 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="loading.png">
+    <Image Include="assets\ascii.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="assets\loading.png">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>

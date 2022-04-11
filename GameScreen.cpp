@@ -89,22 +89,22 @@ void GameScreen::operator()() {
         case sf::Event::KeyPressed:
           switch(display->event.key.code) {
             case sf::Keyboard::W:
-              player->setMoveDirection(Side::Forward, true);
+              player->walk(Side::Forward, true);
               break;
             case sf::Keyboard::S:
-              player->setMoveDirection(Side::Back, true);
+              player->walk(Side::Back, true);
               break;
             case sf::Keyboard::A:
-              player->setMoveDirection(Side::Left, true);
+              player->walk(Side::Left, true);
               break;
             case sf::Keyboard::D:
-              player->setMoveDirection(Side::Right, true);
+              player->walk(Side::Right, true);
               break;
             case sf::Keyboard::Space:
-              player->setMoveDirection(Side::Up, true);
+              player->walk(Side::Up, true);
               break;
             case sf::Keyboard::LShift:
-              player->setMoveDirection(Side::Down, true);
+              player->walk(Side::Down, true);
               break;
             case sf::Keyboard::F11:
               display->toggleFullscreen();
@@ -115,22 +115,22 @@ void GameScreen::operator()() {
         case sf::Event::KeyReleased:
           switch(display->event.key.code) {
             case sf::Keyboard::W:
-              player->setMoveDirection(Side::Forward, false);
+              player->walk(Side::Forward, false);
               break;
             case sf::Keyboard::S:
-              player->setMoveDirection(Side::Back, false);
+              player->walk(Side::Back, false);
               break;
             case sf::Keyboard::A:
-              player->setMoveDirection(Side::Left, false);
+              player->walk(Side::Left, false);
               break;
             case sf::Keyboard::D:
-              player->setMoveDirection(Side::Right, false);
+              player->walk(Side::Right, false);
               break;
             case sf::Keyboard::Space:
-              player->setMoveDirection(Side::Up, false);
+              player->walk(Side::Up, false);
               break;
             case sf::Keyboard::LShift:
-              player->setMoveDirection(Side::Down, false);
+              player->walk(Side::Down, false);
               break;
           }
           break;

@@ -21,7 +21,6 @@ class Player;
 
 class Chunk {
   Block* block_[4096];
-  World* worldIn_ = nullptr;
   ChunkAabb aabb_;
   ChunkPos position_;
   BlockRenderer renderer_;
@@ -34,10 +33,10 @@ public:
   ~Chunk();
 
   //Takes block
-  NODISCARD Block* getBlock(const SmallPos) const;
+  NODISCARD Block* getBlock(const SmallPos position) const;
 
   //Sets block
-  void setBlock(const SmallPos, Block*);
+  void setBlock(const SmallPos position, Block* const block);
 
   //Sets chunk position
   void setPosition(const ChunkPos);
@@ -47,9 +46,6 @@ public:
 
   //Returns chunk AABB
   NODISCARD const ChunkAabb& getAabb() const;
-
-  //Sets world in ptr
-  void setWorldIn(World* const worldIn);
 
   //Calculates blocks edge render
   void computeBlocksEdgeRender();

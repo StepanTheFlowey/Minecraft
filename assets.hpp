@@ -4,16 +4,26 @@
 
 #include <atomic>
 #include <thread>
-#include "LoadingScreen.hpp"
 #include "SettingsManager.hpp"
 #include "ModelManager.hpp"
 #include "TextureManager.hpp"
 #include "BlockManager.hpp"
 
+struct Resource {
+  std::wstring source;
+  std::wstring name;
+  uint16_t id;
+};
+
+class TextRenderer;
+class LoadingScreen;
+
 class Assets {
-  std::thread thread_;
-  std::atomic_bool done_;
+  std::thread* thread_ = nullptr;
+  std::atomic_bool work_ = true;
+  GLuint font = 0;
 public:
+
   SettingsManager settingsManager;
   ModelManager modelManager;
   TextureManager textureManager;
@@ -23,12 +33,21 @@ public:
 
   ~Assets();
 
-  inline bool done() {
-    return done_;
-  }
+  void loadEarly();
+
+  void load();
 
 private:
 
+  void loadResources();
+
   void task();
+
+  friend SettingsManager;
+  friend ModelManager;
+  friend TextureManager;
+  friend BlockManager;
+
+  friend TextRenderer;
 };
 extern Assets* assets;

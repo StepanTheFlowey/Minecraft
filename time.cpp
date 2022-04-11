@@ -10,10 +10,6 @@ Time::Time(const int64_t time) {
   time_ = time;
 }
 
-Time::Time(const Time& time) {
-  time_ = time.time_;
-}
-
 Time::Time(const sf::Time& time) {
   time_ = time.asMicroseconds();
 }

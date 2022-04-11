@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vec2.hpp"
+#include "Vec2.hpp"
 
 #include <SFML/System/Vector3.hpp>
 
@@ -53,25 +53,25 @@ public:
   //
   Vec3<T> vectorProduct(const Vec3<T> vector) const;
 
-  //Call glVertex3d(x,y,z)
+  //Call glVertex3(x,y,z)
   void glVertex() const;
 
-  //
+  //Returns vector with x = 0
   Vec3<T> nullX() const;
 
-  //
+  //Returns vector with y = 0
   Vec3<T> nullY() const;
 
-  //
+  //Returns vector with z = 0
   Vec3<T> nullZ() const;
 
-  //
+  //Returns vector without x
   Vec2<T> cutX() const;
 
-  //
+  //Returns vector without y
   Vec2<T> cutY() const;
 
-  //
+  //Returns vector without z
   Vec2<T> cutZ() const;
 
   //Vector equals
@@ -228,7 +228,7 @@ public:
   void operator%=(const Vec3<U>&);
 };
 
-#include "vec3.inl"
+#include "Vec3.inl"
 
 using Vec3i = Vec3<int>;
 using Vec3i8 = Vec3<int8_t>;

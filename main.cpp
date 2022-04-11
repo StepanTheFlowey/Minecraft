@@ -26,14 +26,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
   gl->loadInfo();
   gl->initGL();
 
-  display->window.setActive(false);
-
   _wsystem(L"pause");
   assets = new Assets;
-  while(!assets->done()) {
-    display->autoEvent();
-    sf::sleep(sf::milliseconds(16));
-  }
+  assets->loadEarly();
+  assets->load();
 
   MenuScreen menu;
 
@@ -43,5 +39,5 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
 
   _wsystem(L"pause");
 
-  return 0;
+  return EXIT_SUCCESS;
 }

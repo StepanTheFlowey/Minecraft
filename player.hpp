@@ -26,7 +26,7 @@ public:
   ~Player();
 
   //Assign move direction
-  void setMoveDirection(Side side, bool value);
+  void walk(Side side, bool value);
 
   //Tries to place block
   void placeBlock();

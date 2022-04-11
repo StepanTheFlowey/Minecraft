@@ -6,18 +6,16 @@
 #include "CollisionResult.hpp"
 #include "Chunk.hpp"
 
-Player::Player():position_(1, 20, 1) {
+Player::Player() :position_(1, 20, 1) {
   debug(L"Player()");
   camera.setPosition(position_);
 }
 
 Player::~Player() {
-#ifdef DEBUG
-  std::wcout << L"~Player()" << std::endl;
-#endif // DEBUG
+  debug(L"~Player()");
 }
 
-void Player::setMoveDirection(Side direction, bool enable = true) {
+void Player::walk(const Side direction,const bool enable) {
   if(enable) {
     moveDir_ |= direction;
   }
@@ -49,7 +47,7 @@ void Player::placeBlock() {
         --pos.z;
         break;
     }
-    world->setBlock(pos, new Block {static_cast<Side>(rand() % 15 + 1)});
+    world->setBlock(pos, new Block{static_cast<Side>(rand() % 15 + 1)});
     if(blockMouseOver_.pos != pos) {
       world->getChunk(getChunkPosFromBlock(blockMouseOver_.pos))->computeBlocksEdgeRender();
     }
@@ -244,7 +242,7 @@ void Player::draw() const {
 
   glTranslated(pos.x, pos.y, pos.z);
 
-  float_t sinValue = abs(sinf(colorDeg * (float_t) DEG_TO_RAD)) * 255;
+  float_t sinValue = abs(sinf(colorDeg * (float_t)DEG_TO_RAD)) * 255;
   glColor3ub(0, 0, static_cast<GLubyte>(sinValue));
 
   glBegin(GL_QUADS);
