@@ -1,7 +1,7 @@
 #include "Assets.hpp"
 
 #include <stb/stb_image.h>
-#include "LoadingScreen.hpp"
+#include "Loading.hpp"
 #include "DisplayHelper.hpp"
 #include "resource.h"
 
@@ -45,33 +45,26 @@ void Assets::loadEarly() {
 }
 
 void Assets::load() {
-  display->window.setActive(false);
+  loading = new Loading(5, L"Enumerating assets");
   thread_ = new std::thread(&Assets::task, this);
-  while(work_) {
-    display->autoEvent();
-    Sleep(16);
-  }
+
+  loading->wait();
+
   thread_->join();
   delete thread_;
+  delete loading;
 }
 
 void Assets::loadResources() {
-
+  resources.reserve(64);
 }
 
 void Assets::task() {
-  loading = new LoadingScreen(5, L"Enumerating assets");
-  _wsystem(L"pause");
   loadResources();        loading->next(L"Loading block manager");
-  _wsystem(L"pause");
   blockManager.load();    loading->next(L"Loading model manager");
-  _wsystem(L"pause");
   modelManager.load();    loading->next(L"Loading texture manager");
-  _wsystem(L"pause");
   textureManager.load();  loading->next(L"Loading settings manager");
-  _wsystem(L"pause");
   settingsManager.load(); loading->next(L"Finalazing game");
-  _wsystem(L"pause");
-  delete loading;
-  work_ = false;
+
+  loading->done();
 }

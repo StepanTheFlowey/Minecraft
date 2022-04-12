@@ -2,6 +2,7 @@
 
 #include "main.hpp"
 
+#include <vector>
 #include <atomic>
 #include <thread>
 #include "SettingsManager.hpp"
@@ -12,16 +13,17 @@
 struct Resource {
   std::wstring source;
   std::wstring name;
-  uint16_t id;
+  uint16_t id = 0;
 };
 
 class TextRenderer;
-class LoadingScreen;
+class Loading;
 
 class Assets {
-  std::thread* thread_ = nullptr;
-  std::atomic_bool work_ = true;
   GLuint font = 0;
+  std::vector<Resource> resources;
+
+  std::thread* thread_ = nullptr;
 public:
 
   SettingsManager settingsManager;

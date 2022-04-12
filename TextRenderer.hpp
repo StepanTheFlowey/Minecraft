@@ -53,7 +53,11 @@ public:
     update();
   }
 
+  static void drawBegin();
+
   void draw();
+
+  static void drawEnd();
 private:
 
   void update();

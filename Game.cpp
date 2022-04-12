@@ -1,12 +1,12 @@
-#include "GameScreen.hpp"
+#include "Game.hpp"
 
-#include "DisplayList.hpp"
 #include "Player.hpp"
 #include "World.hpp"
 #include "GlHelper.hpp"
+#include "DisplayList.hpp"
 #include "DisplayHelper.hpp"
 
-void GameScreen::operator()() {
+void Game::operator()() {
   World* const world = new World;
   world->makeCurrent();
 

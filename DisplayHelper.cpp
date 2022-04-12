@@ -1,5 +1,7 @@
 #include "DisplayHelper.hpp"
 
+#include "GlHelper.hpp"
+
 DisplayHelper* display = nullptr;
 
 void DisplayHelper::init() {
@@ -9,22 +11,66 @@ void DisplayHelper::init() {
 
 void DisplayHelper::autoEvent() {
   if(window.pollEvent(event)) {
-    if(sf::Event::Closed == event.type) {
-      window.close();
-      exit(EXIT_SUCCESS);
+    switch(event.type) {
+      case sf::Event::Closed:
+        window.close();
+        exit(EXIT_SUCCESS);
+      case sf::Event::Resized:
+        videoMode.width = event.size.width;
+        videoMode.height = event.size.height;
+        resizeEvent_ = true;
+        break;
+      case sf::Event::KeyPressed:
+        if(sf::Keyboard::F11 == event.key.code) {
+          fullscrEvent_ = true;
+          while(fullscrEvent_) Sleep(1);
+          toggleFullscreen();
+          window.setActive(false);
+          fullscrEvent_ = true;
+        }
+        break;
     }
   }
 }
 
 bool DisplayHelper::pollEvent() {
   if(window.pollEvent(event)) {
-    if(sf::Event::Closed == event.type) {
-      window.close();
-      exit(EXIT_SUCCESS);
+    switch(event.type) {
+      case sf::Event::Closed:
+        window.close();
+        exit(EXIT_SUCCESS);
+      case sf::Event::Resized:
+        videoMode.width = event.size.width;
+        videoMode.height = event.size.height;
+        resizeEvent_ = true;
+        break;
+      case sf::Event::KeyPressed:
+        if(sf::Keyboard::F11 == event.key.code) {
+          fullscrEvent_ = true;
+          while(fullscrEvent_) Sleep(1);
+          toggleFullscreen();
+          fullscrEvent_ = true;
+        }
+        break;
     }
-    else {
-      return true;
-    }
+    return true;
+  }
+  return false;
+}
+
+bool DisplayHelper::taskEvent() {
+  if(resizeEvent_) {
+    resizeEvent_ = false;
+    gl->init2D();
+  }
+  if(fullscrEvent_) {
+    window.setActive(false);
+    fullscrEvent_ = false;
+    while(!fullscrEvent_) Sleep(1);
+    window.setActive(true);
+    gl->init2D();
+    fullscrEvent_ = false;
+    return true;
   }
   return false;
 }

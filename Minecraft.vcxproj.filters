@@ -93,7 +93,7 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Sources\assets</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingScreen.cpp">
+    <ClCompile Include="Loading.cpp">
       <Filter>Sources\displays</Filter>
     </ClCompile>
     <ClCompile Include="Assets.cpp">
@@ -102,10 +102,10 @@
     <ClCompile Include="DisplayHelper.cpp">
       <Filter>Sources\utility</Filter>
     </ClCompile>
-    <ClCompile Include="MenuScreen.cpp">
+    <ClCompile Include="Menu.cpp">
       <Filter>Sources\displays</Filter>
     </ClCompile>
-    <ClCompile Include="GameScreen.cpp">
+    <ClCompile Include="Game.cpp">
       <Filter>Sources\displays</Filter>
     </ClCompile>
     <ClCompile Include="Vec2.cpp">
@@ -224,13 +224,13 @@
     <ClInclude Include="SettingsManager.hpp">
       <Filter>Includes\assets</Filter>
     </ClInclude>
-    <ClInclude Include="LoadingScreen.hpp">
+    <ClInclude Include="Loading.hpp">
       <Filter>Includes\displays</Filter>
     </ClInclude>
-    <ClInclude Include="MenuScreen.hpp">
+    <ClInclude Include="Menu.hpp">
       <Filter>Includes\displays</Filter>
     </ClInclude>
-    <ClInclude Include="GameScreen.hpp">
+    <ClInclude Include="Game.hpp">
       <Filter>Includes\displays</Filter>
     </ClInclude>
     <ClInclude Include="DisplayHelper.hpp">

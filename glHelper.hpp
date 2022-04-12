@@ -10,10 +10,6 @@ class GlHelper {
   GLdouble aspect_ = 0;
 public:
 
-  bool vaoSupport = false;
-  bool vboSupport = false;
-  bool shaderSupport = false;
-
   std::wstring vendor;
   std::wstring renderer;
   std::wstring version;

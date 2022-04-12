@@ -6,9 +6,8 @@
 GlHelper* gl = nullptr;
 
 void GlHelper::init2D() {
-  if(display->videoMode.height != 0) {
-    aspect_ = display->videoMode.width / display->videoMode.height;
-  }
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 
   glViewport(
     0,
@@ -16,15 +15,24 @@ void GlHelper::init2D() {
     static_cast<GLsizei>(display->videoMode.width),
     static_cast<GLsizei>(display->videoMode.height)
   );
-  gluOrtho2D(-1.0 - aspect_ / 2, 1.0 + aspect_ / 2, 1.0, -1.0);
+
+  gluOrtho2D(
+    -(display->videoMode.width / 2.0),
+    display->videoMode.width / 2.0,
+    display->videoMode.height / 2.0,
+    -(display->videoMode.height / 2.0)
+  );
 
   glDisable(GL_DEPTH_TEST);
 }
 
 void GlHelper::init3D() {
   if(display->videoMode.height != 0) {
-    aspect_ = display->videoMode.width / display->videoMode.height;
+    aspect_ = static_cast<GLdouble>(display->videoMode.width) / display->videoMode.height;
   }
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 
   glViewport(
     0,
@@ -68,6 +76,14 @@ void GlHelper::loadInfo() {
   std::wcout << L"GL_EXTENSIONS:" << std::endl;
   for(const auto& i : extensions)
     std::wcout << i << std::endl;
+
+  GLint num;
+  glGetIntegerv(GL_MAX_MODELVIEW_STACK_DEPTH, &num);
+  std::wcout << L"GL_MAX_MODELVIEW_STACK_DEPTH:\t" << num << std::endl;
+  glGetIntegerv(GL_MAX_PROJECTION_STACK_DEPTH, &num);
+  std::wcout << L"GL_MAX_PROJECTION_STACK_DEPTH:\t" << num << std::endl;
+  glGetIntegerv(GL_MAX_TEXTURE_STACK_DEPTH, &num);
+  std::wcout << L"GL_MAX_TEXTURE_STACK_DEPTH:\t" << num << std::endl;
 #endif // DEBUG
 }
 
@@ -76,6 +92,9 @@ void GlHelper::loadGL() {
 }
 
 void GlHelper::initGL() {
+  glMatrixMode(GL_TEXTURE);
+  glLoadIdentity();
+
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
 

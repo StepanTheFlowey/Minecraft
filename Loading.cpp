@@ -1,4 +1,4 @@
-#include "LoadingScreen.hpp"
+#include "Loading.hpp"
 
 #include <gl/GLU.h>
 #include <stb/stb_image.h>
@@ -6,23 +6,41 @@
 #include "TextRenderer.hpp"
 #include "resource.h"
 
-LoadingScreen* loading = nullptr;
+Loading* loading = nullptr;
 
-LoadingScreen::LoadingScreen(const uint32_t all, const std::wstring what) {
-  debug(L"LoadingScreen()");
+Loading::Loading(const uint32_t all, const std::wstring what) {
+  debug(L"Loading()");
   what_ = what;
   all_ = all;
-  thread_ = new std::thread(&LoadingScreen::task, this);
+  display->window.setActive(false);
+  thread_ = new std::thread(&Loading::task, this);
 }
 
-LoadingScreen::~LoadingScreen() {
-  debug(L"~LoadingScreen()");
+Loading::~Loading() {
+  debug(L"~Loading()");
   work_ = false;
   thread_->join();
   delete thread_;
+  display->window.setActive(true);
 }
 
-void LoadingScreen::task() {
+void Loading::wait() {
+  while(loop_) {
+    display->autoEvent();
+    Sleep(16);
+  }
+}
+
+void Loading::next(const std::wstring what) {
+  _wsystem(L"pause");
+  mutex_.lock();
+  update_ = true;
+  ++progress_;
+  what_ = what;
+  mutex_.unlock();
+}
+
+void Loading::task() {
   display->window.setActive(true);
   gl->init2D();
 
@@ -68,20 +86,21 @@ void LoadingScreen::task() {
   glLoadMatrixf(matrix);
   glMatrixMode(GL_MODELVIEW);
 
+  TextRenderer text;
+  text.setPosition(Vec2f(-300.F, 174.F));
+
   bool talk = false;
   bool showBar = false;
   uint8_t anim = 0;
   float_t p;
   sf::Time time;
-  TextRenderer text;
-  text.setPosition(Vec2f(-0.72F, 0.4F));
-  while(display->alive()) {
+  while(loop_) {
     time += display->clock.restart();
 
     mutex_.lock();
     if(update_) {
       update_ = false;
-      p = -0.7F + 1.4F * (static_cast<float_t>(progress_) / all_);
+      p = -300.F + 600.F * (static_cast<float_t>(progress_) / all_);
       text.setString(what_);
     }
     mutex_.unlock();
@@ -100,7 +119,10 @@ void LoadingScreen::task() {
         showBar = false;
         talk = false;
         --anim;
-        if(anim == UINT8_MAX) break;
+        if(anim == UINT8_MAX) {
+          loop_ = false;
+          break;
+        }
       }
     }
 
@@ -109,13 +131,13 @@ void LoadingScreen::task() {
     glBegin(GL_QUADS);
 
     glTexCoord2s(41 * anim, 0);
-    glVertex2f(-41.0F / 210.0F, -49.0F / 210.0F);
+    glVertex2f(-41.F, -49.F);
     glTexCoord2s(41 * anim, 49);
-    glVertex2f(-41.0F / 210.0F, 49.0F / 210.0F);
+    glVertex2f(-41.F, 49.F);
     glTexCoord2s(41 * anim + 41, 49);
-    glVertex2f(41.0F / 210.0F, 49.0F / 210.0F);
+    glVertex2f(41.F, 49.F);
     glTexCoord2s(41 * anim + 41, 0);
-    glVertex2f(41.0F / 210.0F, -49.0F / 210.0F);
+    glVertex2f(41.F, -49.F);
 
     glEnd();
 
@@ -124,35 +146,36 @@ void LoadingScreen::task() {
       glBegin(GL_QUADS);
 
       glColor3ub(255, 255, 255);
-      glVertex2f(-0.72F, 0.28F);
-      glVertex2f(-0.72F, 0.37F);
-      glVertex2f(0.72F, 0.37F);
-      glVertex2f(0.72F, 0.28F);
+      glVertex2f(-304.F, 148.F);
+      glVertex2f(-304.F, 172.F);
+      glVertex2f(304.F, 172.F);
+      glVertex2f(304.F, 148.F);
 
       glColor3ub(0, 0, 0);
-      glVertex2f(-0.71F, 0.29F);
-      glVertex2f(-0.71F, 0.36F);
-      glVertex2f(0.71F, 0.36F);
-      glVertex2f(0.71F, 0.29F);
+      glVertex2f(-302.F, 150.F);
+      glVertex2f(-302.F, 170.F);
+      glVertex2f(302.F, 170.F);
+      glVertex2f(302.F, 150.F);
 
       glColor3ub(255, 255, 255);
-      glVertex2f(-0.7F, 0.3F);
-      glVertex2f(-0.7F, 0.35F);
-      glVertex2f(p, 0.35F);
-      glVertex2f(p, 0.3F);
+      glVertex2f(-300.F, 152.F);
+      glVertex2f(-300.F, 168.F);
+      glVertex2f(p, 168.F);
+      glVertex2f(p, 152.F);
 
       glEnd();
-
       glEnable(GL_TEXTURE_2D);
+
+      text.drawBegin();
       text.draw();
+      text.drawEnd();
 
       glBindTexture(GL_TEXTURE_2D, texture);
-      glMatrixMode(GL_TEXTURE);
-      glLoadMatrixf(matrix);
-      glMatrixMode(GL_MODELVIEW);
     }
 
     display->window.display();
+
+    display->taskEvent();
   }
 
   glDeleteTextures(1, &texture);

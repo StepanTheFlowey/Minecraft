@@ -3,9 +3,9 @@
 #include "Assets.hpp"
 #include "GlHelper.hpp"
 #include "DisplayHelper.hpp"
-#include "LoadingScreen.hpp"
-#include "MenuScreen.hpp"
-#include "GameScreen.hpp"
+#include "Loading.hpp"
+#include "Menu.hpp"
+#include "Game.hpp"
 
 #ifdef DEBUG
 int main() {
@@ -26,18 +26,16 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
   gl->loadInfo();
   gl->initGL();
 
-  _wsystem(L"pause");
+  //_wsystem(L"pause");
   assets = new Assets;
   assets->loadEarly();
   assets->load();
-
-  MenuScreen menu;
 
   delete assets;
   delete display;
   delete gl;
 
-  _wsystem(L"pause");
+  //_wsystem(L"pause");
 
   return EXIT_SUCCESS;
 }

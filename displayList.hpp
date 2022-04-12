@@ -6,28 +6,32 @@ class DisplayList {
   GLuint handle_ = 0;
 public:
 
-  DisplayList() {
+  inline DisplayList() {
     handle_ = glGenLists(1);
   }
 
-  explicit DisplayList(GLenum mode) {
+  inline explicit DisplayList(const GLenum mode) {
     handle_ = glGenLists(1);
     glNewList(handle_, mode);
   }
 
-  void begin() const {
+  inline ~DisplayList() {
+    glDeleteLists(handle_, 1);
+  }
+
+  inline void begin() const {
     glNewList(handle_, GL_COMPILE);
   }
 
-  void begin(GLenum mode) const {
+  inline void begin(const GLenum mode) const {
     glNewList(handle_, mode);
   }
 
-  void end() const {
+  inline void end() const {
     glEndList();
   }
 
-  void call() const {
+  inline void call() const {
     glCallList(handle_);
   }
 };
