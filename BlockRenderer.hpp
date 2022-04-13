@@ -8,7 +8,7 @@
 class BlockRenderer {
   GLuint bufferHandle_ = 0;
   GLuint indexHandle_ = 0;
-  size_t size_ = 0;
+  GLsizei size_ = 0;
 
   struct Vertex {
     Vec3<int16_t> vertex;

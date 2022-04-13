@@ -1,11 +1,13 @@
 #include "TextRenderer.hpp"
 
 #include "Assets.hpp"
+#include "DisplayHelper.hpp"
 
-float TextRenderer::size = 8.F;
+uint8_t TextRenderer::charWidths_[256]{};
+GLuint TextRenderer::font_ = 0;
 
 void TextRenderer::drawBegin() {
-  glBindTexture(GL_TEXTURE_2D, assets->font);
+  glBindTexture(GL_TEXTURE_2D, font_);
 
   const GLfloat matrix[16] = {
     1.F / 16.F,       0.F , 0.F, 0.F,
@@ -25,6 +27,7 @@ void TextRenderer::drawBegin() {
 void TextRenderer::draw() {
   glPushMatrix();
   glTranslatef(position_.x, position_.y, 0.F);
+  glScalef(display->scale, display->scale, display->scale);
   list_.call();
   glPopMatrix();
 }
@@ -42,24 +45,26 @@ void TextRenderer::update() {
 
   glBegin(GL_QUADS);
 
-  float_t offset;
+  color_.glColor();
+  float_t offset = 0.F;
   Vec2i16 tex;
   for(size_t i = 0; i < text_.size(); ++i) {
     tex.x = text_[i] % 16;
     tex.y = text_[i] / 16;
-    offset = i * size;
 
     glTexCoord2s(tex.x, tex.y);
     glVertex2f(0.0F + offset, 0.0F);
 
     glTexCoord2s(tex.x, tex.y + 1);
-    glVertex2f(0.0F + offset, size);
+    glVertex2f(0.0F + offset, 8);
 
     glTexCoord2s(tex.x + 1, tex.y + 1);
-    glVertex2f(size + offset, size);
+    glVertex2f(8 + offset, 8);
 
     glTexCoord2s(tex.x + 1, tex.y);
-    glVertex2f(size + offset, 0.0F);
+    glVertex2f(8 + offset, 0.F);
+
+    offset += charWidths_[text_[i]];
   }
 
   glEnd();

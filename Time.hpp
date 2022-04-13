@@ -4,20 +4,28 @@
 #include "main.hpp"
 
 class Time {
-  int64_t time_ = 0;
+  int64_t time_;
 public:
 
   //Default constructor
-  Time();
+  inline Time() {
+    time_ = 0;
+  }
 
   //Microseconds constructor
-  explicit Time(const int64_t);
+  inline explicit Time(const int64_t time) {
+    time_ = time;
+  }
 
   //Copy constructor from sfml time
-  Time(const sf::Time&);
+  inline Time(const sf::Time& time) {
+    time_ = time.asMicroseconds();
+  }
 
   //Default destructor
-  ~Time();
+  inline ~Time() {
+
+  }
 
   //Seconds assignment
   void setSeconds(const float_t);

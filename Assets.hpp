@@ -20,7 +20,6 @@ class TextRenderer;
 class Loading;
 
 class Assets {
-  GLuint font = 0;
   std::vector<Resource> resources;
 
   std::thread* thread_ = nullptr;
@@ -49,7 +48,5 @@ private:
   friend ModelManager;
   friend TextureManager;
   friend BlockManager;
-
-  friend TextRenderer;
 };
 extern Assets* assets;

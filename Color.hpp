@@ -10,15 +10,23 @@ public:
   GLubyte a;
 
   //Default constructor
-  Color();
+  inline Color() {
+    r = 0;
+    g = 0;
+    b = 0;
+    a = 255;
+  }
 
   //Default destructor
-  Color(GLubyte, GLubyte, GLubyte, GLubyte = 255);
+  inline Color(const GLubyte R, const GLubyte G, const GLubyte B, const GLubyte A = 255) {
+    r = R;
+    g = G;
+    b = B;
+    a = A;
+  }
 
   //Calls glColor(r,g,b,a)
-  void glColor() const;
+  inline void glColor() const {
+    glColor4ub(r, g, b, a);
+  }
 };
-
-inline void Color::glColor() const {
-  glColor4ub(r, g, b, a);
-}

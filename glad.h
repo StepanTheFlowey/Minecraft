@@ -19,7 +19,6 @@
         https://glad.dav1d.de/#profile=compatibility&language=c&specification=gl&loader=on&api=gl%3D2.1&extensions=GL_ARB_vertex_buffer_object
 */
 
-
 #ifndef __glad_h_
 #define __glad_h_
 

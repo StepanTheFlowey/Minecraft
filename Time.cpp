@@ -1,22 +1,4 @@
-#pragma once
-
 #include "Time.hpp"
-
-Time::Time() {
-
-}
-
-Time::Time(const int64_t time) {
-  time_ = time;
-}
-
-Time::Time(const sf::Time& time) {
-  time_ = time.asMicroseconds();
-}
-
-Time::~Time() {
-
-}
 
 void Time::setSeconds(const float_t seconds) {
   time_ = static_cast<int64_t>(seconds * 1000000);

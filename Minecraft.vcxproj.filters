@@ -117,8 +117,17 @@
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Sources\gl</Filter>
     </ClCompile>
+    <ClCompile Include="Vbo.cpp">
+      <Filter>Sources\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="Tileset.cpp">
+      <Filter>Sources\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Sources\utility</Filter>
+    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Sources</Filter>
+      <Filter>Sources\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +247,15 @@
     </ClInclude>
     <ClInclude Include="TextRenderer.hpp">
       <Filter>Includes\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="Vbo.hpp">
+      <Filter>Includes\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="Tileset.hpp">
+      <Filter>Includes\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.hpp">
+      <Filter>Includes\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

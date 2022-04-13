@@ -19,7 +19,7 @@ public:
   sf::Time time;
 
   bool fullscreen = false;
-  uint8_t scale = 2;
+  float scale = 1.F;
 
   inline DisplayHelper() {
     debug(L"DisplayHelper");

@@ -5,20 +5,23 @@
 #include "Color.hpp"
 #include "DisplayList.hpp"
 
+class Assets;
+
 class TextRenderer {
+  static uint8_t charWidths_[256];
+  static GLuint font_;
+
+  DisplayList list_;
   std::wstring text_;
   Vec2f position_;
   Color color_;
-  DisplayList list_;
 public:
 
-  static float size;
-
-  inline TextRenderer() {
+  inline TextRenderer() :color_(255, 255, 255) {
     debug(L"TextRenderer()");
   }
 
-  inline TextRenderer(const std::wstring text) {
+  inline TextRenderer(const std::wstring text) : color_(255, 255, 255) {
     debug(L"TextRenderer(text)");
     text_ = text;
   }
@@ -53,6 +56,10 @@ public:
     update();
   }
 
+  inline static void setFont(const GLuint font) {
+    font_ = font;
+  }
+
   static void drawBegin();
 
   void draw();
@@ -61,4 +68,6 @@ public:
 private:
 
   void update();
+
+  friend Assets;
 };

@@ -1,5 +1,6 @@
 #include "main.hpp"
 
+#include <assert.h>
 #include "Assets.hpp"
 #include "GlHelper.hpp"
 #include "DisplayHelper.hpp"

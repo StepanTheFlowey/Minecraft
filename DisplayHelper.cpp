@@ -13,6 +13,9 @@ void DisplayHelper::autoEvent() {
   if(window.pollEvent(event)) {
     switch(event.type) {
       case sf::Event::Closed:
+        fullscrEvent_ = true;
+        while(fullscrEvent_) Sleep(1);
+        window.setActive(true);
         window.close();
         exit(EXIT_SUCCESS);
       case sf::Event::Resized:
@@ -25,7 +28,6 @@ void DisplayHelper::autoEvent() {
           fullscrEvent_ = true;
           while(fullscrEvent_) Sleep(1);
           toggleFullscreen();
-          window.setActive(false);
           fullscrEvent_ = true;
         }
         break;
@@ -37,6 +39,9 @@ bool DisplayHelper::pollEvent() {
   if(window.pollEvent(event)) {
     switch(event.type) {
       case sf::Event::Closed:
+        fullscrEvent_ = true;
+        while(fullscrEvent_) Sleep(1);
+        window.setActive(true);
         window.close();
         exit(EXIT_SUCCESS);
       case sf::Event::Resized:
