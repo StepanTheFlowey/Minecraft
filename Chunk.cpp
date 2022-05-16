@@ -320,6 +320,6 @@ void Chunk::draw() const {
   glPopMatrix();
 
 #ifdef DEBUG
-  aabb_.drawAxisf(0.25F);
+  aabb_.draw(0.25F);
 #endif // DEBUG
 }

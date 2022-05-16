@@ -230,14 +230,14 @@ void Player::draw() const {
   Vec3f pos(blockMouseOver_.pos);
 
 #ifdef DEBUG
-  BlockAabb(pos, pos + Vec3f(1, 1, 1)).drawAxisColorf(Color(0, 255, 0), 0.0001F);
+  BlockAabb(pos, pos + Vec3f(1, 1, 1)).draw(Color(0, 255, 0), 0.0001F);
 
   glPushMatrix();
 
 
   glTranslated(pos.x, pos.y, pos.z);
 
-  float_t sinValue = abs(sinf(colorDeg * (float_t)DEG_TO_RAD)) * 255;
+  const float_t sinValue = fabs(sinf(colorDeg * F_DEG_TO_RAD)) * 255.F;
   glColor3ub(0, 0, static_cast<GLubyte>(sinValue));
 
   glBegin(GL_QUADS);

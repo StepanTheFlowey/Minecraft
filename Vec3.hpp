@@ -21,18 +21,18 @@ public:
   template <typename U>
   constexpr Vec3(const Vec3<U>& vector);
 
-  //SFML different type compitablity constructor
+  //SFML compitablity constructor
   template <typename U>
   constexpr Vec3(const sf::Vector3<U>& vector);
 
   //Default destructor
-  ~Vec3();
+  inline ~Vec3();
 
   //Prints vector components to std::cout
-  void print() const;
+  inline void print() const;
 
   //Prints vector components to std::cout
-  void print(const std::string str) const;
+  inline void print(const std::string str) const;
 
   //Prints vector components to std::wcout
   void wprint() const;
@@ -41,25 +41,25 @@ public:
   void wprint(const std::wstring wstr) const;
 
   //Absolute vector
-  Vec3<T> abs() const;
+  constexpr Vec3<T> abs() const;
 
   //Scalar lenght of vector
-  double_t lenght() const;
+  constexpr double_t lenght() const;
 
   //Normalizing vector
-  Vec3<T> normalize() const;
+  constexpr Vec3<T> normalize() const;
 
   //Distance to other vector
-  double_t distanceTo(const Vec3<T> vector) const;
+  constexpr double_t distanceTo(const Vec3<T> vector) const;
 
   //
-  T dotProduct(const Vec3<T> vector) const;
+  constexpr T dotProduct(const Vec3<T> vector) const;
 
   //
-  Vec3<T> vectorProduct(const Vec3<T> vector) const;
+  constexpr Vec3<T> vectorProduct(const Vec3<T> vector) const;
 
   //Call glVertex3(x,y,z)
-  void glVertex() const;
+  inline void glVertex() const;
 
   //Returns vector with x = 0
   Vec3<T> nullX() const;
@@ -78,12 +78,6 @@ public:
 
   //Returns vector without z
   Vec2<T> cutZ() const;
-
-  //Vector equals
-  bool operator==(const Vec3<T>& vector) const;
-
-  //Vector not equals
-  bool operator!=(const Vec3<T>& vector) const;
 
   //TODO: Description
   Vec3<T> operator+(const T) const;

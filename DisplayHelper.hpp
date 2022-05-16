@@ -21,28 +21,20 @@ public:
   bool fullscreen = false;
   float scale = 1.F;
 
-  inline DisplayHelper() {
-    debug(L"DisplayHelper");
-    contextSettings.antialiasingLevel = 8;  //Multisampling level
-    contextSettings.depthBits = 24;         //Depth buffer bits
-    contextSettings.majorVersion = 2;       //Request OpenGL 2.1
-    contextSettings.minorVersion = 1;
-  }
+  //Default constructor
+  inline DisplayHelper();
 
-  inline ~DisplayHelper() {
-    debug(L"~DisplayHelper");
-  }
+  //Default destructor
+  inline ~DisplayHelper();
 
-  void init();
+  //Initializes display
+  void initialize();
 
-  inline bool alive() {
-    std::unique_lock lock(mutex_);
-    return window.isOpen();
-  }
+  //Check is display workd
+  inline bool isAlive();
 
-  inline void autoClock() {
-    time = clock.restart();
-  }
+  //Automatic clock update
+  inline void autoClock();
 
   //Automatic event handling. Needs to be called from event thread
   void autoEvent();
@@ -53,6 +45,9 @@ public:
   //Renderer event handling. Needs to be called from render thread
   bool taskEvent();
 
+  //Toggles fullscreen mode. Uses for F11 handle
   void toggleFullscreen();
 };
 extern DisplayHelper* display;
+
+#include "DisplayHelper.inl"

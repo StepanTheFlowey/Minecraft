@@ -1,19 +1,15 @@
 #pragma once
 
 constexpr Time::Time() {
-  time_ = 0;
+
 }
 
 constexpr Time::Time(const int64_t time) {
   time_ = time;
 }
 
-constexpr Time::Time(const sf::Time& time) {
+Time::Time(const sf::Time& time) {
   time_ = time.asMicroseconds();
-}
-
-inline Time::~Time() {
-
 }
 
 constexpr void Time::setSeconds(const float_t seconds) {

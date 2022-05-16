@@ -188,7 +188,9 @@
   <ItemGroup>
     <None Include="Camera.inl" />
     <None Include="Chunk.inl" />
+    <None Include="Color.inl" />
     <None Include="cpp.hint" />
+    <None Include="DisplayHelper.inl" />
     <None Include="Plane3.inl" />
     <None Include="Player.inl" />
     <None Include="Rect2.inl" />

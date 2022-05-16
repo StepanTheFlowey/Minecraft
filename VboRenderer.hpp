@@ -8,7 +8,7 @@ class VboRenderer : public VertexRenderer<V> {
 public:
 
   VboRenderer() {
-    debug(L"VboRenderer()")
+    debug(L"VboRenderer()");
   }
 
   ~VboRenderer() {

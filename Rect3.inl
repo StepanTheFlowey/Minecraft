@@ -28,9 +28,9 @@ T Rect3<T>::square() const {
 template <typename T>
 bool Rect3<T>::isPointInside(const Vec3<T> point) const {
   return
-    Rect2<T>(a.cutX(), b.cutX(), c.cutX(), d.cutX()).isPointInside(vector.cutX()) &&
-    Rect2<T>(a.cutY(), b.cutY(), c.cutY(), d.cutY()).isPointInside(vector.cutY()) &&
-    Rect2<T>(a.cutZ(), b.cutZ(), c.cutZ(), d.cutZ()).isPointInside(vector.cutZ());
+    Rect2<T>(a.cutX(), b.cutX(), c.cutX(), d.cutX()).isPointInside(point.cutX()) &&
+    Rect2<T>(a.cutY(), b.cutY(), c.cutY(), d.cutY()).isPointInside(point.cutY()) &&
+    Rect2<T>(a.cutZ(), b.cutZ(), c.cutZ(), d.cutZ()).isPointInside(point.cutZ());
 }
 
 template <typename T>

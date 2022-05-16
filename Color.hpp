@@ -5,29 +5,19 @@
 class Color {
 public:
 
-  GLubyte r;
-  GLubyte g;
-  GLubyte b;
-  GLubyte a;
+  GLubyte r = 0;
+  GLubyte g = 0;
+  GLubyte b = 0;
+  GLubyte a = 255;
 
   //Default constructor
-  inline Color() {
-    r = 0;
-    g = 0;
-    b = 0;
-    a = 255;
-  }
+  constexpr Color();
 
   //Default destructor
-  inline Color(const GLubyte R, const GLubyte G, const GLubyte B, const GLubyte A = 255) {
-    r = R;
-    g = G;
-    b = B;
-    a = A;
-  }
+  constexpr Color(const GLubyte r, const GLubyte g, const GLubyte b, const GLubyte a = 255);
 
   //Calls glColor(r,g,b,a)
-  inline void glColor() const {
-    glColor4ub(r, g, b, a);
-  }
+  inline void glColor() const;
 };
+
+#include "Color.inl"

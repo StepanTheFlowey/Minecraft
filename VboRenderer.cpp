@@ -1,1 +1,1 @@
-#include "Vbo.hpp"
+#include "VboRenderer.hpp"

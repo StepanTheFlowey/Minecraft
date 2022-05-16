@@ -389,6 +389,12 @@
     <None Include="Triangle2.inl">
       <Filter>Includes\math\triangle</Filter>
     </None>
+    <None Include="Color.inl">
+      <Filter>Includes\utility</Filter>
+    </None>
+    <None Include="DisplayHelper.inl">
+      <Filter>Includes\utility</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Minecraft.rc">

@@ -21,6 +21,7 @@ struct BlockWithSide {
   Side side = Side::Null;
 };
 
+//TODO: move to assets types
 struct BlockInfo {
   static sourceId_t sourceId;
   static modelId_t modelId;

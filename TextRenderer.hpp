@@ -17,7 +17,7 @@ class TextRenderer {
   Color color_;
 public:
 
-  inline TextRenderer() :color_(255, 255, 255) {
+  inline TextRenderer() : color_(255, 255, 255) {
     debug(L"TextRenderer()");
   }
 
