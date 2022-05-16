@@ -12,29 +12,30 @@ void Game::operator()() {
 
   Player* const player = new Player;
 
-#define AXIS_LENGHT 17.0F
-#define AXIS_OFFSET -0.1F
   DisplayList axisList(GL_COMPILE);
-  glBegin(GL_LINES);
+  {
+    constexpr float_t axisLenght = 17.F;
+    constexpr float_t axisOffset = -0.1F;
 
-  glColor3ub(255, 0, 0);
-  glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_OFFSET);
-  glVertex3f(AXIS_LENGHT, AXIS_OFFSET, AXIS_OFFSET);
+    glBegin(GL_LINES);
 
-  glColor3ub(0, 255, 0);
-  glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_OFFSET);
-  glVertex3f(AXIS_OFFSET, AXIS_LENGHT, AXIS_OFFSET);
+    glColor3ub(255, 0, 0);
+    glVertex3f(axisOffset, axisOffset, axisOffset);
+    glVertex3f(axisLenght, axisOffset, axisOffset);
 
-  glColor3ub(0, 0, 255);
-  glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_OFFSET);
-  glVertex3f(AXIS_OFFSET, AXIS_OFFSET, AXIS_LENGHT);
+    glColor3ub(0, 255, 0);
+    glVertex3f(axisOffset, axisOffset, axisOffset);
+    glVertex3f(axisOffset, axisLenght, axisOffset);
 
-  glColor3ub(255, 255, 255);
+    glColor3ub(0, 0, 255);
+    glVertex3f(axisOffset, axisOffset, axisOffset);
+    glVertex3f(axisOffset, axisOffset, axisLenght);
 
-  glEnd();
+    glColor3ub(255, 255, 255);
+
+    glEnd();
+  }
   axisList.end();
-#undef AXIS_LENGHT
-#undef AXIS_OFFSET
 
   //Setup renderer
   gl->init3D();
@@ -65,12 +66,12 @@ void Game::operator()() {
           break;
         case sf::Event::MouseMoved:
         {
-          Vec2f windowSize = display->window.getSize();
-          Vec2f mousePos(display->event.mouseMove.x, display->event.mouseMove.y);
+          Vec2u windowSize = display->window.getSize();
+          Vec2i mousePos(display->event.mouseMove.x, display->event.mouseMove.y);
           Vec2f rotation;
-          windowSize /= 2;
-          rotation = windowSize - mousePos;
-          rotation /= windowSize * 2;
+
+          rotation = windowSize / 2 - mousePos;
+          rotation /= Vec2f(windowSize) * 2;
           rotation *= Vec2f(360, 180);
           sf::Mouse::setPosition(sf::Vector2i(static_cast<int>(windowSize.x), static_cast<int>(windowSize.y)), display->window);
           player->camera.rotate(rotation);

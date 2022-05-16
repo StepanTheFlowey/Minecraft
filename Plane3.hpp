@@ -9,17 +9,14 @@ public:
   Vec3<T> normal;
 
   //Default constructor
-  Plane3();
+  constexpr Plane3();
 
   //Component constructor
-  Plane3(const Vec3<T> vector, const Vec3<T> normal);
-
-  //Copy constructor
-  Plane3(const Plane3<T>& plane);
+  constexpr Plane3(const Vec3<T> point, const Vec3<T> normal);
 
   //Different type copy constructor
   template <typename U>
-  Plane3(const Plane3<U>& plane);
+  constexpr Plane3(const Plane3<U>& plane);
 
   //Default destructor
   ~Plane3();

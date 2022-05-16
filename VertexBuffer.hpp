@@ -1,5 +1,6 @@
 #pragma once
 
-class VertexBuffer {
-  
-};
+#include <vector>
+
+template <typename V>
+using VertexBuffer = std::vector<V>;

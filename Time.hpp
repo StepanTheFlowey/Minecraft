@@ -14,7 +14,7 @@ public:
   constexpr explicit Time(const int64_t time);
 
   //Copy constructor from sfml time
-  Time(const sf::Time& time);
+  constexpr Time(const sf::Time& time);
 
   //Default destructor
   ~Time();

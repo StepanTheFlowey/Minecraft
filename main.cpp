@@ -27,7 +27,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
   gl->loadInfo();
   gl->initGL();
 
-  //_wsystem(L"pause");
   assets = new Assets;
   assets->loadEarly();
   assets->load();
@@ -35,8 +34,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
   delete assets;
   delete display;
   delete gl;
-
-  //_wsystem(L"pause");
 
   return EXIT_SUCCESS;
 }

@@ -2,7 +2,7 @@
 
 #include "main.hpp"
 
-enum class Side: uint8_t {
+enum class Side : uint8_t {
   Null = 0,         //0b00000000
 
   None = 1 << 0,    //0b00000001
@@ -25,32 +25,32 @@ enum class Side: uint8_t {
   East = 1 << 7     //0b10000000
 };
 
-inline Side operator & (const Side l, const Side r) {
+inline Side operator&(const Side l, const Side r) {
   using T = std::underlying_type_t<Side>;
   return static_cast<Side>(static_cast<T>(l) & static_cast<T>(r));
 }
 
-inline Side& operator &= (Side& l, const Side r) {
+inline Side& operator&=(Side& l, const Side r) {
   l = l & r;
   return l;
 }
 
-inline Side operator | (const Side l, const Side r) {
+inline Side operator|(const Side l, const Side r) {
   using T = std::underlying_type_t<Side>;
   return static_cast<Side>(static_cast<T>(l) | static_cast<T>(r));
 }
 
-inline Side& operator |= (Side& l, const Side r) {
+inline Side& operator|=(Side& l, const Side r) {
   l = l | r;
   return l;
 }
 
-inline Side operator ^ (const Side l, const Side r) {
+inline Side operator^(const Side l, const Side r) {
   using T = std::underlying_type_t<Side>;
   return static_cast<Side>(static_cast<T>(l) ^ static_cast<T>(r));
 }
 
-inline Side& operator ^= (Side& l, const Side r) {
+inline Side& operator^=(Side& l, const Side r) {
   l = l ^ r;
   return l;
 }

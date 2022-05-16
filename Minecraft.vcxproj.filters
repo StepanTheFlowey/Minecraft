@@ -37,17 +37,65 @@
     <Filter Include="Sources\assets">
       <UniqueIdentifier>{bdc225a6-b4dc-460b-8b29-18114c3fffbe}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Includes\displays">
-      <UniqueIdentifier>{b59e1650-9f90-4ec8-828d-04b8d6a0947b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\displays">
-      <UniqueIdentifier>{7bbe83f9-297d-451c-a6d1-8aa4c2c2d896}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Includes\math">
       <UniqueIdentifier>{eb7d47d5-a20a-4058-a7f0-c01ed47e69a0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\math">
       <UniqueIdentifier>{8d2b04ab-8079-455f-9ac0-aa1abcea663c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\gl\vertex">
+      <UniqueIdentifier>{9b317c83-7219-47d0-b2f3-4ab5bc1aa170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\math\plane">
+      <UniqueIdentifier>{9512cd81-6fe6-4ff8-90db-f1e410d155d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\math\aabb">
+      <UniqueIdentifier>{7a5ccdc8-63be-4cb5-b11b-d35c35541879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\math\vector">
+      <UniqueIdentifier>{623e04d0-b1b3-48f9-afcb-278561fde0d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\gl\renderer">
+      <UniqueIdentifier>{580e37a0-f0bf-41d2-9acb-32bcb85812e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\math\rect">
+      <UniqueIdentifier>{d174f5c3-549b-4de5-b8af-374f3c5c9471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\math\triangle">
+      <UniqueIdentifier>{ae5fb583-bca2-4a97-8dc4-142a330e799c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\deprecated">
+      <UniqueIdentifier>{69163cd8-29dc-479c-9c42-61dec6b4aa15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\deprecated">
+      <UniqueIdentifier>{38e23563-65f7-445f-b145-75a223aa5495}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\assets\manager">
+      <UniqueIdentifier>{587725c0-df99-4db5-9388-1cc640d42ef0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\assets\manager">
+      <UniqueIdentifier>{7161039e-2623-4668-a624-068b3c8976ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\assets\type">
+      <UniqueIdentifier>{c5025396-ced9-44d6-8e76-4c1fb492860b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\assets\type">
+      <UniqueIdentifier>{56dcbaaa-1a45-47ab-aad6-a90d8f431b96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\gl\renderer">
+      <UniqueIdentifier>{70411c4c-04fc-4e81-94f0-ba775e390897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\gl\vertex">
+      <UniqueIdentifier>{035fc8ac-b98f-413c-9bc6-1a3a69bca02e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\math\vector">
+      <UniqueIdentifier>{b991a21e-0c99-4350-9df2-e4585bdf32ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Includes\display">
+      <UniqueIdentifier>{b59e1650-9f90-4ec8-828d-04b8d6a0947b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\display">
+      <UniqueIdentifier>{7bbe83f9-297d-451c-a6d1-8aa4c2c2d896}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,23 +126,8 @@
     <ClCompile Include="Chunk.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
-    <ClCompile Include="BlockRenderer.cpp">
-      <Filter>Sources\gl</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelManager.cpp">
-      <Filter>Sources\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="SettingsManager.cpp">
-      <Filter>Sources\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockManager.cpp">
-      <Filter>Sources\assets</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Sources\assets</Filter>
-    </ClCompile>
     <ClCompile Include="Loading.cpp">
-      <Filter>Sources\displays</Filter>
+      <Filter>Sources\display</Filter>
     </ClCompile>
     <ClCompile Include="Assets.cpp">
       <Filter>Sources\assets</Filter>
@@ -103,43 +136,70 @@
       <Filter>Sources\utility</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Sources\displays</Filter>
+      <Filter>Sources\display</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Sources\displays</Filter>
-    </ClCompile>
-    <ClCompile Include="Vec2.cpp">
-      <Filter>Sources\math</Filter>
-    </ClCompile>
-    <ClCompile Include="Vec3.cpp">
-      <Filter>Sources\math</Filter>
-    </ClCompile>
-    <ClCompile Include="TextRenderer.cpp">
-      <Filter>Sources\gl</Filter>
-    </ClCompile>
-    <ClCompile Include="Vbo.cpp">
-      <Filter>Sources\gl</Filter>
-    </ClCompile>
-    <ClCompile Include="Tileset.cpp">
-      <Filter>Sources\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Sources\utility</Filter>
+      <Filter>Sources\display</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
-    <ClCompile Include="VertexRenderer.cpp">
-      <Filter>Sources\gl</Filter>
+    <ClCompile Include="WorldGenerator.cpp">
+      <Filter>Sources\utility</Filter>
     </ClCompile>
-    <ClCompile Include="Vertex3.cpp">
-      <Filter>Sources\gl</Filter>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Sources\assets\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockManager.cpp">
+      <Filter>Sources\assets\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelManager.cpp">
+      <Filter>Sources\assets\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsManager.cpp">
+      <Filter>Sources\assets\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Tileset.cpp">
+      <Filter>Sources\assets\type</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Sources\assets\type</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockRenderer.cpp">
+      <Filter>Sources\deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Sources\deprecated</Filter>
+    </ClCompile>
+    <ClCompile Include="VboRenderer.cpp">
+      <Filter>Sources\gl\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ImmediateRenderer.cpp">
+      <Filter>Sources\gl\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderRenderer.cpp">
+      <Filter>Sources\gl\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="VaoRenderer.cpp">
+      <Filter>Sources\gl\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexRenderer.cpp">
+      <Filter>Sources\gl\renderer</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
-      <Filter>Sources\gl</Filter>
+      <Filter>Sources\gl\vertex</Filter>
     </ClCompile>
     <ClCompile Include="Vertex2.cpp">
-      <Filter>Sources\gl</Filter>
+      <Filter>Sources\gl\vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex3.cpp">
+      <Filter>Sources\gl\vertex</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec3.cpp">
+      <Filter>Sources\math\vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec2.cpp">
+      <Filter>Sources\math\vector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,12 +209,6 @@
     <ClInclude Include="DisplayList.hpp">
       <Filter>Includes\gl</Filter>
     </ClInclude>
-    <ClInclude Include="Aabb3.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Aabb3.inl">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionResult.hpp">
       <Filter>Includes\math</Filter>
     </ClInclude>
@@ -162,33 +216,6 @@
       <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="Math.inl">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane3.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Rect2.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Rect3.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Triangle2.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Triangle3.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec2.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec2.inl">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec3.hpp">
-      <Filter>Includes\math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec3.inl">
       <Filter>Includes\math</Filter>
     </ClInclude>
     <ClInclude Include="GlHelper.hpp">
@@ -200,105 +227,142 @@
     <ClInclude Include="Color.hpp">
       <Filter>Includes\utility</Filter>
     </ClInclude>
-    <ClInclude Include="BlockRenderer.hpp">
-      <Filter>Includes\gl</Filter>
-    </ClInclude>
     <ClInclude Include="glad.h">
       <Filter>Includes\gl</Filter>
     </ClInclude>
-    <ClInclude Include="Block.hpp">
-      <Filter>Includes\game</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.hpp">
-      <Filter>Includes\game</Filter>
-    </ClInclude>
-    <ClInclude Include="Chunk.hpp">
-      <Filter>Includes\game</Filter>
-    </ClInclude>
-    <ClInclude Include="Region.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
     <ClInclude Include="Player.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
+    <ClInclude Include="Assets.hpp">
+      <Filter>Includes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Loading.hpp">
+      <Filter>Includes\display</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.hpp">
+      <Filter>Includes\display</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.hpp">
+      <Filter>Includes\display</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayHelper.hpp">
+      <Filter>Includes\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldGenerator.hpp">
+      <Filter>Includes\utility</Filter>
+    </ClInclude>
     <ClInclude Include="Side.hpp">
+      <Filter>Includes\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Region.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
     <ClInclude Include="World.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Includes</Filter>
+    <ClInclude Include="Chunk.hpp">
+      <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="Assets.hpp">
-      <Filter>Includes\assets</Filter>
+    <ClInclude Include="Block.hpp">
+      <Filter>Includes\game</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.hpp">
-      <Filter>Includes\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockManager.hpp">
-      <Filter>Includes\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelManager.hpp">
-      <Filter>Includes\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="SettingsManager.hpp">
-      <Filter>Includes\assets</Filter>
-    </ClInclude>
-    <ClInclude Include="Loading.hpp">
-      <Filter>Includes\displays</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.hpp">
-      <Filter>Includes\displays</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.hpp">
-      <Filter>Includes\displays</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplayHelper.hpp">
-      <Filter>Includes\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRenderer.hpp">
-      <Filter>Includes\gl</Filter>
-    </ClInclude>
-    <ClInclude Include="Vbo.hpp">
-      <Filter>Includes\gl</Filter>
-    </ClInclude>
-    <ClInclude Include="Tileset.hpp">
-      <Filter>Includes\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.hpp">
-      <Filter>Includes\utility</Filter>
+    <ClInclude Include="VboRenderer.hpp">
+      <Filter>Includes\gl\renderer</Filter>
     </ClInclude>
     <ClInclude Include="VertexRenderer.hpp">
-      <Filter>Includes\gl</Filter>
+      <Filter>Includes\gl\renderer</Filter>
     </ClInclude>
     <ClInclude Include="Vertex3.hpp">
-      <Filter>Includes\gl</Filter>
+      <Filter>Includes\gl\vertex</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.hpp">
-      <Filter>Includes\gl</Filter>
+      <Filter>Includes\gl\vertex</Filter>
     </ClInclude>
     <ClInclude Include="Vertex2.hpp">
-      <Filter>Includes\gl</Filter>
+      <Filter>Includes\gl\vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Aabb3.inl">
+      <Filter>Includes\math\aabb</Filter>
+    </ClInclude>
+    <ClInclude Include="Aabb3.hpp">
+      <Filter>Includes\math\aabb</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane3.hpp">
+      <Filter>Includes\math\plane</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect2.hpp">
+      <Filter>Includes\math\rect</Filter>
+    </ClInclude>
+    <ClInclude Include="Rect3.hpp">
+      <Filter>Includes\math\rect</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle2.hpp">
+      <Filter>Includes\math\triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Triangle3.hpp">
+      <Filter>Includes\math\triangle</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.inl">
+      <Filter>Includes\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.hpp">
+      <Filter>Includes\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.inl">
+      <Filter>Includes\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec3.hpp">
+      <Filter>Includes\math\vector</Filter>
+    </ClInclude>
+    <ClInclude Include="ImmediateRenderer.hpp">
+      <Filter>Includes\gl\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderRenderer.hpp">
+      <Filter>Includes\gl\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="VaoRenderer.hpp">
+      <Filter>Includes\gl\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockRenderer.hpp">
+      <Filter>Includes\deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.hpp">
+      <Filter>Includes\deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.hpp">
+      <Filter>Includes\assets\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockManager.hpp">
+      <Filter>Includes\assets\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelManager.hpp">
+      <Filter>Includes\assets\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsManager.hpp">
+      <Filter>Includes\assets\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Tileset.hpp">
+      <Filter>Includes\assets\type</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.hpp">
+      <Filter>Includes\assets\type</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Includes\assets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Plane3.inl">
-      <Filter>Includes\math</Filter>
+    <None Include="cpp.hint" />
+    <None Include="Time.inl">
+      <Filter>Includes\utility</Filter>
     </None>
-    <None Include="Rect2.inl">
-      <Filter>Includes\math</Filter>
+    <None Include="Player.inl">
+      <Filter>Includes\game</Filter>
     </None>
-    <None Include="Rect3.inl">
-      <Filter>Includes\math</Filter>
-    </None>
-    <None Include="Triangle2.inl">
-      <Filter>Includes\math</Filter>
-    </None>
-    <None Include="Triangle3.inl">
-      <Filter>Includes\math</Filter>
-    </None>
-    <None Include="Chunk.inl">
+    <None Include="Camera.inl">
       <Filter>Includes\game</Filter>
     </None>
     <None Include="Region.inl">
@@ -307,9 +371,23 @@
     <None Include="World.inl">
       <Filter>Includes\game</Filter>
     </None>
-    <None Include="cpp.hint" />
-    <None Include="Time.inl">
-      <Filter>Includes\utility</Filter>
+    <None Include="Chunk.inl">
+      <Filter>Includes\game</Filter>
+    </None>
+    <None Include="Plane3.inl">
+      <Filter>Includes\math\plane</Filter>
+    </None>
+    <None Include="Rect3.inl">
+      <Filter>Includes\math\rect</Filter>
+    </None>
+    <None Include="Rect2.inl">
+      <Filter>Includes\math\rect</Filter>
+    </None>
+    <None Include="Triangle3.inl">
+      <Filter>Includes\math\triangle</Filter>
+    </None>
+    <None Include="Triangle2.inl">
+      <Filter>Includes\math\triangle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

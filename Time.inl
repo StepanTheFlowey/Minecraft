@@ -8,7 +8,7 @@ constexpr Time::Time(const int64_t time) {
   time_ = time;
 }
 
-inline Time::Time(const sf::Time& time) {
+constexpr Time::Time(const sf::Time& time) {
   time_ = time.asMicroseconds();
 }
 

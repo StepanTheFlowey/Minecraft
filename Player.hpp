@@ -12,10 +12,10 @@ public:
   Camera camera;
 
   //Default constructor
-  Player();
+  inline Player();
 
   //Default destructor
-  ~Player();
+  inline ~Player();
 
   //Assign move direction
   void walk(const Side side, const bool value);
@@ -47,3 +47,5 @@ protected:
   bool isBlockMouseOver_ = false;
   bool onGround_ = false;
 };
+
+#include "Player.inl"

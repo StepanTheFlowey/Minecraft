@@ -6,25 +6,26 @@
 template <typename T>
 class Rect3 {
 public:
+
   Vec3<T> a;
   Vec3<T> b;
   Vec3<T> c;
   Vec3<T> d;
 
-  //
-  Rect3();
+  //Default constructor
+  constexpr Rect3();
 
-  //
-  Rect3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c, const Vec3<T> _d);
+  //Component constructor
+  constexpr Rect3(const Vec3<T> a, const Vec3<T> b, const Vec3<T> c, const Vec3<T> d);
 
-  //
+  //Default destructor
   ~Rect3();
 
   //
   T square() const;
 
   //
-  bool isPointInside(const Vec3<T> vector) const;
+  bool isPointInside(const Vec3<T> point) const;
 
   //
   Rect3<T> operator+(const Vec3<T> offset) const;

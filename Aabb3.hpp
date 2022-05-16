@@ -11,38 +11,35 @@ public:
   Vec3<T> max;
 
   //Default constructor
-  Aabb3();
+  constexpr Aabb3();
 
   //Vector constructor
-  Aabb3(const Vec3<T> _min, const Vec3<T> _max);
-
-  //Copy constructor
-  Aabb3(const Aabb3<T>& aabb);
+  constexpr Aabb3(const Vec3<T> min, const Vec3<T> max);
 
   //Template copy constructor
   template <typename U>
-  Aabb3(const Aabb3<U>& aabb);
+  constexpr Aabb3(const Aabb3<U>& aabb);
 
   //Default destructor
   ~Aabb3();
 
   //
-  void set(const Vec3<T> _min, const Vec3<T> _max);
+  void set(const Vec3<T> min, const Vec3<T> max);
 
   //
   bool intersects(const Aabb3<T>) const;
 
   //Draws axis of box in float
-  void drawAxisColorf(const Color color, const float_t offset) const;
+  void draw(const Color color, const float_t offset) const;
 
   //Draws axis of box in double
-  void drawAxisColord(const Color color, const double_t offset) const;
+  void draw(const Color color, const double_t offset) const;
 
   //Draws axis of box in float
-  void drawAxisf(const float_t offset) const;
+  void draw(const float_t offset) const;
 
   //Draws axis of box in double
-  void drawAxisd(const double_t offset) const;
+  void draw(const double_t offset) const;
 };
 
 #include "Aabb3.inl"

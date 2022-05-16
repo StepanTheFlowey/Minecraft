@@ -1,28 +1,22 @@
 #pragma once
 
 template <typename T>
-inline Aabb3<T>::Aabb3() {
+constexpr Aabb3<T>::Aabb3() {
 
 }
 
 template <typename T>
-inline Aabb3<T>::Aabb3(const Vec3<T> _min, const Vec3<T> _max) {
+constexpr Aabb3<T>::Aabb3(const Vec3<T> _min, const Vec3<T> _max) {
   set(_min, _max);
 }
 
-template <typename T>
-inline Aabb3<T>::Aabb3(const Aabb3<T>& aabb) {
-  min = aabb.min;
-  max = aabb.max;
-}
-
 template <typename T> template <typename U>
-inline Aabb3<T>::Aabb3(const Aabb3<U>& aabb) {
+constexpr Aabb3<T>::Aabb3(const Aabb3<U>& aabb) {
   min = Vec3<T>(aabb.min);
   max = Vec3<T>(aabb.max);
 }
 
-template<typename T>
+template <typename T>
 inline Aabb3<T>::~Aabb3() {
 
 }
@@ -49,7 +43,7 @@ bool Aabb3<T>::intersects(const Aabb3<T> aabb) const {
 }
 
 template <typename T>
-void Aabb3<T>::drawAxisColorf(const Color color, const float_t offset) const {
+void Aabb3<T>::draw(const Color color, const float_t offset) const {
   const GLfloat iX = static_cast<GLfloat>(min.x) - offset;
   const GLfloat iY = static_cast<GLfloat>(min.y) - offset;
   const GLfloat iZ = static_cast<GLfloat>(min.z) - offset;
@@ -103,7 +97,7 @@ void Aabb3<T>::drawAxisColorf(const Color color, const float_t offset) const {
 }
 
 template <typename T>
-void Aabb3<T>::drawAxisColord(const Color color, const double_t offset) const {
+void Aabb3<T>::draw(const Color color, const double_t offset) const {
   const GLdouble iX = static_cast<GLdouble>(min.x) - offset;
   const GLdouble iY = static_cast<GLdouble>(min.y) - offset;
   const GLdouble iZ = static_cast<GLdouble>(min.z) - offset;
@@ -157,7 +151,7 @@ void Aabb3<T>::drawAxisColord(const Color color, const double_t offset) const {
 }
 
 template <typename T>
-void Aabb3<T>::drawAxisf(const float_t offset) const {
+void Aabb3<T>::draw(const float_t offset) const {
   const GLfloat iX = static_cast<GLfloat>(min.x) - offset;
   const GLfloat iY = static_cast<GLfloat>(min.y) - offset;
   const GLfloat iZ = static_cast<GLfloat>(min.z) - offset;
@@ -210,7 +204,7 @@ void Aabb3<T>::drawAxisf(const float_t offset) const {
 }
 
 template <typename T>
-void Aabb3<T>::drawAxisd(const double_t offset) const {
+void Aabb3<T>::draw(const double_t offset) const {
   GLdouble iX = static_cast<GLdouble>(min.x) - offset;
   GLdouble iY = static_cast<GLdouble>(min.y) - offset;
   GLdouble iZ = static_cast<GLdouble>(min.z) - offset;

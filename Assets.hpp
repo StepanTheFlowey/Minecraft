@@ -20,9 +20,6 @@ class TextRenderer;
 class Loading;
 
 class Assets {
-  std::vector<Resource> resources;
-
-  std::thread* thread_ = nullptr;
 public:
 
   SettingsManager settingsManager;
@@ -37,12 +34,15 @@ public:
   void loadEarly();
 
   void load();
-
-private:
+protected:
 
   void loadResources();
 
   void task();
+
+  std::vector<Resource> resources;
+
+  std::thread* thread_ = nullptr;
 
   friend SettingsManager;
   friend ModelManager;

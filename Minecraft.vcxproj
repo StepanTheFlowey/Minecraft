@@ -98,6 +98,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ImmediateRenderer.cpp" />
+    <ClCompile Include="ShaderRenderer.cpp" />
+    <ClCompile Include="VaoRenderer.cpp" />
+    <ClCompile Include="WorldGenerator.cpp" />
     <ClInclude Include="Aabb3.inl" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="BlockManager.cpp" />
@@ -116,6 +120,7 @@
     <ClInclude Include="DisplayHelper.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="glad.h" />
+    <ClInclude Include="ImmediateRenderer.hpp" />
     <ClInclude Include="Loading.hpp" />
     <ClInclude Include="Math.inl" />
     <ClCompile Include="Menu.cpp" />
@@ -136,14 +141,16 @@
     <ClInclude Include="Rect3.hpp" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingsManager.hpp" />
+    <ClInclude Include="ShaderRenderer.hpp" />
     <ClInclude Include="TextRenderer.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Tileset.hpp" />
     <ClInclude Include="Triangle2.hpp" />
-    <ClInclude Include="Vbo.hpp" />
+    <ClInclude Include="VaoRenderer.hpp" />
+    <ClInclude Include="VboRenderer.hpp" />
     <ClInclude Include="Vec2.inl" />
     <ClInclude Include="Vec3.inl" />
-    <ClCompile Include="Vbo.cpp" />
+    <ClCompile Include="VboRenderer.cpp" />
     <ClCompile Include="Vec2.cpp" />
     <ClCompile Include="Vec3.cpp" />
     <ClCompile Include="Vertex2.cpp" />
@@ -151,6 +158,7 @@
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexRenderer.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClInclude Include="WorldGenerator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aabb3.hpp" />
@@ -178,9 +186,11 @@
     <ClInclude Include="World.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Camera.inl" />
     <None Include="Chunk.inl" />
     <None Include="cpp.hint" />
     <None Include="Plane3.inl" />
+    <None Include="Player.inl" />
     <None Include="Rect2.inl" />
     <None Include="Rect3.inl" />
     <None Include="Region.inl" />

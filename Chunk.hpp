@@ -1,10 +1,10 @@
 #pragma once
 
 #include "main.hpp"
-#include "vec3.hpp"
-#include "math.hpp"
-#include "block.hpp"
-#include "blockRenderer.hpp"
+#include "Vec3.hpp"
+#include "Math.hpp"
+#include "Block.hpp"
+#include "BlockRenderer.hpp"
 
 using chunkPos_t = int32_t;           //Absolute chunk position
 using ChunkPos = Vec3<chunkPos_t>;

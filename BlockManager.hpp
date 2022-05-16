@@ -5,7 +5,6 @@
 #include "block.hpp"
 
 class BlockManager {
-  std::vector<BlockInfo> blocks_;
 public:
 
   inline BlockManager() {
@@ -19,7 +18,9 @@ public:
   void load();
 
   void save();
-private:
+protected:
+
+  std::vector<BlockInfo> blocks_;
 
   void loadFromModule() {
 

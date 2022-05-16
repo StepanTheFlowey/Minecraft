@@ -5,19 +5,20 @@
 template <typename T>
 class Triangle2 {
 public:
+
   Vec2<T> a;
   Vec2<T> b;
   Vec2<T> c;
 
   //Default constructor
-  Triangle2();
+  constexpr Triangle2();
 
   //
-  Triangle2(const Vec2<T>, const Vec2<T>, const Vec2<T>);
+  constexpr Triangle2(const Vec2<T>, const Vec2<T>, const Vec2<T>);
 
   //
   template <typename U>
-  Triangle2(const Triangle2<U>&);
+  constexpr Triangle2(const Triangle2<U>&);
 
   //Default destructor
   ~Triangle2();

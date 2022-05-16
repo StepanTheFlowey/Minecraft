@@ -4,7 +4,6 @@
 #include "Block.hpp"
 
 class TextureManager {
-  std::map<std::wstring, textureId_t> textures_;
 public:
 
   inline TextureManager() {
@@ -22,4 +21,7 @@ public:
   inline textureId_t getTextureId(const std::wstring name) {
     return textures_.at(name);
   }
+protected:
+
+  std::map<std::wstring, textureId_t> textures_;
 };

@@ -4,6 +4,7 @@
 
 class Color {
 public:
+
   GLubyte r;
   GLubyte g;
   GLubyte b;

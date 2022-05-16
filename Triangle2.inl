@@ -1,19 +1,19 @@
 #pragma once
 
 template <typename T>
-inline Triangle2<T>::Triangle2() {
+constexpr Triangle2<T>::Triangle2() {
 
 }
 
 template <typename T>
-inline Triangle2<T>::Triangle2(const Vec2<T> _a, const Vec2<T> _b, const Vec2<T> _c) {
+constexpr Triangle2<T>::Triangle2(const Vec2<T> _a, const Vec2<T> _b, const Vec2<T> _c) {
   a = _a;
   b = _b;
   c = _c;
 }
 
 template <typename T> template <typename U>
-inline Triangle2<T>::Triangle2(const Triangle2<U>& triangle) {
+constexpr Triangle2<T>::Triangle2(const Triangle2<U>& triangle) {
   a = triangle.a;
   b = triangle.b;
   c = triangle.c;

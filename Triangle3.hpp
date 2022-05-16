@@ -5,6 +5,7 @@
 template <typename T>
 class Triangle3 {
 public:
+
   Vec3<T> a;
   Vec3<T> b;
   Vec3<T> c;

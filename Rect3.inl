@@ -3,12 +3,12 @@
 #include "Rect2.hpp"
 
 template <typename T>
-inline Rect3<T>::Rect3() {
+constexpr Rect3<T>::Rect3() {
 
 }
 
 template <typename T>
-inline Rect3<T>::Rect3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c, const Vec3<T> _d) {
+constexpr Rect3<T>::Rect3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c, const Vec3<T> _d) {
   a = _a;
   b = _b;
   c = _c;
@@ -26,7 +26,7 @@ T Rect3<T>::square() const {
 }
 
 template <typename T>
-bool Rect3<T>::isPointInside(const Vec3<T> vector) const {
+bool Rect3<T>::isPointInside(const Vec3<T> point) const {
   return
     Rect2<T>(a.cutX(), b.cutX(), c.cutX(), d.cutX()).isPointInside(vector.cutX()) &&
     Rect2<T>(a.cutY(), b.cutY(), c.cutY(), d.cutY()).isPointInside(vector.cutY()) &&

@@ -3,18 +3,11 @@
 #include "main.hpp"
 #include "World.hpp"
 #include "Chunk.hpp"
+#include "Block.hpp"
 #include "Math.hpp"
 #include "CollisionResult.hpp"
 #include "Color.hpp"
-
-Player::Player() :position_(1, 20, 1) {
-  debug(L"Player()");
-  camera.setPosition(position_);
-}
-
-Player::~Player() {
-  debug(L"~Player()");
-}
+#include "Side.hpp"
 
 void Player::walk(const Side direction, const bool enable) {
   if(enable) {

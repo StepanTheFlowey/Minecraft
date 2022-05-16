@@ -3,7 +3,6 @@
 #include "main.hpp"
 
 class ModelManager {
-  //std::map<std::wstring, Model> models_;
 public:
 
   inline ModelManager() {
@@ -17,4 +16,7 @@ public:
   void load();
 
   void save();
+protected:
+
+  //std::map<std::wstring, Model> models_;
 };
