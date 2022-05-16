@@ -21,7 +21,7 @@ public:
   template <typename U>
   Plane3(const Plane3<U>& plane);
 
-  //
+  //Default destructor
   ~Plane3();
 };
 

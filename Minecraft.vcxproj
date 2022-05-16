@@ -146,6 +146,10 @@
     <ClCompile Include="Vbo.cpp" />
     <ClCompile Include="Vec2.cpp" />
     <ClCompile Include="Vec3.cpp" />
+    <ClCompile Include="Vertex2.cpp" />
+    <ClCompile Include="Vertex3.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexRenderer.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +171,10 @@
     <ClInclude Include="main.hpp" />
     <ClInclude Include="Vec2.hpp" />
     <ClInclude Include="Vec3.hpp" />
+    <ClInclude Include="Vertex3.hpp" />
+    <ClInclude Include="Vertex2.hpp" />
+    <ClInclude Include="VertexBuffer.hpp" />
+    <ClInclude Include="VertexRenderer.hpp" />
     <ClInclude Include="World.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +184,7 @@
     <None Include="Rect2.inl" />
     <None Include="Rect3.inl" />
     <None Include="Region.inl" />
+    <None Include="Time.inl" />
     <None Include="Triangle2.inl" />
     <None Include="Triangle3.inl" />
     <None Include="World.inl" />

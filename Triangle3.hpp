@@ -10,14 +10,14 @@ public:
   Vec3<T> c;
 
   //Default constructor
-  Triangle3();
+  constexpr Triangle3();
 
   //Component constructor
-  Triangle3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c);
+  constexpr Triangle3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c);
 
   //Different type copy constructor
   template <typename U>
-  Triangle3(const Triangle3<U>& triangle);
+  constexpr Triangle3(const Triangle3<U>& triangle);
 
   //Default destructor
   ~Triangle3();

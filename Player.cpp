@@ -1,10 +1,11 @@
 #include "Player.hpp"
 
 #include "main.hpp"
-#include "Math.hpp"
-#include "Color.hpp"
-#include "CollisionResult.hpp"
+#include "World.hpp"
 #include "Chunk.hpp"
+#include "Math.hpp"
+#include "CollisionResult.hpp"
+#include "Color.hpp"
 
 Player::Player() :position_(1, 20, 1) {
   debug(L"Player()");
@@ -15,7 +16,7 @@ Player::~Player() {
   debug(L"~Player()");
 }
 
-void Player::walk(const Side direction,const bool enable) {
+void Player::walk(const Side direction, const bool enable) {
   if(enable) {
     moveDir_ |= direction;
   }
@@ -78,7 +79,7 @@ void Player::update(const Time time) {
       static_cast<double_t>(cosf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * millis))
     );
   }
-  if(to_underlying(moveDir_ & Side::Back)) {
+  if(to_underlying(moveDir_ & Side::Back)) {// если (to_underlying(moveDir_ & Side::Back))
     move(
       Vec3d(
       static_cast<double_t>(sinf(rotation.x * F_DEG_TO_RAD) * moveSpeed_ * -millis),
@@ -113,14 +114,15 @@ void Player::update(const Time time) {
   if(colorDeg > 360) {
     colorDeg = 0;
   }
+
   //TODO: how about realestic walk?
-  const Vec3f& eyePos = camera.getEyePosition();
-  const Vec3f& viewPos = camera.getCenterPosition();
+  const Vec3d& eyePos = camera.getEyePosition();
+  const Vec3d& viewPos = camera.getCenterPosition();
   const Aabb3d lineBox(eyePos, viewPos);
 
   bool allSides = false;
   CollisionResultd collisionResult;
-  const Block* block;
+  const Block* block = nullptr;
   Rect3d rect;
   SmallPos blockPosInChunk;
   Vec3d pos;
@@ -206,9 +208,9 @@ void Player::update(const Time time) {
   }
 exitTrace:
   int8_t smallerNum = -1;
-  for(uint8_t i = 0; i < mathed.size(); i++) {
+  for(uint8_t i = 0; i < mathed.size(); ++i) {
     bool smaller = true;
-    for(uint8_t j = 0; j < mathed.size(); j++) {
+    for(uint8_t j = 0; j < mathed.size(); ++j) {
       if(i == j) {
         continue;
       }

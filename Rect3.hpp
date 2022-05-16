@@ -11,18 +11,25 @@ public:
   Vec3<T> c;
   Vec3<T> d;
 
+  //
   Rect3();
 
+  //
   Rect3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c, const Vec3<T> _d);
 
+  //
   ~Rect3();
 
+  //
   T square() const;
 
+  //
   bool isPointInside(const Vec3<T> vector) const;
 
+  //
   Rect3<T> operator+(const Vec3<T> offset) const;
 
+  //
   void operator+=(const Vec3<T> offset);
 
   static const Rect3<T> Up;

@@ -1,43 +1,48 @@
 #pragma once
 
-#include "vec3.hpp"
+#include "Vec3.hpp"
 
 template <typename T>
-inline Vec3<T>::Vec3() {
+constexpr Vec3<T>::Vec3() {
   x = 0;
   y = 0;
   z = 0;
 }
 
 template <typename T>
-inline Vec3<T>::Vec3(T X, T Y, T Z) {
+constexpr Vec3<T>::Vec3(const T X, const T Y, const T Z) {
   x = X;
   y = Y;
   z = Z;
 }
 
 template <typename T> template <typename U>
-inline Vec3<T>::Vec3(const Vec3<U>& vector) {
+constexpr Vec3<T>::Vec3(const Vec3<U>& vector) {
   x = static_cast<T>(vector.x);
   y = static_cast<T>(vector.y);
   z = static_cast<T>(vector.z);
 }
 
 template <typename T> template <typename U>
-inline Vec3<T>::Vec3(const sf::Vector3<U>& vector) {
+constexpr Vec3<T>::Vec3(const sf::Vector3<U>& vector) {
   x = static_cast<T>(vector.x);
   y = static_cast<T>(vector.y);
   z = static_cast<T>(vector.z);
 }
 
 template <typename T>
-inline void Vec3<T>::print() const {
-  std::cout << L"X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+inline Vec3<T>::~Vec3() {
+
 }
 
 template <typename T>
-inline void Vec3<T>::print(const std::string str) const {
-  std::cout << str << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+inline void Vec3<T>::print() const {
+  std::cout << "X: " << x << " Y: " << y << " Z: " << z << std::endl;
+}
+
+template <typename T>
+inline void Vec3<T>::print(const std::string string) const {
+  std::cout << string << " X: " << x << " Y: " << y << " Z: " << z << std::endl;
 }
 
 template <typename T>
@@ -46,8 +51,8 @@ inline void Vec3<T>::wprint() const {
 }
 
 template <typename T>
-inline void Vec3<T>::wprint(const std::wstring wstr) const {
-  std::wcout << wstr << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
+inline void Vec3<T>::wprint(const std::wstring wstring) const {
+  std::wcout << wstring << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
 }
 
 template <typename T>

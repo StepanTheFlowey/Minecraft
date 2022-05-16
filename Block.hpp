@@ -7,11 +7,11 @@
 #include <vector>
 #include <functional>
 
-using blockId_t = uint16_t;
-using sourceId_t = uint16_t;
-using modelId_t = uint16_t;
-using textureId_t = uint16_t;
-using blockPos_t = int32_t;
+using blockId_t = uint16_t;   //Max 65535 blocks in one source
+using sourceId_t = uint16_t;  //Max 65535 sources (e.g. mods)
+using modelId_t = uint16_t;   //Max 65535 block model
+using textureId_t = uint16_t; //Max 65535 textures
+using blockPos_t = int32_t;   //Absolute block pos
 
 using BlockPos = Vec3<blockPos_t>;
 using BlockAabb = Aabb3<blockPos_t>;
@@ -29,6 +29,7 @@ struct BlockInfo {
   static std::wstring tilesetName;
 };
 
+//Class represents block stored in world
 class Block {
 public:
   Side side = Side::Null;

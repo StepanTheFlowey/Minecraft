@@ -9,7 +9,7 @@ public:
   Vec2<T> b;
   Vec2<T> c;
 
-  //
+  //Default constructor
   Triangle2();
 
   //
@@ -19,7 +19,7 @@ public:
   template <typename U>
   Triangle2(const Triangle2<U>&);
 
-  //
+  //Default destructor
   ~Triangle2();
 
   //
@@ -29,7 +29,7 @@ public:
   bool isPointInside(const Vec2<T>) const;
 };
 
-#include "triangle2.inl"
+#include "Triangle2.inl"
 
 using Triangle2d = Triangle2<GLdouble>;
 using Triangle2f = Triangle2<GLfloat>;

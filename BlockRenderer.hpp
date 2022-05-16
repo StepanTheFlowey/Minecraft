@@ -17,10 +17,10 @@ class BlockRenderer {
   };
 public:
   
-  //
+  //Default constructor
   BlockRenderer();
 
-  //
+  //Default destructor
   ~BlockRenderer();
 
   //

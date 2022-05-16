@@ -1,38 +1,43 @@
 #pragma once
 
 #include "Vec2.hpp"
-
 #include <SFML/System/Vector3.hpp>
 
 //Three component vector
 template <typename T> class Vec3 {
 public:
+
   T x;
   T y;
   T z;
 
   //Default constructor
-  Vec3();
+  constexpr Vec3();
 
   //Component constructor
-  Vec3(T, T, T);
+  constexpr Vec3(const T X, const T Y, const T Z);
 
   //Copy constrcutor
-  template <typename U> Vec3(const Vec3<U>&);
+  template <typename U>
+  constexpr Vec3(const Vec3<U>& vector);
 
-  //Copy constrcutor
-  template <typename U> Vec3(const sf::Vector3<U>&);
+  //SFML different type compitablity constructor
+  template <typename U>
+  constexpr Vec3(const sf::Vector3<U>& vector);
 
-  //Print to std::cout
+  //Default destructor
+  ~Vec3();
+
+  //Prints vector components to std::cout
   void print() const;
 
-  //Print with prefix to std::cout
+  //Prints vector components to std::cout
   void print(const std::string str) const;
 
-  //Print to std::wcout
+  //Prints vector components to std::wcout
   void wprint() const;
 
-  //Print with prefix to std::wcout
+  //Prints vector components to std::wcout
   void wprint(const std::wstring wstr) const;
 
   //Absolute vector

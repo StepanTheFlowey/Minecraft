@@ -21,8 +21,12 @@ void BlockRenderer::computeBuffer(Block** const blocks) {
   bool allSides;
   SmallPos blockPos;
   for(uint16_t i = 0; i < 4096; ++i) {
-    if(blocks[i] == nullptr) continue;
-    if(blocks[i]->id == 0) continue;
+    if(blocks[i] == nullptr) {
+      continue;
+    }
+    if(blocks[i]->id == 0) {
+      continue;
+    }
 
     blockPos.x = i % 16;
     blockPos.y = i % 256 / 16;

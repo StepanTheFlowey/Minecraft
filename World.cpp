@@ -47,8 +47,9 @@ void World::destroyRegion(const RegionPos position) {
 
 bool World::hasChunk(const ChunkPos position) const {
   RegionPos regionPos = getRegionPosFromChunk(position);
-  if(!hasRegion(regionPos))
+  if(!hasRegion(regionPos)) {
     return false;
+  }
   return getRegion(regionPos)->getChunk(position) != nullptr;
 }
 
@@ -58,6 +59,7 @@ Chunk* World::getChunk(const ChunkPos position) const {
 }
 
 void World::draw() const {
-  for(auto& i : region_)
+  for(auto& i : region_) {
     i.second->draw();
+  }
 }

@@ -31,13 +31,17 @@ Chunk* Region::getChunk(const SmallPos position) const {
 
 void Region::createChunk(const SmallPos position) {
   uint16_t index = getChunkIndexFromPos(position);
-  if(chunk_[index] != nullptr) throw std::logic_error("chunk already created");
+  if(chunk_[index] != nullptr) {
+    throw std::logic_error("chunk already created");
+  }
   chunk_[index] = new Chunk;
 }
 
 void Region::destroyChunk(const SmallPos position) {
   uint16_t index = getChunkIndexFromPos(position);
-  if(chunk_[index] == nullptr) throw std::logic_error("chunk not created");
+  if(chunk_[index] == nullptr) {
+    throw std::logic_error("chunk not created");
+  }
   delete chunk_[index];
 }
 
@@ -60,6 +64,9 @@ const RegionAabb& Region::getAabb() const {
 }
 
 void Region::draw() const {
-  for(auto& i : chunk_)
-    if(i != nullptr) i->draw();
+  for(auto& i : chunk_) {
+    if(i != nullptr) {
+      i->draw();
+    }
+  }
 }

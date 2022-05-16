@@ -8,24 +8,16 @@ class Time {
 public:
 
   //Default constructor
-  inline Time() {
-    time_ = 0;
-  }
+  constexpr Time();
 
   //Microseconds constructor
-  inline explicit Time(const int64_t time) {
-    time_ = time;
-  }
+  constexpr explicit Time(const int64_t time);
 
   //Copy constructor from sfml time
-  inline Time(const sf::Time& time) {
-    time_ = time.asMicroseconds();
-  }
+  Time(const sf::Time& time);
 
   //Default destructor
-  inline ~Time() {
-
-  }
+  ~Time();
 
   //Seconds assignment
   void setSeconds(const float_t);
@@ -53,4 +45,42 @@ public:
 
   //Construct a time value from a number of microseconds
   static Time microseconds(const int64_t);
+
+  //
+  bool operator==(const Time& time);
+
+  //
+  bool operator!=(const Time& time);
+
+  //
+  Time operator+(const Time& time);
+  
+  //
+  Time operator-(const Time& time);
+  
+  //
+  Time operator*(const Time& time);
+
+  //
+  Time operator/(const Time& time);
+
+  //
+  Time operator%(const Time& time);
+
+  //
+  void operator+=(const Time& time);
+
+  //
+  void operator-=(const Time& time);
+
+  //
+  void operator*=(const Time& time);
+
+  //
+  void operator/=(const Time& time);
+
+  //
+  void operator%=(const Time& time);
 };
+
+#include "Time.inl"

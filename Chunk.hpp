@@ -6,7 +6,7 @@
 #include "block.hpp"
 #include "blockRenderer.hpp"
 
-using chunkPos_t = int32_t;
+using chunkPos_t = int32_t;           //Absolute chunk position
 using ChunkPos = Vec3<chunkPos_t>;
 using ChunkAabb = Aabb3<chunkPos_t>;
 
@@ -20,10 +20,6 @@ class World;
 class Player;
 
 class Chunk {
-  Block* block_[4096];
-  ChunkAabb aabb_;
-  ChunkPos position_;
-  BlockRenderer renderer_;
 public:
 
   //Default constructor
@@ -54,6 +50,13 @@ public:
   void draw() const;
 
   friend Player;
+protected:
+
+  Block* block_[4096]{};
+
+  ChunkAabb aabb_;
+  ChunkPos position_;
+  BlockRenderer renderer_;
 };
 
-#include "chunk.inl"
+#include "Chunk.inl"

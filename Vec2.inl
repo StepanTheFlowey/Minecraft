@@ -12,7 +12,7 @@ inline Vec2<T>::Vec2() {
 }
 
 template <typename T>
-inline Vec2<T>::Vec2(T X, T Y) {
+inline Vec2<T>::Vec2(const T X, const T Y) {
   x = X;
   y = Y;
 }
@@ -39,6 +39,11 @@ template <typename T> template <typename U>
 inline Vec2<T>::Vec2(const sf::Vector2<U>& vector) {
   x = static_cast<T>(vector.x);
   y = static_cast<T>(vector.y);
+}
+
+template <typename T>
+inline Vec2<T>::~Vec2() {
+
 }
 
 template <typename T>

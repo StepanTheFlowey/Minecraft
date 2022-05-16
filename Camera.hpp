@@ -6,9 +6,10 @@
 
 #include <gl/GLU.h>
 
+//Class for player camera
 class Camera {
-  Vec3d eyePos_;
-  Vec3d centerPos_;
+  Vec3d eyePos_;    //Pos from
+  Vec3d centerPos_; //Pos to
   Vec2f rotation_;
 public:
 
@@ -44,15 +45,15 @@ public:
     process();
   }
 
-  inline const Vec3d &getEyePosition() const {
+  inline const Vec3d& getEyePosition() const {
     return eyePos_;
   }
 
-  inline const Vec3d &getCenterPosition() const {
+  inline const Vec3d& getCenterPosition() const {
     return centerPos_;
   }
 
-  inline const Vec2f &getRotation() const {
+  inline const Vec2f& getRotation() const {
     return rotation_;
   }
 private:

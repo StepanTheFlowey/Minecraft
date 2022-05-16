@@ -1,9 +1,9 @@
 #pragma once
 
 #include "main.hpp"
-#include "block.hpp"
-#include "chunk.hpp"
-#include "region.hpp"
+#include "Block.hpp"
+#include "Chunk.hpp"
+#include "Region.hpp"
 
 inline uint32_t getRegionIndexFromPos(const RegionPos position);
 
@@ -57,4 +57,4 @@ public:
 };
 extern World* world;
 
-#include "world.inl"
+#include "World.inl"

@@ -7,39 +7,37 @@
 //Two component vector
 template <typename T> class Vec2 {
 public:
+
   T x;
   T y;
 
   //Default constructor
-  Vec2();
+  constexpr Vec2();
 
   //Component constructor
-  Vec2(T X, T Y);
+  constexpr Vec2(const T X, const T Y);
 
-  //Copy constrcutor
-  explicit Vec2(const Vec2<T>& vector);
-
-  //Different type copy constructor
+  //Copy constructor
   template <typename U>
-  Vec2(const Vec2<U>& vector);
-
-  //SFML compitaability constructor
-  explicit Vec2(const sf::Vector2<T>& vector);
+  constexpr Vec2(const Vec2<U>& vector);
 
   //SFML different type compitablity constructor
   template <typename U>
-  Vec2(const sf::Vector2<U>& vector);
+  constexpr Vec2(const sf::Vector2<U>& vector);
 
-  //Prints vector components
+  //Default destructor
+  ~Vec2();
+
+  //Prints vector components to std::cout
   void print() const;
 
-  //Prints string and vector component
+  //Prints vector components to std::cout
   void print(std::string string) const;
 
-  //Prints vector component
+  //Prints vector components to std::wcout
   void wprint() const;
 
-  //Prints string and vector component
+  //Prints vector components to std::wcout
   void wprint(std::wstring string) const;
 
   //Returns absolute vector
@@ -175,17 +173,17 @@ public:
   //Different type vector assignment multiply operator
   template <typename U>
   void operator*=(const Vec2<U>& vector);
-  
+
   //Scalar assignment divide operator
   void operator/=(const T scalar);
-  
+
   //Different type scalar assignment divide operator
   template <typename U>
   void operator/=(const U scalar);
-  
+
   //Vector assignment divide operator
   void operator/=(const Vec2<T>& vector);
-  
+
   //Different type vector assignment divide operator
   template <typename U>
   void operator/=(const Vec2<U>& vector);

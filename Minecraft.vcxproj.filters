@@ -129,6 +129,18 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Sources\game</Filter>
     </ClCompile>
+    <ClCompile Include="VertexRenderer.cpp">
+      <Filter>Sources\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex3.cpp">
+      <Filter>Sources\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Sources\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex2.cpp">
+      <Filter>Sources\gl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
@@ -257,6 +269,18 @@
     <ClInclude Include="Model.hpp">
       <Filter>Includes\utility</Filter>
     </ClInclude>
+    <ClInclude Include="VertexRenderer.hpp">
+      <Filter>Includes\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex3.hpp">
+      <Filter>Includes\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.hpp">
+      <Filter>Includes\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex2.hpp">
+      <Filter>Includes\gl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Plane3.inl">
@@ -284,6 +308,9 @@
       <Filter>Includes\game</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="Time.inl">
+      <Filter>Includes\utility</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Minecraft.rc">

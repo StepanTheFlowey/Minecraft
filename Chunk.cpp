@@ -30,10 +30,12 @@ Block* Chunk::getBlock(const SmallPos position) const {
 
 void Chunk::setBlock(const SmallPos position, Block* const block) {
   const uint16_t index = getBlockIndexFromPos(position);
-  if(block_[index] != nullptr)
+  if(block_[index] != nullptr) {
     delete block_[index];
-  if(block != nullptr)
+  }
+  if(block != nullptr) {
     block_[index] = block;
+  }
 }
 
 void Chunk::setPosition(const ChunkPos position) {
@@ -79,9 +81,9 @@ void Chunk::computeBlocksEdgeRender() {
   const BlockPos blockPos = position_ * 16;
   Block* block;
 
-  for(uint8_t i = 0; i < 16; i++) {
-    for(uint8_t j = 0; j < 16; j++) {
-      for(uint8_t k = 0; k < 16; k++) {
+  for(uint8_t i = 0; i < 16; ++i) {
+    for(uint8_t j = 0; j < 16; ++j) {
+      for(uint8_t k = 0; k < 16; ++k) {
         block = block_[getBlockIndexFromPos(SmallPos(i, j, k))];
         if(block == nullptr) {
           continue;
@@ -160,9 +162,9 @@ void Chunk::computeBlocksEdgeRender() {
 
 void Chunk::draw() const {
   /*glColor3ub(255, 255, 255);
-  for(uint8_t i = 0; i < 16; i++) {
-    for(uint8_t j = 0; j < 16; j++) {
-      for(uint8_t k = 0; k < 16; k++) {
+  for(uint8_t i = 0; i < 16; ++i) {
+    for(uint8_t j = 0; j < 16; ++j) {
+      for(uint8_t k = 0; k < 16; ++k) {
         const Block& block = block_[i][j][k];
         if(to_underlying(block.side & Side::None)) {
           continue;
@@ -311,9 +313,9 @@ void Chunk::draw() const {
 }*/
 
   glPushMatrix();
-  glTranslated(static_cast<GLdouble>(position_.x * 16),
-               static_cast<GLdouble>(position_.y * 16),
-               static_cast<GLdouble>(position_.z * 16));
+  glTranslated(static_cast<GLdouble>(position_.x * 16.0),
+               static_cast<GLdouble>(position_.y * 16.0),
+               static_cast<GLdouble>(position_.z * 16.0));
   renderer_.draw();
   glPopMatrix();
 

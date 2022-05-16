@@ -3,12 +3,12 @@
 #include <unordered_map>
 
 #include "main.hpp"
-#include "vec2.hpp"
-#include "aabb3.hpp"
-#include "math.hpp"
-#include "chunk.hpp"
+#include "Vec2.hpp"
+#include "Aabb3.hpp"
+#include "Math.hpp"
+#include "Chunk.hpp"
 
-using regionPos_t = int16_t;
+using regionPos_t = int16_t;            //Absolute region pos
 using RegionPos = Vec2<regionPos_t>;
 using RegionAabb = Aabb3<regionPos_t>;
 
@@ -23,9 +23,6 @@ inline SmallPos getPosFromChunkIndex(const uint16_t index);
 class Player;
 
 class Region {
-  Chunk* chunk_[4096];
-  RegionAabb aabb_;
-  RegionPos position_;
 public:
 
   //Default constructor
@@ -62,6 +59,11 @@ public:
   void draw() const;
 
   friend Player;
+protected:
+
+  Chunk* chunk_[4096];
+  RegionAabb aabb_;
+  RegionPos position_;
 };
 
-#include "region.inl"
+#include "Region.inl"

@@ -23,7 +23,7 @@ public:
   template <typename U>
   Aabb3(const Aabb3<U>& aabb);
 
-  //
+  //Default destructor
   ~Aabb3();
 
   //
