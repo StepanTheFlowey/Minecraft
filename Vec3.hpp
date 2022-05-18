@@ -62,169 +62,175 @@ public:
   inline void glVertex() const;
 
   //Returns vector with x = 0
-  Vec3<T> nullX() const;
+  constexpr Vec3<T> nullX() const;
 
   //Returns vector with y = 0
-  Vec3<T> nullY() const;
+  constexpr Vec3<T> nullY() const;
 
   //Returns vector with z = 0
-  Vec3<T> nullZ() const;
+  constexpr Vec3<T> nullZ() const;
 
   //Returns vector without x
-  Vec2<T> cutX() const;
+  constexpr Vec2<T> cutX() const;
 
   //Returns vector without y
-  Vec2<T> cutY() const;
+  constexpr Vec2<T> cutY() const;
 
   //Returns vector without z
-  Vec2<T> cutZ() const;
+  constexpr Vec2<T> cutZ() const;
+
+  //
+  constexpr bool operator==(const Vec3<T> vector) const;
+
+  //
+  constexpr bool operator!=(const Vec3<T> vector) const;
 
   //TODO: Description
-  Vec3<T> operator+(const T) const;
+  constexpr Vec3<T> operator+(const T) const;
 
   //
   template <typename U>
-  Vec3<T> operator+(const U) const;
+  constexpr Vec3<T> operator+(const U) const;
 
   //
-  Vec3<T> operator+(const Vec3<T>&) const;
-
-  //
-  template <typename U>
-  Vec3<T> operator+(const Vec3<U>&) const;
-
-  //
-  Vec3<T> operator-(const T) const;
+  constexpr Vec3<T> operator+(const Vec3<T>&) const;
 
   //
   template <typename U>
-  Vec3<T> operator-(const U) const;
+  constexpr Vec3<T> operator+(const Vec3<U>&) const;
 
   //
-  Vec3<T> operator-(const Vec3<T>&) const;
-
-  //
-  template <typename U>
-  Vec3<T> operator-(const Vec3<U>&) const;
-
-  //
-  Vec3<T> operator*(const T) const;
+  constexpr Vec3<T> operator-(const T) const;
 
   //
   template <typename U>
-  Vec3<T> operator*(const U) const;
+  constexpr Vec3<T> operator-(const U) const;
 
   //
-  Vec3<T> operator*(const Vec3<T>&) const;
-
-  //
-  template <typename U>
-  Vec3<T> operator*(const Vec3<U>&) const;
-
-  //
-  Vec3<T> operator/(const T) const;
+  constexpr Vec3<T> operator-(const Vec3<T>&) const;
 
   //
   template <typename U>
-  Vec3<T> operator/(const U) const;
+  constexpr Vec3<T> operator-(const Vec3<U>&) const;
 
   //
-  Vec3<T> operator/(const Vec3<T>&) const;
-
-  //
-  template <typename U>
-  Vec3<T> operator/(const Vec3<U>&) const;
-
-  //
-  Vec3<T> operator%(const T) const;
+  constexpr Vec3<T> operator*(const T) const;
 
   //
   template <typename U>
-  Vec3<T> operator%(const U) const;
+  constexpr Vec3<T> operator*(const U) const;
 
   //
-  Vec3<T> operator%(const Vec3<T>&) const;
+  constexpr Vec3<T> operator*(const Vec3<T>&) const;
 
   //
   template <typename U>
-  Vec3<T> operator%(const Vec3<U>&) const;
+  constexpr Vec3<T> operator*(const Vec3<U>&) const;
 
   //
-  void operator=(const Vec3<T>&);
+  constexpr Vec3<T> operator/(const T) const;
+
+  //
+  template <typename U>
+  constexpr Vec3<T> operator/(const U) const;
+
+  //
+  constexpr Vec3<T> operator/(const Vec3<T>&) const;
+
+  //
+  template <typename U>
+  constexpr Vec3<T> operator/(const Vec3<U>&) const;
+
+  //
+  constexpr Vec3<T> operator%(const T) const;
+
+  //
+  template <typename U>
+  constexpr Vec3<T> operator%(const U) const;
+
+  //
+  constexpr Vec3<T> operator%(const Vec3<T>&) const;
+
+  //
+  template <typename U>
+  constexpr Vec3<T> operator%(const Vec3<U>&) const;
+
+  //
+  constexpr void operator=(const Vec3<T>&);
+
+  //
+  template <typename U>
+  constexpr void operator=(const Vec3<U>&);
+
+  //
+  constexpr void operator+=(const T);
+
+  //
+  template <typename U>
+  constexpr void operator+=(const U);
+
+  //
+  constexpr void operator+=(const Vec3<T>&);
 
   //
   template<typename U>
-  void operator=(const Vec3<U>&);
+  constexpr void operator+=(const Vec3<U>&);
 
   //
-  void operator+=(const T);
-
-  //
-  template <typename U>
-  void operator+=(const U);
-
-  //
-  void operator+=(const Vec3<T>&);
-
-  //
-  template<typename U>
-  void operator+=(const Vec3<U>&);
-
-  //
-  void operator-=(const T);
+  constexpr void operator-=(const T);
 
   //
   template <typename U>
-  void operator-=(const U);
+  constexpr void operator-=(const U);
 
   //
-  void operator-=(const Vec3<T>&);
-
-  //
-  template<typename U>
-  void operator-=(const Vec3<U>&);
-
-  //
-  void operator*=(const T);
+  constexpr void operator-=(const Vec3<T>&);
 
   //
   template<typename U>
-  void operator*=(const U);
+  constexpr void operator-=(const Vec3<U>&);
 
   //
-  void operator*=(const Vec3<T>&);
-
-  //
-  template<typename U>
-  void operator*=(const Vec3<U>&);
-
-  //
-  void operator/=(const T);
+  constexpr void operator*=(const T);
 
   //
   template<typename U>
-  void operator/=(const U);
+  constexpr void operator*=(const U);
 
   //
-  void operator/=(const Vec3<T>&);
-
-  //
-  template<typename U>
-  void operator/=(const Vec3<U>&);
-
-  //
-  void operator%=(const T);
+  constexpr void operator*=(const Vec3<T>&);
 
   //
   template<typename U>
-  void operator%=(const U);
+  constexpr void operator*=(const Vec3<U>&);
 
   //
-  void operator%=(const Vec3<T>&);
+  constexpr void operator/=(const T);
 
   //
   template<typename U>
-  void operator%=(const Vec3<U>&);
+  constexpr void operator/=(const U);
+
+  //
+  constexpr void operator/=(const Vec3<T>&);
+
+  //
+  template<typename U>
+  constexpr void operator/=(const Vec3<U>&);
+
+  //
+  constexpr void operator%=(const T);
+
+  //
+  template<typename U>
+  constexpr void operator%=(const U);
+
+  //
+  constexpr void operator%=(const Vec3<T>&);
+
+  //
+  template<typename U>
+  constexpr void operator%=(const Vec3<U>&);
 };
 
 #include "Vec3.inl"

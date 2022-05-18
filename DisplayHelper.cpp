@@ -4,7 +4,7 @@
 
 DisplayHelper* display = nullptr;
 
-void DisplayHelper::init() {
+void DisplayHelper::initialize() {
   window.create(videoMode, "Minecraft Alpha", sf::Style::Default, contextSettings);
   window.setVerticalSyncEnabled(true);
 }

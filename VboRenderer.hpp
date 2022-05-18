@@ -2,22 +2,22 @@
 
 #include "main.hpp"
 #include "VertexRenderer.hpp"
+#include "glad.h"
 
 template <typename V>
 class VboRenderer : public VertexRenderer<V> {
 public:
 
-  VboRenderer() {
-    debug(L"VboRenderer()");
-  }
+  VboRenderer();
 
-  ~VboRenderer() {
-    debug(L"~VboRenderer()");
-  }
+  ~VboRenderer();
 
-  void setBuffer(const VertexBuffer<V>& buffer);
-
-  void update();
+  void update(const VertexBuffer<V>& buffer);
 
   void draw();
+protected:
+
+  GLuint handle_ = 0;
 };
+
+#include "VboRenderer.inl"

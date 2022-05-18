@@ -49,10 +49,10 @@ public:
   //Not equals operator
   constexpr bool operator!=(const Time& time);
 
-  //Sum operator
+  //Add operator
   constexpr Time operator+(const Time& time);
 
-  //
+  //Substract operator
   constexpr Time operator-(const Time& time);
 
   //

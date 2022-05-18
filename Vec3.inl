@@ -131,6 +131,16 @@ constexpr Vec2<T> Vec3<T>::cutZ() const {
 }
 
 template <typename T>
+constexpr bool Vec3<T>::operator==(const Vec3<T> vector) const {
+  return x == vector.x && y == vector.y && z == vector.z;
+}
+
+template <typename T>
+constexpr bool Vec3<T>::operator!=(const Vec3<T> vector) const {
+  return x != vector.x && y != vector.y && z != vector.z;
+}
+
+template <typename T>
 constexpr Vec3<T> Vec3<T>::operator+(const T scalar)const {
   return Vec3<T>(x + scalar, y + scalar, z + scalar);
 }

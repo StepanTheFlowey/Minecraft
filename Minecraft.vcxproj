@@ -105,7 +105,9 @@
     <ClInclude Include="Aabb3.inl" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="BlockManager.cpp" />
-    <ClCompile Include="BlockRenderer.cpp" />
+    <ClCompile Include="BlockRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chunk.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -116,7 +118,9 @@
     <ClCompile Include="Loading.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="BlockManager.hpp" />
-    <ClInclude Include="BlockRenderer.hpp" />
+    <ClInclude Include="BlockRenderer.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="DisplayHelper.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="glad.h" />
@@ -132,7 +136,9 @@
     <ClInclude Include="Model.hpp" />
     <ClInclude Include="ModelManager.hpp" />
     <ClCompile Include="SettingsManager.cpp" />
-    <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="TextRenderer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tileset.cpp" />
     <ClCompile Include="Time.cpp" />
@@ -142,7 +148,9 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="SettingsManager.hpp" />
     <ClInclude Include="ShaderRenderer.hpp" />
-    <ClInclude Include="TextRenderer.hpp" />
+    <ClInclude Include="TextRenderer.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Tileset.hpp" />
     <ClInclude Include="Triangle2.hpp" />
@@ -158,6 +166,7 @@
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexRenderer.cpp" />
     <ClCompile Include="World.cpp" />
+    <ClInclude Include="VertexConfig.hpp" />
     <ClInclude Include="WorldGenerator.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +208,9 @@
     <None Include="Time.inl" />
     <None Include="Triangle2.inl" />
     <None Include="Triangle3.inl" />
+    <None Include="VboRenderer.inl" />
+    <None Include="VertexConfig.inl" />
+    <None Include="VertexRenderer.inl" />
     <None Include="World.inl" />
   </ItemGroup>
   <ItemGroup>

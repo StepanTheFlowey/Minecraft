@@ -326,12 +326,6 @@
     <ClInclude Include="VaoRenderer.hpp">
       <Filter>Includes\gl\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="BlockRenderer.hpp">
-      <Filter>Includes\deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="TextRenderer.hpp">
-      <Filter>Includes\deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="TextureManager.hpp">
       <Filter>Includes\assets\manager</Filter>
     </ClInclude>
@@ -352,6 +346,15 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Includes\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexConfig.hpp">
+      <Filter>Includes\gl\vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockRenderer.hpp">
+      <Filter>Includes\deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.hpp">
+      <Filter>Includes\deprecated</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -394,6 +397,15 @@
     </None>
     <None Include="DisplayHelper.inl">
       <Filter>Includes\utility</Filter>
+    </None>
+    <None Include="VboRenderer.inl">
+      <Filter>Includes\gl\renderer</Filter>
+    </None>
+    <None Include="VertexRenderer.inl">
+      <Filter>Includes\gl\renderer</Filter>
+    </None>
+    <None Include="VertexConfig.inl">
+      <Filter>Includes\gl\vertex</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

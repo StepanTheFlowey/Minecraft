@@ -21,7 +21,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLin
 
   display = new DisplayHelper;
   display->videoMode = sf::VideoMode(800, 600);
-  display->init();
+  display->initialize();
 
   gl = new GlHelper;
   gl->loadInfo();
