@@ -1,6 +1,6 @@
-#include "chunk.hpp"
+#include "Chunk.hpp"
 
-#include "world.hpp"
+#include "World.hpp"
 
 Chunk::Chunk() {
   debug(L"Chunk()");
@@ -52,7 +52,7 @@ const ChunkAabb& Chunk::getAabb() const {
   return aabb_;
 }
 
-void Chunk::computeBlocksEdgeRender() {
+void Chunk::updateBlocksRender() {
   const Chunk* upChunk = nullptr;
   if(world->hasChunk(position_ + ChunkPos(0, 1, 0))) {
     upChunk = world->getChunk(position_ + ChunkPos(0, 1, 0));
@@ -78,7 +78,10 @@ void Chunk::computeBlocksEdgeRender() {
     eastChunk = world->getChunk(position_ - ChunkPos(0, 0, 1));
   }
 
+
   const BlockPos blockPos = position_ * 16;
+
+  VertexBuffer<BlockVertex> vertexBuffer;
   Block* block;
 
   for(uint8_t i = 0; i < 16; ++i) {
@@ -157,7 +160,7 @@ void Chunk::computeBlocksEdgeRender() {
       }
     }
   }
-  renderer_.computeBuffer(block_);
+  renderer_.update(vertexBuffer);
 }
 
 void Chunk::draw() const {
@@ -313,10 +316,12 @@ void Chunk::draw() const {
 }*/
 
   glPushMatrix();
-  glTranslated(static_cast<GLdouble>(position_.x * 16.0),
-               static_cast<GLdouble>(position_.y * 16.0),
-               static_cast<GLdouble>(position_.z * 16.0));
-  renderer_.draw();
+  glTranslated(
+    static_cast<GLdouble>(position_.x * 16.0),
+    static_cast<GLdouble>(position_.y * 16.0),
+    static_cast<GLdouble>(position_.z * 16.0)
+  );
+  renderer_.draw(BlockVertexConfig());
   glPopMatrix();
 
 #ifdef DEBUG

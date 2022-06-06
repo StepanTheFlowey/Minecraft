@@ -11,7 +11,7 @@ public:
   GLubyte a = 255;
 
   //Default constructor
-  constexpr Color();
+  constexpr Color() = default;
 
   //Default destructor
   constexpr Color(const GLubyte r, const GLubyte g, const GLubyte b, const GLubyte a = 255);

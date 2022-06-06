@@ -10,11 +10,11 @@ public:
 
   VboRenderer();
 
-  ~VboRenderer();
+  virtual ~VboRenderer();
 
-  void update(const VertexBuffer<V>& buffer);
+  virtual void update(const VertexBuffer<V>& buffer);
 
-  void draw();
+  virtual void draw();
 protected:
 
   GLuint handle_ = 0;

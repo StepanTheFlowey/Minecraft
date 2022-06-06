@@ -1,6 +1,6 @@
-#include "world.hpp"
+#include "World.hpp"
 
-#include "math.hpp"
+#include "Math.hpp"
 
 World* world = nullptr;
 

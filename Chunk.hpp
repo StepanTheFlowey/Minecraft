@@ -4,7 +4,6 @@
 #include "Vec3.hpp"
 #include "Math.hpp"
 #include "Block.hpp"
-#include "BlockRenderer.hpp"
 
 using chunkPos_t = int32_t;           //Absolute chunk position
 using ChunkPos = Vec3<chunkPos_t>;
@@ -44,7 +43,10 @@ public:
   NODISCARD const ChunkAabb& getAabb() const;
 
   //Calculates blocks edge render
-  void computeBlocksEdgeRender();
+  void updateBlocksRender();
+
+  //
+  void updateEntitiesRender();
 
   //Draws blocks
   void draw() const;

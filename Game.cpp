@@ -42,7 +42,6 @@ void Game::operator()() {
 
   glFrontFace(GL_CCW);
   glLineWidth(3);
-  glPointSize(10);
 
   glEnable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);

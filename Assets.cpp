@@ -95,7 +95,7 @@ void Assets::task() {
   blockManager.load();    loading->next(L"Loading model manager");
   modelManager.load();    loading->next(L"Loading texture manager");
   textureManager.load();  loading->next(L"Loading settings manager");
-  settingsManager.load(); loading->next(L"Finalazing game");
+  settingsManager.load(); loading->next(L"Finishing up");
 
   loading->done();
 }
