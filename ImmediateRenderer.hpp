@@ -6,7 +6,7 @@ template <typename V>
 class ImmediateRenderer : public VertexRenderer<V> {
 public:
 
-  inline ImmediateRenderer();
+  inline ImmediateRenderer() = default;
 
-  inline ~ImmediateRenderer();
+  virtual ~ImmediateRenderer() = default;
 };

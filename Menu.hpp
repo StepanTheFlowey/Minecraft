@@ -9,10 +9,7 @@ public:
     debug(L"MenuScreen()");
   }
 
-  ~MenuScreen() {
+  inline ~MenuScreen() {
     debug(L"~MenuScreen()");
   }
-protected:
-
-
 };

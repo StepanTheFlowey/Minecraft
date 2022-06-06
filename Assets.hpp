@@ -16,9 +16,6 @@ struct Resource {
   uint16_t id = 0;
 };
 
-class TextRenderer;
-class Loading;
-
 class Assets {
 public:
 
@@ -40,7 +37,7 @@ protected:
 
   void task();
 
-  std::vector<Resource> resources;
+  std::vector<Resource> resources_;
 
   std::thread* thread_ = nullptr;
 

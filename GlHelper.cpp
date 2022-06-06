@@ -118,7 +118,7 @@ void GlHelper::clearInfo() {
 void GlHelper::checkForErrors(const char* file, const uint32_t line) {
   GLenum e = glGetError();
   if(e == GL_NO_ERROR) return;
-  std::wcout << wide(file) << L':' << line << " GL error ";
+  std::wcout << wide(file) << L':' << line << " error ";
   switch(e) {
     case GL_INVALID_ENUM:
       std::wcout << L"GL_INVALID_ENUM";

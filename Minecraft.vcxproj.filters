@@ -97,6 +97,12 @@
     <Filter Include="Sources\display">
       <UniqueIdentifier>{7bbe83f9-297d-451c-a6d1-8aa4c2c2d896}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Includes\gui">
+      <UniqueIdentifier>{7c89b5c9-c92d-44eb-afc9-56bcb7fce898}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\gui">
+      <UniqueIdentifier>{69740b44-958c-4be2-b0e3-d346169438d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -201,6 +207,12 @@
     <ClCompile Include="Vec2.cpp">
       <Filter>Sources\math\vector</Filter>
     </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Sources\assets\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockWithSide.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.hpp">
@@ -264,9 +276,6 @@
       <Filter>Includes\game</Filter>
     </ClInclude>
     <ClInclude Include="Chunk.hpp">
-      <Filter>Includes\game</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.hpp">
       <Filter>Includes\game</Filter>
     </ClInclude>
     <ClInclude Include="VboRenderer.hpp">
@@ -355,6 +364,15 @@
     </ClInclude>
     <ClInclude Include="TextRenderer.hpp">
       <Filter>Includes\deprecated</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.hpp">
+      <Filter>Includes\assets\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.hpp">
+      <Filter>Includes\assets\type</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockWithSide.hpp">
+      <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

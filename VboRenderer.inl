@@ -2,6 +2,7 @@
 
 #include "Vertex2.hpp"
 #include "Vertex3.hpp"
+#include "VboRenderer.hpp"
 
 template<typename V>
 VboRenderer<V>::VboRenderer() {
@@ -24,18 +25,14 @@ void VboRenderer<V>::update(const VertexBuffer<V>& buffer) {
 }
 
 template<typename V>
-void VboRenderer<V>::draw() {
-  GLenum vertexType = 0;
-  GLenum vertexSize = 0;
-  GLenum vertexOffset = 0;
-
+inline void VboRenderer<V>::draw() const {
   glBindBuffer(GL_ARRAY_BUFFER, handle_);
 
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnableClientState(GL_COLOR_ARRAY);
 
-  glVertexPointer(3, GL_SHORT, 14, (void*)0);
+  glVertexPointer(config_.vertexSize, config_.vertexType, config_.vertexStride, config_.vertexOffset);
   glTexCoordPointer(2, GL_SHORT, 14, (void*)6);
   glColorPointer(4, GL_UNSIGNED_BYTE, 14, (void*)10);
 

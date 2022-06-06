@@ -14,7 +14,10 @@ public:
 
   virtual void update(const VertexBuffer<V> buffer) = 0;
 
-  virtual void draw(const VertexConfig<V> config) const = 0;
+  virtual void draw() const = 0;
+protected:
+
+  static constexpr VertexConfig<V> config_;
 };
 
 #include "VertexRenderer.inl"

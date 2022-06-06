@@ -19,35 +19,40 @@ using blockPos_t = int32_t;   //Absolute block pos
 using BlockPos = Vec3<blockPos_t>;
 using BlockAabb = Aabb3<blockPos_t>;
 
-using BlockVertex = Vertex3<short, short, Color>;
-using BlockVertexConfig = VertexConfig<BlockVertex>;
+using BlockVertex = Vertex3<float, short, Color>;
+using BlockVertexBuffer = VertexBuffer<BlockVertex>;
 using BlockRenderer = VertexRenderer<BlockVertex>;
 
-struct BlockWithSide {
-  BlockPos pos;
-  Side side = Side::Null;
-};
-
-//TODO: move to assets types
-struct BlockInfo {
-  static sourceId_t sourceId;
-  static modelId_t modelId;
-  static std::wstring displayName;
-  static std::wstring internalName;
-  static std::wstring tilesetName;
+struct Block {
+  sourceId_t sourceId;
+  modelId_t modelId;
+  std::wstring displayName;
+  std::wstring internalName;
+  std::wstring tilesetName;
 };
 
 //Class represents block stored in world
-class Block {
+class BlockInterface {
 public:
-  Side side = Side::Null;
-  blockId_t id = 0;
+
+  //Default constructor
+  BlockInterface() = default;
+
+  //Default destructor
+  virtual ~BlockInterface() = default;
+
+  //
+  virtual blockId_t getId() = 0;
+
+  //
+  virtual BlockVertexBuffer getVertexes() = 0;
+
+  //
+  virtual void serialize() = 0;
+
+  //
+  virtual void deserialize() = 0;
+protected:
+
+  blockId_t id_ = 0;
 };
-
-template <typename T> inline Block* createBlock() {
-  throw std::logic_error("no block with such type");
-}
-
-template <> inline Block* createBlock<Block>() {
-  return new Block;
-}

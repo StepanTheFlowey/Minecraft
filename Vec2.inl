@@ -38,7 +38,7 @@ inline void Vec2<T>::print() const {
 }
 
 template <typename T>
-inline void Vec2<T>::print(std::string string) const {
+inline void Vec2<T>::print(const std::string string) const {
   std::cout << string << " X: " << x << " Y: " << y << std::endl;
 }
 
@@ -48,8 +48,8 @@ inline void Vec2<T>::wprint() const {
 }
 
 template <typename T>
-inline void Vec2<T>::wprint(std::wstring string) const {
-  std::wcout << string << L" X: " << x << L" Y: " << y << std::endl;
+inline void Vec2<T>::wprint(const std::wstring wstring) const {
+  std::wcout << wstring << L" X: " << x << L" Y: " << y << std::endl;
 }
 
 template <typename T>

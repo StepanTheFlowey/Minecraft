@@ -8,9 +8,6 @@
 
 //Class for player camera
 class Camera {
-  Vec3d eyePos_;    //Pos from
-  Vec3d centerPos_; //Pos to
-  Vec2f rotation_;
 public:
 
   inline Camera();
@@ -32,9 +29,13 @@ public:
   inline const Vec3d& getCenterPosition() const;
 
   inline const Vec2f& getRotation() const;
-private:
+protected:
 
   void process();
+
+  Vec3d eyePos_;    //Pos from
+  Vec3d centerPos_; //Pos to
+  Vec2f rotation_;
 };
 
 #include "Camera.inl"

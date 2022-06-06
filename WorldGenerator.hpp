@@ -3,7 +3,7 @@
 class WorldGenerator {
 public:
 
-  inline WorldGenerator();
+  WorldGenerator() = default;
 
-  inline ~WorldGenerator();
+  ~WorldGenerator() = default;
 };

@@ -87,7 +87,7 @@ void Assets::load() {
 }
 
 void Assets::loadResources() {
-  resources.reserve(64);
+  resources_.reserve(64);
 }
 
 void Assets::task() {
