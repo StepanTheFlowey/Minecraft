@@ -7,33 +7,34 @@
 template <typename T>
 class Aabb3 {
 public:
+
   Vec3<T> min;
   Vec3<T> max;
 
   //Default constructor
-  constexpr Aabb3();
+  constexpr Aabb3()=default;
 
   //Vector constructor
-  constexpr Aabb3(const Vec3<T> min, const Vec3<T> max);
+  constexpr Aabb3(const Vec3<T>& min, const Vec3<T>& max);
 
   //Template copy constructor
   template <typename U>
   constexpr Aabb3(const Aabb3<U>& aabb);
 
   //Default destructor
-  ~Aabb3();
+  ~Aabb3()=default;
 
-  //
-  void set(const Vec3<T> min, const Vec3<T> max);
+  //Assigns aabb from two point
+  void set(const Vec3<T>& min, const Vec3<T>& max);
 
-  //
-  bool intersects(const Aabb3<T>) const;
+  //Check for intersects with another aabb
+  bool intersects(const Aabb3<T>& aabb) const;
 
   //Draws axis of box in float
-  void draw(const Color color, const float_t offset) const;
+  void draw(const Color& color, const float_t offset) const;
 
   //Draws axis of box in double
-  void draw(const Color color, const double_t offset) const;
+  void draw(const Color& color, const double_t offset) const;
 
   //Draws axis of box in float
   void draw(const float_t offset) const;

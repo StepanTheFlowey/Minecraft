@@ -28,7 +28,6 @@ struct Block {
   modelId_t modelId;
   std::wstring displayName;
   std::wstring internalName;
-  std::wstring tilesetName;
 };
 
 //Class represents block stored in world

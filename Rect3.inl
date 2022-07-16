@@ -3,20 +3,16 @@
 #include "Rect2.hpp"
 
 template <typename T>
-constexpr Rect3<T>::Rect3() {
-
-}
-
-template <typename T>
-constexpr Rect3<T>::Rect3(const Vec3<T> _a, const Vec3<T> _b, const Vec3<T> _c, const Vec3<T> _d) {
-  a = _a;
-  b = _b;
-  c = _c;
-  d = _d;
-}
-
-template <typename T>
-inline Rect3<T>::~Rect3() {
+constexpr Rect3<T>::Rect3(
+  const Vec3<T>& _a,
+  const Vec3<T>& _b,
+  const Vec3<T>& _c,
+  const Vec3<T>& _d
+) :
+  a(_a),
+  b(_b),
+  c(_c),
+  d(_d) {
 
 }
 
@@ -34,12 +30,12 @@ bool Rect3<T>::isPointInside(const Vec3<T> point) const {
 }
 
 template <typename T>
-inline Rect3<T> Rect3<T>::operator+(const Vec3<T> offset) const {
+Rect3<T> Rect3<T>::operator+(const Vec3<T> offset) const {
   return Rect3<T>(a + offset, b + offset, c + offset, d + offset);
 }
 
 template <typename T>
-inline void Rect3<T>::operator+=(const Vec3<T> offset) {
+void Rect3<T>::operator+=(const Vec3<T> offset) {
   a += offset;
   b += offset;
   c += offset;

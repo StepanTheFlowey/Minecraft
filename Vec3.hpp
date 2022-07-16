@@ -4,18 +4,19 @@
 #include <SFML/System/Vector3.hpp>
 
 //Three component vector
-template <typename T> class Vec3 {
+template <typename T>
+class Vec3 {
 public:
 
-  T x;
-  T y;
-  T z;
+  T x = 0;
+  T y = 0;
+  T z = 0;
 
   //Default constructor
-  constexpr Vec3();
+  constexpr Vec3() = default;
 
   //Component constructor
-  constexpr Vec3(const T X, const T Y, const T Z);
+  constexpr Vec3(const T x, const T y, const T z);
 
   //Copy constrcutor
   template <typename U>
@@ -26,19 +27,19 @@ public:
   constexpr Vec3(const sf::Vector3<U>& vector);
 
   //Default destructor
-  inline ~Vec3();
+  ~Vec3() = default;
 
   //Prints vector components to std::cout
-  inline void print() const;
+  void print() const;
 
   //Prints vector components to std::cout
-  inline void print(const std::string str) const;
+  void print(const std::string& str) const;
 
   //Prints vector components to std::wcout
   void wprint() const;
 
   //Prints vector components to std::wcout
-  void wprint(const std::wstring wstr) const;
+  void wprint(const std::wstring& wstr) const;
 
   //Absolute vector
   constexpr Vec3<T> abs() const;
@@ -59,7 +60,7 @@ public:
   constexpr Vec3<T> vectorProduct(const Vec3<T> vector) const;
 
   //Call glVertex3(x,y,z)
-  inline void glVertex() const;
+  void glVertex() const;
 
   //Returns vector with x = 0
   constexpr Vec3<T> nullX() const;

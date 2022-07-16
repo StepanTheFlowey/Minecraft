@@ -12,12 +12,9 @@ using regionPos_t = int16_t;            //Absolute region pos
 using RegionPos = Vec2<regionPos_t>;
 using RegionAabb = Aabb3<regionPos_t>;
 
-inline ChunkPos getChunkPosFromBlock(const BlockPos position);
-
-inline SmallPos getChunkPosInRegion(const ChunkPos position);
-
-inline uint16_t getChunkIndexFromPos(const SmallPos position);
-
+inline ChunkPos getChunkPosFromBlock(const BlockPos& position);
+inline SmallPos getChunkPosInRegion(const ChunkPos& position);
+inline uint16_t getChunkIndexFromPos(const SmallPos& position);
 inline SmallPos getPosFromChunkIndex(const uint16_t index);
 
 class Player;

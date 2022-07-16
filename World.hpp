@@ -5,11 +5,9 @@
 #include "Chunk.hpp"
 #include "Region.hpp"
 
-inline uint32_t getRegionIndexFromPos(const RegionPos position);
-
+inline uint32_t getRegionIndexFromPos(const RegionPos& position);
 inline RegionPos getRegionPosFromIndex(const uint32_t index);
-
-inline RegionPos getRegionPosFromChunk(const ChunkPos position);
+inline RegionPos getRegionPosFromChunk(const ChunkPos& position);
 
 class Player;
 

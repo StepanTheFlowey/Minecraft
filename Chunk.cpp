@@ -24,11 +24,11 @@ Chunk::~Chunk() {
   }
 }
 
-Block* Chunk::getBlock(const SmallPos position) const {
+Block* Chunk::getBlock(const SmallPos& position) const {
   return block_[getBlockIndexFromPos(position)];
 }
 
-void Chunk::setBlock(const SmallPos position, Block* const block) {
+void Chunk::setBlock(const SmallPos& position, Block* const block) {
   const uint_fast16_t index = getBlockIndexFromPos(position);
   if(block_[index] != nullptr) {
     delete block_[index];
@@ -36,7 +36,7 @@ void Chunk::setBlock(const SmallPos position, Block* const block) {
     block_[index] = block;
 }
 
-void Chunk::setPosition(const ChunkPos position) {
+void Chunk::setPosition(const ChunkPos& position) {
   position_ = position;
   aabb_.min = position_ * 16;
   aabb_.max = (position_ + 1) * 16;
@@ -158,7 +158,7 @@ void Chunk::updateBlocksRender() {
       }
     }
   }
-  renderer_.update(vertexBuffer);
+  renderer_->update(vertexBuffer);
 }
 
 void Chunk::draw() const {
@@ -168,7 +168,7 @@ void Chunk::draw() const {
     static_cast<GLdouble>(position_.y * 16.0),
     static_cast<GLdouble>(position_.z * 16.0)
   );
-  renderer_.draw();
+  renderer_->draw();
   glPopMatrix();
 
 #ifdef DEBUG

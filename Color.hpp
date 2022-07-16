@@ -1,23 +1,32 @@
 #pragma once
 
+#include <inttypes.h>
 #include "glad.h"
 
 class Color {
 public:
 
-  GLubyte r = 0;
-  GLubyte g = 0;
-  GLubyte b = 0;
-  GLubyte a = 255;
+  uint8_t r = 0;
+  uint8_t g = 0;
+  uint8_t b = 0;
+  uint8_t a = 255;
 
   //Default constructor
   constexpr Color() = default;
 
+  //Component constructor
+  constexpr Color(
+    const uint8_t r,
+    const uint8_t g,
+    const uint8_t b,
+    const uint8_t a = 255
+  );
+
   //Default destructor
-  constexpr Color(const GLubyte r, const GLubyte g, const GLubyte b, const GLubyte a = 255);
+  ~Color() = default;
 
   //Calls glColor(r,g,b,a)
-  inline void glColor() const;
+  void glColor() const;
 };
 
 #include "Color.inl"

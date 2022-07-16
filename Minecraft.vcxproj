@@ -101,6 +101,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlockWithSide.cpp" />
+    <ClCompile Include="DisplayList.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="ImmediateRenderer.cpp" />
     <ClCompile Include="ShaderRenderer.cpp" />
@@ -205,17 +206,13 @@
     <ClInclude Include="World.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Camera.inl" />
     <None Include="Chunk.inl" />
     <None Include="Color.inl" />
     <None Include="cpp.hint" />
-    <None Include="DisplayHelper.inl" />
     <None Include="Plane3.inl" />
-    <None Include="Player.inl" />
     <None Include="Rect2.inl" />
     <None Include="Rect3.inl" />
     <None Include="Region.inl" />
-    <None Include="Time.inl" />
     <None Include="Triangle2.inl" />
     <None Include="Triangle3.inl" />
     <None Include="VboRenderer.inl" />

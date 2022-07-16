@@ -9,10 +9,8 @@ using chunkPos_t = int32_t;           //Absolute chunk position
 using ChunkPos = Vec3<chunkPos_t>;
 using ChunkAabb = Aabb3<chunkPos_t>;
 
-inline SmallPos getBlockPosInChunk(const BlockPos);
-
-inline uint16_t getBlockIndexFromPos(const SmallPos);
-
+inline SmallPos getBlockPosInChunk(const BlockPos& position);
+inline uint16_t getBlockIndexFromPos(const SmallPos& position);
 inline SmallPos getBlockPosFromIndex(const uint16_t index);
 
 class World;
@@ -28,13 +26,13 @@ public:
   ~Chunk();
 
   //Takes block
-  NODISCARD Block* getBlock(const SmallPos position) const;
+  NODISCARD Block* getBlock(const SmallPos& position) const;
 
   //Sets block
-  void setBlock(const SmallPos position, Block* const block);
+  void setBlock(const SmallPos& position, Block* const block);
 
   //Sets chunk position
-  void setPosition(const ChunkPos);
+  void setPosition(const ChunkPos& position);
 
   //Returns chunk position
   NODISCARD const ChunkPos& getPosition() const;
@@ -45,20 +43,17 @@ public:
   //Calculates blocks edge render
   void updateBlocksRender();
 
-  //
-  void updateEntitiesRender();
-
   //Draws blocks
   void draw() const;
-
-  friend Player;
 protected:
 
   Block* block_[4096]{};
 
   ChunkAabb aabb_;
   ChunkPos position_;
-  BlockRenderer renderer_;
+  BlockRenderer* renderer_;
+
+  friend Player;
 };
 
 #include "Chunk.inl"

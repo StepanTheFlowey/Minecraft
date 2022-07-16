@@ -6,11 +6,11 @@
 class TextureManager {
 public:
 
-  inline TextureManager() {
+  TextureManager() {
     debug(L"TextureManager()");
   }
 
-  inline ~TextureManager() {
+  ~TextureManager() {
     debug(L"~TextureManager()");
   }
 
@@ -18,7 +18,7 @@ public:
 
   void save();
 
-  inline textureId_t getTextureId(const std::wstring name) {
+  inline textureId_t getTextureId(const std::wstring name) const {
     return textures_.at(name);
   }
 protected:

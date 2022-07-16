@@ -2,7 +2,43 @@
 
 #include "Math.hpp"
 
-void Camera::process() {
+void Camera::doTranlate() const {
+  gluLookAt(eyePos_.x, eyePos_.y, eyePos_.z, centerPos_.x, centerPos_.y, centerPos_.z, 0.0, 1.0, 0.0);
+}
+
+void Camera::setPosition(const Vec3d& position) {
+  eyePos_ = position;
+  update();
+}
+
+void Camera::setRotation(const Vec2f& rotation) {
+  rotation_ = rotation;
+  update();
+}
+
+void Camera::move(const Vec3d& offset) {
+  eyePos_ += offset;
+  update();
+}
+
+void Camera::rotate(const Vec2f& rotation) {
+  rotation_ += rotation;
+  update();
+}
+
+const Vec3d& Camera::getEyePosition() const {
+  return eyePos_;
+}
+
+const Vec3d& Camera::getCenterPosition() const {
+  return centerPos_;
+}
+
+const Vec2f& Camera::getRotation() const {
+  return rotation_;
+}
+
+void Camera::update() {
   if(rotation_.x > 360.0F) {
     rotation_.x = 0.0F;
   }

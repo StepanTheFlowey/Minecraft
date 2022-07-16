@@ -3,55 +3,46 @@
 #include "Vec3.hpp"
 
 template <typename T>
-constexpr Vec3<T>::Vec3() {
-  x = 0;
-  y = 0;
-  z = 0;
-}
+constexpr Vec3<T>::Vec3(const T _x, const T _y, const T _z) :
+  x(_x),
+  y(_y),
+  z(_z) {
 
-template <typename T>
-constexpr Vec3<T>::Vec3(const T X, const T Y, const T Z) {
-  x = X;
-  y = Y;
-  z = Z;
 }
 
 template <typename T> template <typename U>
-constexpr Vec3<T>::Vec3(const Vec3<U>& vector) {
-  x = static_cast<T>(vector.x);
-  y = static_cast<T>(vector.y);
-  z = static_cast<T>(vector.z);
+constexpr Vec3<T>::Vec3(const Vec3<U>& vector) :
+  x(static_cast<T>(vector.x)),
+  y(static_cast<T>(vector.y)),
+  z(static_cast<T>(vector.z)) {
+
 }
 
 template <typename T> template <typename U>
-constexpr Vec3<T>::Vec3(const sf::Vector3<U>& vector) {
-  x = static_cast<T>(vector.x);
-  y = static_cast<T>(vector.y);
-  z = static_cast<T>(vector.z);
-}
-
-template <typename T>
-inline Vec3<T>::~Vec3() {
+constexpr Vec3<T>::Vec3(const sf::Vector3<U>& vector) :
+  x(static_cast<T>(vector.x)),
+  y(static_cast<T>(vector.y)),
+  z(static_cast<T>(vector.z)) {
 
 }
 
 template <typename T>
-inline void Vec3<T>::print() const {
+void Vec3<T>::print() const {
   std::cout << "X: " << x << " Y: " << y << " Z: " << z << std::endl;
 }
 
 template <typename T>
-inline void Vec3<T>::print(const std::string string) const {
+void Vec3<T>::print(const std::string& string) const {
   std::cout << string << " X: " << x << " Y: " << y << " Z: " << z << std::endl;
 }
 
 template <typename T>
-inline void Vec3<T>::wprint() const {
+void Vec3<T>::wprint() const {
   std::wcout << L"X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
 }
 
 template <typename T>
-inline void Vec3<T>::wprint(const std::wstring wstring) const {
+void Vec3<T>::wprint(const std::wstring& wstring) const {
   std::wcout << wstring << L" X: " << x << L" Y: " << y << L" Z: " << z << std::endl;
 }
 
@@ -92,7 +83,7 @@ constexpr Vec3<T> Vec3<T>::vectorProduct(const Vec3<T> vector) const {
 }
 
 template <typename T>
-inline void Vec3<T>::glVertex() const {
+void Vec3<T>::glVertex() const {
   glVertex3d(
     static_cast<GLdouble>(x),
     static_cast<GLdouble>(y),
@@ -161,7 +152,7 @@ constexpr Vec3<T> Vec3<T>::operator+(const Vec3<U>& vector) const {
 }
 
 template <typename T>
-constexpr Vec3<T> Vec3<T>::operator-(const T scalar)const {
+constexpr Vec3<T> Vec3<T>::operator-(const T scalar) const {
   return Vec3<T>(x - scalar, y - scalar, z - scalar);
 }
 

@@ -18,13 +18,27 @@ using SmallPos = Vec3<uint8_t>;
 
 namespace math {
   template <typename T>
-  CollisionResult<T> planeLineCollision(const Plane3<T> plane, const Vec3<T> lineBegin, const Vec3<T> lineEnd);
+  CollisionResult<T> planeLineCollision(
+    const Plane3<T>& plane,
+    const Vec3<T>& lineBegin,
+    const Vec3<T>& lineEnd
+  );
 
   template <typename T>
-  CollisionResult<T> triangleLineCollision(const Triangle3<T> triangle, const Vec3<T> normal, const Vec3<T> lineBegin, const Vec3<T> lineEnd);
+  CollisionResult<T> triangleLineCollision(
+    const Triangle3<T>& triangle,
+    const Vec3<T>& normal,
+    const Vec3<T>& lineBegin,
+    const Vec3<T>& lineEnd
+  );
 
   template <typename T>
-  CollisionResult<T> rectLineCollision(const Rect3<T> rect, const Vec3<T> normal, const Vec3<T> lineBegin, const Vec3<T> lineEnd);
+  CollisionResult<T> rectLineCollision(
+    const Rect3<T>& rect,
+    const Vec3<T>& normal,
+    const Vec3<T>& lineBegin,
+    const Vec3<T>& lineEnd
+  );
 }
 
 #include "Math.inl"

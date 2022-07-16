@@ -4,51 +4,43 @@
 #include <iostream>
 
 template <typename T>
-constexpr Vec2<T>::Vec2() {
-  x = 0;
-  y = 0;
-}
+constexpr Vec2<T>::Vec2(const T _x, const T _y) :
+  x(_x),
+  y(_y) {
 
-template <typename T>
-constexpr Vec2<T>::Vec2(const T X, const T Y) {
-  x = X;
-  y = Y;
 }
 
 template <typename T> template <typename U>
-constexpr Vec2<T>::Vec2(const Vec2<U>& vector) {
-  x = static_cast<T>(vector.x);
-  y = static_cast<T>(vector.y);
+constexpr Vec2<T>::Vec2(const Vec2<U>& vector) :
+  x(static_cast<T>(vector.x)),
+  y(static_cast<T>(vector.y)) {
+
 }
 
 template <typename T> template <typename U>
-constexpr Vec2<T>::Vec2(const sf::Vector2<U>& vector) {
-  x = static_cast<T>(vector.x);
-  y = static_cast<T>(vector.y);
-}
-
-template <typename T>
-inline Vec2<T>::~Vec2() {
+constexpr Vec2<T>::Vec2(const sf::Vector2<U>& vector) :
+  x(static_cast<T>(vector.x)),
+  y(static_cast<T>(vector.y)) {
 
 }
 
 template <typename T>
-inline void Vec2<T>::print() const {
+void Vec2<T>::print() const {
   std::cout << "X: " << x << " Y: " << y << std::endl;
 }
 
 template <typename T>
-inline void Vec2<T>::print(const std::string string) const {
+void Vec2<T>::print(const std::string& string) const {
   std::cout << string << " X: " << x << " Y: " << y << std::endl;
 }
 
 template <typename T>
-inline void Vec2<T>::wprint() const {
+void Vec2<T>::wprint() const {
   std::wcout << L"X: " << x << L" Y: " << y << std::endl;
 }
 
 template <typename T>
-inline void Vec2<T>::wprint(const std::wstring wstring) const {
+void Vec2<T>::wprint(const std::wstring& wstring) const {
   std::wcout << wstring << L" X: " << x << L" Y: " << y << std::endl;
 }
 
@@ -69,14 +61,14 @@ constexpr Vec2<T> Vec2<T>::normalize() const {
 }
 
 template <typename T>
-constexpr double_t Vec2<T>::distanceTo(Vec2<T> vector) const {
+constexpr double_t Vec2<T>::distanceTo(const Vec2<T>& vector) const {
   T X = x - vector.x;
   T Y = y - vector.y;
   return std::sqrt(X * X + Y * Y);
 }
 
 template <typename T>
-inline void Vec2<T>::glVertex() const {
+void Vec2<T>::glVertex() const {
   glVertex2d(
     static_cast<GLdouble>(x),
     static_cast<GLdouble>(y)
@@ -154,7 +146,6 @@ constexpr Vec2<T> Vec2<T>::operator/(const U scalar) const {
 }
 
 template <typename T>
-
 constexpr Vec2<T> Vec2<T>::operator/(const Vec2<T>& vector) const {
   return Vec2<T>(x / vector.x, y / vector.y);
 }

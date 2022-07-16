@@ -9,13 +9,13 @@
 class Loading {
 public:
 
-  Loading(const uint32_t all, const std::wstring what);
+  Loading(const uint32_t all, const std::wstring& what);
 
   ~Loading();
 
   void wait();
 
-  void next(const std::wstring what);
+  void next(const std::wstring& what);
 
   inline void done() {
     work_ = false;

@@ -56,12 +56,12 @@ void Player::breakBlock() {
   }
 }
 
-void Player::move(const Vec3d offset) {
+void Player::move(const Vec3d& offset) {
   position_ += offset;
   camera.setPosition(position_);
 }
 
-void Player::update(const Time time) {
+void Player::update(const Time& time) {
   const Vec2f& rotation = camera.getRotation();
   const float_t millis = static_cast<float_t>(time.asMilliseconds());
   if(to_underlying(moveDir_ & Side::Forward)) {

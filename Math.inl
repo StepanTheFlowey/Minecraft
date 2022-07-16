@@ -3,7 +3,11 @@
 #include <cmath>
 
 template <typename T>
-CollisionResult<T> math::planeLineCollision(const Plane3<T> plane, const Vec3<T> lineBegin, const Vec3<T> lineEnd) {
+CollisionResult<T> math::planeLineCollision(
+  const Plane3<T>& plane,
+  const Vec3<T>& lineBegin,
+  const Vec3<T>& lineEnd
+) {
   CollisionResult<T> result;
 
   Vec3<T> lineDirection = lineEnd - lineBegin;
@@ -30,7 +34,12 @@ CollisionResult<T> math::planeLineCollision(const Plane3<T> plane, const Vec3<T>
 }
 
 template <typename T>
-CollisionResult<T> math::triangleLineCollision(const Triangle3<T> triangle, const Vec3<T> normal, const Vec3<T> lineBegin, const Vec3<T> lineEnd) {
+CollisionResult<T> math::triangleLineCollision(
+  const Triangle3<T>& triangle,
+  const Vec3<T>& normal,
+  const Vec3<T>& lineBegin,
+  const Vec3<T>& lineEnd
+) {
   CollisionResult<T> result;
 
   result = planeLineCollision(Plane3<T>(triangle.a, normal), lineBegin, lineEnd);
@@ -42,7 +51,12 @@ CollisionResult<T> math::triangleLineCollision(const Triangle3<T> triangle, cons
 }
 
 template <typename T>
-CollisionResult<T> math::rectLineCollision(const Rect3<T> rect, const Vec3<T> normal, const Vec3<T> lineBegin, const Vec3<T> lineEnd) {
+CollisionResult<T> math::rectLineCollision(
+  const Rect3<T>& rect,
+  const Vec3<T>& normal,
+  const Vec3<T>& lineBegin,
+  const Vec3<T>& lineEnd
+) {
   CollisionResult<T> result;
 
   result = planeLineCollision(Plane3<T>(rect.a, normal), lineBegin, lineEnd);

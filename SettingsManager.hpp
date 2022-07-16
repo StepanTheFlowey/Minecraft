@@ -114,14 +114,13 @@ struct Settings {
 };
 
 class SettingsManager {
-
 public:
 
-  inline SettingsManager() {
+  SettingsManager() {
     debug(L"SettingsManager");
   }
 
-  inline ~SettingsManager() {
+  ~SettingsManager() {
     debug(L"~SettingsManager");
   }
 

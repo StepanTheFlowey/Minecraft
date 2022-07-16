@@ -26,18 +26,18 @@
 
 #endif
 
-inline NODISCARD std::wstring wide(const std::string str) {
+inline NODISCARD std::wstring wide(const std::string& str) {
   return std::wstring(str.begin(), str.end());
 }
 
 #pragma warning(push)
 #pragma warning(disable : 4244)
-inline NODISCARD std::string shrink(const std::wstring wstr) {
+inline NODISCARD std::string shrink(const std::wstring& wstr) {
   return std::string(wstr.begin(), wstr.end());
 }
 #pragma warning(pop)
 
 template <class E, typename T = std::underlying_type_t<E>>
-NODISCARD __forceinline T to_underlying(E enumeration) {
+inline NODISCARD T to_underlying(const E enumeration) {
   return static_cast<T>(enumeration);
 }

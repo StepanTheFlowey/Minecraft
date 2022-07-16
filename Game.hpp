@@ -5,13 +5,9 @@
 class Game {
 public:
 
-  inline Game() {
-    debug(L"Game()");
-  }
+  Game();
 
-  inline ~Game() {
-    debug(L"~Game()");
-  }
+  ~Game();
 
   void operator()();
 };

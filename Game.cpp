@@ -6,6 +6,14 @@
 #include "DisplayList.hpp"
 #include "DisplayHelper.hpp"
 
+Game::Game() {
+  debug(L"Game()");
+}
+
+Game::~Game() {
+  debug(L"~Game()");
+}
+
 void Game::operator()() {
   World* const world = new World;
   world->makeCurrent();

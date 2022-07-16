@@ -7,7 +7,6 @@
 #define checkGLerrors() GlHelper::checkForErrors(__FILE__,__LINE__)
 
 class GlHelper {
-  GLdouble aspect_ = 0;
 public:
 
   std::wstring vendor;
@@ -15,13 +14,9 @@ public:
   std::wstring version;
   std::set<std::wstring> extensions;
 
-  inline GlHelper() {
-    debug(L"GlHelper()");
-  }
+  GlHelper();
 
-  inline ~GlHelper() {
-    debug(L"~GlHelper()");
-  }
+  ~GlHelper();
 
   void init2D();
 
@@ -38,5 +33,8 @@ public:
   static void initGL();
 
   static void checkForErrors(const char* file, const uint32_t line);
+protected:
+
+  GLdouble aspect_ = 0;
 };
 extern GlHelper* gl;

@@ -5,17 +5,18 @@
 #include <SFML/System/Vector2.hpp>
 
 //Two component vector
-template <typename T> class Vec2 {
+template <typename T>
+class Vec2 {
 public:
 
-  T x;
-  T y;
+  T x = 0;
+  T y = 0;
 
   //Default constructor
-  constexpr Vec2();
+  constexpr Vec2() = default;
 
   //Component constructor
-  constexpr Vec2(const T X, const T Y);
+  constexpr Vec2(const T x, const T y);
 
   //Copy constructor
   template <typename U>
@@ -26,19 +27,19 @@ public:
   constexpr Vec2(const sf::Vector2<U>& vector);
 
   //Default destructor
-  ~Vec2();
+  ~Vec2() = default;
 
   //Prints vector components to std::cout
-  inline void print() const;
+  void print() const;
 
   //Prints vector components to std::cout
-  inline void print(std::string string) const;
+  void print(const std::string& string) const;
 
   //Prints vector components to std::wcout
-  inline void wprint() const;
+  void wprint() const;
 
   //Prints vector components to std::wcout
-  inline void wprint(std::wstring string) const;
+  void wprint(const std::wstring& string) const;
 
   //Returns absolute vector
   constexpr Vec2<T> abs() const;
@@ -50,10 +51,10 @@ public:
   constexpr Vec2<T> normalize() const;
 
   //Returns distance to another vector
-  constexpr double_t distanceTo(Vec2<T> vector) const;
+  constexpr double_t distanceTo(const Vec2<T>& vector) const;
 
   //Calls glVertex2d(x, y)
-  inline void glVertex() const;
+  void glVertex() const;
 
   //Scalar add operator
   constexpr Vec2<T> operator+(const T scalar) const;

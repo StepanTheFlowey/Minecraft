@@ -1,12 +1,7 @@
 #pragma once
 
 template <typename T>
-constexpr Aabb3<T>::Aabb3() {
-
-}
-
-template <typename T>
-constexpr Aabb3<T>::Aabb3(const Vec3<T> _min, const Vec3<T> _max) {
+constexpr Aabb3<T>::Aabb3(const Vec3<T>& _min, const Vec3<T>& _max) {
   set(_min, _max);
 }
 
@@ -17,12 +12,7 @@ constexpr Aabb3<T>::Aabb3(const Aabb3<U>& aabb) {
 }
 
 template <typename T>
-inline Aabb3<T>::~Aabb3() {
-
-}
-
-template <typename T>
-void Aabb3<T>::set(const Vec3<T> _min, const Vec3<T> _max) {
+void Aabb3<T>::set(const Vec3<T>& _min, const Vec3<T>& _max) {
   min.x = std::min(_min.x, _max.x);
   min.y = std::min(_min.y, _max.y);
   min.z = std::min(_min.z, _max.z);
@@ -32,7 +22,7 @@ void Aabb3<T>::set(const Vec3<T> _min, const Vec3<T> _max) {
 }
 
 template <typename T>
-bool Aabb3<T>::intersects(const Aabb3<T> aabb) const {
+bool Aabb3<T>::intersects(const Aabb3<T>& aabb) const {
   return
     (min.x < aabb.max.x) &&
     (max.x > aabb.min.x) &&
@@ -43,7 +33,7 @@ bool Aabb3<T>::intersects(const Aabb3<T> aabb) const {
 }
 
 template <typename T>
-void Aabb3<T>::draw(const Color color, const float_t offset) const {
+void Aabb3<T>::draw(const Color& color, const float_t offset) const {
   const GLfloat iX = static_cast<GLfloat>(min.x) - offset;
   const GLfloat iY = static_cast<GLfloat>(min.y) - offset;
   const GLfloat iZ = static_cast<GLfloat>(min.z) - offset;
@@ -97,7 +87,7 @@ void Aabb3<T>::draw(const Color color, const float_t offset) const {
 }
 
 template <typename T>
-void Aabb3<T>::draw(const Color color, const double_t offset) const {
+void Aabb3<T>::draw(const Color& color, const double_t offset) const {
   const GLdouble iX = static_cast<GLdouble>(min.x) - offset;
   const GLdouble iY = static_cast<GLdouble>(min.y) - offset;
   const GLdouble iZ = static_cast<GLdouble>(min.z) - offset;

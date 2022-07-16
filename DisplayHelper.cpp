@@ -4,9 +4,31 @@
 
 DisplayHelper* display = nullptr;
 
+DisplayHelper::DisplayHelper() {
+  debug(L"DisplayHelper()");
+
+  contextSettings.antialiasingLevel = 8;  //Multisampling level
+  contextSettings.depthBits = 24;         //Depth buffer bits
+  contextSettings.majorVersion = 2;       //Request OpenGL 2.1
+  contextSettings.minorVersion = 1;
+}
+
+DisplayHelper::~DisplayHelper() {
+  debug(L"~DisplayHelper()");
+}
+
+void DisplayHelper::autoClock() {
+  time = clock.restart();
+}
+
 void DisplayHelper::initialize() {
   window.create(videoMode, "Minecraft Alpha", sf::Style::Default, contextSettings);
   window.setVerticalSyncEnabled(true);
+}
+
+bool DisplayHelper::isAlive() {
+  std::unique_lock lock(mutex_);
+  return window.isOpen();
 }
 
 void DisplayHelper::autoEvent() {

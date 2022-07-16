@@ -5,11 +5,11 @@
 class ModelManager {
 public:
 
-  inline ModelManager() {
+  ModelManager() {
     debug(L"ModelManager()");
   }
 
-  inline ~ModelManager() {
+  ~ModelManager() {
     debug(L"~ModelManager()");
   }
 

@@ -8,7 +8,7 @@
 
 Loading* loading = nullptr;
 
-Loading::Loading(const uint32_t all, const std::wstring what) {
+Loading::Loading(const uint32_t all, const std::wstring& what) {
   debug(L"Loading()");
   what_ = what;
   all_ = all;
@@ -31,7 +31,7 @@ void Loading::wait() {
   }
 }
 
-void Loading::next(const std::wstring what) {
+void Loading::next(const std::wstring& what) {
   _wsystem(L"pause");
   mutex_.lock();
   update_ = true;

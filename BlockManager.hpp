@@ -7,11 +7,11 @@
 class BlockManager {
 public:
 
-  inline BlockManager() {
+  BlockManager() {
     debug(L"BlockManager()");
   }
 
-  inline ~BlockManager() {
+  ~BlockManager() {
     debug(L"~BlockManager()");
   }
 

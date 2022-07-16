@@ -2,7 +2,7 @@
 #pragma once
 
 template<typename V>
-inline VertexRenderer<V>::VertexRenderer() {
+VertexRenderer<V>::VertexRenderer() {
   debug(L"VertexRenderer()");
 }
 

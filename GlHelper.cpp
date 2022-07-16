@@ -5,6 +5,14 @@
 
 GlHelper* gl = nullptr;
 
+GlHelper::GlHelper() {
+  debug(L"GlHelper()");
+}
+
+GlHelper::~GlHelper() {
+  debug(L"~GlHelper()");
+}
+
 void GlHelper::init2D() {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();

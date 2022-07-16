@@ -13,13 +13,18 @@ public:
   Vec3<T> d;
 
   //Default constructor
-  constexpr Rect3();
+  constexpr Rect3() = default;
 
   //Component constructor
-  constexpr Rect3(const Vec3<T> a, const Vec3<T> b, const Vec3<T> c, const Vec3<T> d);
+  constexpr Rect3(
+    const Vec3<T>& a,
+    const Vec3<T>& b,
+    const Vec3<T>& c,
+    const Vec3<T>& d
+  );
 
   //Default destructor
-  ~Rect3();
+  ~Rect3() = default;
 
   //
   T square() const;

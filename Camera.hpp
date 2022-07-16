@@ -10,28 +10,38 @@
 class Camera {
 public:
 
-  inline Camera();
+  //
+  Camera() = default;
 
-  inline ~Camera();
+  //
+  ~Camera() = default;
 
-  inline void doTranlate() const;
+  //
+  void doTranlate() const;
 
-  inline void setPosition(const Vec3d position);
+  //
+  void setPosition(const Vec3d& position);
 
-  inline void setRotation(const Vec2f rotation);
+  //
+  void setRotation(const Vec2f& rotation);
 
-  inline void move(const Vec3d offset);
+  //
+  void move(const Vec3d& offset);
 
-  inline void rotate(const Vec2f rotation);
+  //
+  void rotate(const Vec2f& rotation);
 
-  inline const Vec3d& getEyePosition() const;
+  //
+  const Vec3d& getEyePosition() const;
 
-  inline const Vec3d& getCenterPosition() const;
+  //
+  const Vec3d& getCenterPosition() const;
 
-  inline const Vec2f& getRotation() const;
+  //
+  const Vec2f& getRotation() const;
 protected:
 
-  void process();
+  void update();
 
   Vec3d eyePos_;    //Pos from
   Vec3d centerPos_; //Pos to

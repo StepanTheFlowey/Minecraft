@@ -4,11 +4,10 @@
 #include "main.hpp"
 
 class Time {
-  int64_t time_ = 0;
 public:
 
   //Default constructor
-  constexpr Time();
+  constexpr Time() = default;
 
   //Microseconds constructor
   constexpr explicit Time(const int64_t time);
@@ -16,14 +15,17 @@ public:
   //Copy constructor from sfml time
   Time(const sf::Time& time);
 
+  //Default destructor
+  ~Time() = default;
+
   //Seconds assignment
-  constexpr void setSeconds(const float_t);
+  constexpr void setSeconds(const float_t seconds);
 
   //Milliseconds assignment
-  constexpr void setMilliseconds(const int32_t);
+  constexpr void setMilliseconds(const int32_t millis);
 
   //Microseconds assignment
-  constexpr void setMicroseconds(const int64_t);
+  constexpr void setMicroseconds(const int64_t micros);
 
   //Seconds taking function
   constexpr float_t asSeconds() const;
@@ -35,13 +37,13 @@ public:
   constexpr int64_t asMicroseconds() const;
 
   //Construct a time value from a number of seconds
-  constexpr static Time seconds(const float_t);
+  constexpr static Time seconds(const float_t seconds);
 
   //Construct a time value from a number of milliseconds
-  constexpr static Time milliseconds(const int32_t);
+  constexpr static Time milliseconds(const int32_t millis);
 
   //Construct a time value from a number of microseconds
-  constexpr static Time microseconds(const int64_t);
+  constexpr static Time microseconds(const int64_t micros);
 
   //Equals operator
   constexpr bool operator==(const Time& time);
@@ -78,6 +80,7 @@ public:
 
   //
   constexpr void operator%=(const Time& time);
-};
+protected:
 
-#include "Time.inl"
+  int64_t time_ = 0;
+};

@@ -5,25 +5,26 @@
 template <typename T>
 class Rect2 {
 public:
+
   Vec2<T> a;
   Vec2<T> b;
   Vec2<T> c;
   Vec2<T> d;
 
   //Default constructor
-  Rect2();
+  constexpr Rect2() = default;
 
   //Component constructor
-  Rect2(const Vec2<T> _a, const Vec2<T> _b, const Vec2<T> _c, const  Vec2<T> _d);
+  constexpr Rect2(const Vec2<T>& a, const Vec2<T>& b, const Vec2<T>& c, const  Vec2<T>& d);
 
   //Default destructor
-  ~Rect2();
+  ~Rect2() = default;
 
   //
   T square() const;
 
   //
-  bool isPointInside(const Vec2<T>) const;
+  bool isPointInside(const Vec2<T>& point) const;
 };
 
 #include "Rect2.inl"

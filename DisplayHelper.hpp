@@ -22,19 +22,19 @@ public:
   float scale = 1.F;
 
   //Default constructor
-  inline DisplayHelper();
+   DisplayHelper();
 
   //Default destructor
-  inline ~DisplayHelper();
+   ~DisplayHelper();
 
   //Initializes display
   void initialize();
 
   //Check is display workd
-  inline bool isAlive();
+   bool isAlive();
 
   //Automatic clock update
-  inline void autoClock();
+   void autoClock();
 
   //Automatic event handling. Needs to be called from event thread
   void autoEvent();

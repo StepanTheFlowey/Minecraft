@@ -8,7 +8,7 @@ template <typename V>
 class VboRenderer : public VertexRenderer<V> {
 public:
 
-  inline VboRenderer();
+  VboRenderer();
 
   virtual ~VboRenderer();
 
@@ -18,6 +18,7 @@ public:
 protected:
 
   GLuint handle_ = 0;
+  GLsizei size_ = 0;
 };
 
 #include "VboRenderer.inl"

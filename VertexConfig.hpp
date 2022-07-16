@@ -5,9 +5,7 @@
 #include "glad.h"
 
 template <typename V>
-class VertexConfig {
-public:
-
+struct VertexConfig {
   GLint   vertexSize = 0;
   GLenum  vertexType = 0;
   GLsizei vertexStride = 0;

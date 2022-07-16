@@ -3,35 +3,22 @@
 #include "glad.h"
 
 class DisplayList {
-  GLuint handle_ = 0;
 public:
 
-  inline DisplayList() {
-    handle_ = glGenLists(1);
-  }
+  DisplayList();
 
-  inline explicit DisplayList(const GLenum mode) {
-    handle_ = glGenLists(1);
-    glNewList(handle_, mode);
-  }
+  explicit DisplayList(const GLenum mode);
 
-  inline ~DisplayList() {
-    glDeleteLists(handle_, 1);
-  }
+  ~DisplayList();
 
-  inline void begin() const {
-    glNewList(handle_, GL_COMPILE);
-  }
+  void begin() ;
 
-  inline void begin(const GLenum mode) const {
-    glNewList(handle_, mode);
-  }
+  void begin(const GLenum mode) ;
 
-  inline void end() const {
-    glEndList();
-  }
+  void end() ;
 
-  inline void call() const {
-    glCallList(handle_);
-  }
+  void call() const;
+protected:
+
+  GLuint handle_ = 0;
 };

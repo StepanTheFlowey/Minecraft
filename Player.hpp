@@ -12,10 +12,10 @@ public:
   Camera camera;
 
   //Default constructor
-  inline Player();
+  Player() = default;
 
   //Default destructor
-  inline ~Player();
+  ~Player() = default;
 
   //Assign move direction
   void walk(const Side side, const bool value);
@@ -27,10 +27,10 @@ public:
   void breakBlock();
 
   //Move player by offest
-  void move(const Vec3d offset);
+  void move(const Vec3d& offset);
 
   //Updating player
-  void update(const Time time);
+  void update(const Time& time);
 
   //Draws player and block mouse over
   void draw() const;
@@ -47,5 +47,3 @@ protected:
   bool isBlockMouseOver_ = false;
   bool onGround_ = false;
 };
-
-#include "Player.inl"
