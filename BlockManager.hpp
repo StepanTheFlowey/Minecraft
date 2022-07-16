@@ -20,7 +20,7 @@ public:
   void save();
 protected:
 
-  std::vector<BlockInfo> blocks_;
+  //std::vector<BlockInfo> blocks_;
 
   void loadFromModule() {
 

@@ -49,5 +49,3 @@ public:
   void toggleFullscreen();
 };
 extern DisplayHelper* display;
-
-#include "DisplayHelper.inl"

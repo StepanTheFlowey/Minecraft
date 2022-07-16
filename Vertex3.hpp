@@ -11,8 +11,4 @@ struct Vertex3 {
   Vec3<V> vertex;
   Vec2<T> texture;
   C color;
-
-  using V = V;
-  using T = T;
-  using C = C;
 };

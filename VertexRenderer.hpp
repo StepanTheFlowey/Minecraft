@@ -17,7 +17,7 @@ public:
   virtual void draw() const = 0;
 protected:
 
-  static constexpr VertexConfig<V> config_;
+  static VertexConfig<V> config_;
 };
 
 #include "VertexRenderer.inl"

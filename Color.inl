@@ -13,6 +13,6 @@ constexpr Color::Color(
 
 }
 
-void Color::glColor() const {
+inline void Color::glColor() const {
   glColor4ub(r, g, b, a);
 }

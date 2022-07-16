@@ -111,9 +111,6 @@
     <ClCompile Include="Color.cpp">
       <Filter>Sources\utility</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>Sources\utility</Filter>
-    </ClCompile>
     <ClCompile Include="GlHelper.cpp">
       <Filter>Sources\gl</Filter>
     </ClCompile>
@@ -209,9 +206,6 @@
     </ClCompile>
     <ClCompile Include="FontManager.cpp">
       <Filter>Sources\assets\manager</Filter>
-    </ClCompile>
-    <ClCompile Include="BlockWithSide.cpp">
-      <Filter>Sources\utility</Filter>
     </ClCompile>
     <ClCompile Include="DisplayList.cpp">
       <Filter>Sources\gl</Filter>
@@ -375,6 +369,9 @@
       <Filter>Includes\assets\type</Filter>
     </ClInclude>
     <ClInclude Include="BlockWithSide.hpp">
+      <Filter>Includes\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.inl">
       <Filter>Includes\utility</Filter>
     </ClInclude>
   </ItemGroup>

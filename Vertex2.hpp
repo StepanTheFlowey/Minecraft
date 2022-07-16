@@ -10,8 +10,4 @@ struct Vertex2 {
   Vec2<V> vertex;
   Vec2<T> texture;
   C color;
-
-  using V = V;
-  using T = T;
-  using C = C;
 };

@@ -100,7 +100,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BlockWithSide.cpp" />
     <ClCompile Include="DisplayList.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="ImmediateRenderer.cpp" />
@@ -151,7 +150,9 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tileset.cpp" />
-    <ClCompile Include="Time.cpp" />
+    <ClInclude Include="Time.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
     <ClInclude Include="Plane3.hpp" />
     <ClInclude Include="Rect2.hpp" />
     <ClInclude Include="Rect3.hpp" />

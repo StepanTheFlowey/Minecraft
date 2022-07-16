@@ -26,7 +26,7 @@ enum class Side : uint8_t {
 };
 
 inline void operator~(Side& l) {
-  ~static_cast<std::underlying_type_t<Side>>(l);
+  l = static_cast<Side>(~static_cast<std::underlying_type_t<Side>>(l));
 }
 
 inline Side operator&(const Side& l, const Side& r) {

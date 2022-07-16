@@ -1,24 +1,20 @@
 #pragma once
 
-#include "Vertex2.hpp"
-#include "Vertex3.hpp"
-#include "VboRenderer.hpp"
-
-template<typename V>
+template <typename V>
 VboRenderer<V>::VboRenderer() {
   debug(L"VboRenderer()");
 
   glGenBuffers(1, &handle_);
 }
 
-template<typename V>
+template <typename V>
 VboRenderer<V>::~VboRenderer() {
   debug(L"~VboRenderer()");
 
   glDeleteBuffers(1, &handle_);
 }
 
-template<typename V>
+template <typename V>
 void VboRenderer<V>::update(const VertexBuffer<V>& buffer) {
   glBindBuffer(GL_ARRAY_BUFFER, handle_);
   glBufferData(GL_ARRAY_BUFFER, buffer.size() * sizeof(V), buffer.data(), GL_STATIC_DRAW);
@@ -26,7 +22,7 @@ void VboRenderer<V>::update(const VertexBuffer<V>& buffer) {
   size_ = buffer.size();
 }
 
-template<typename V>
+template <typename V>
 void VboRenderer<V>::draw() const {
   glBindBuffer(GL_ARRAY_BUFFER, handle_);
 

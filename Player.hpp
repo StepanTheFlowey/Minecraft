@@ -5,6 +5,7 @@
 #include "Block.hpp"
 #include "Time.hpp"
 #include "Side.hpp"
+#include "BlockWithSide.hpp"
 
 class Player {
 public:

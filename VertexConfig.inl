@@ -19,9 +19,6 @@ constexpr VertexConfig<V>::VertexConfig() {
     vertexType = GL_DOUBLE;
     bytesPerVertex = 8;
   }
-  else {
-    static_assert(false);
-  }
 
   GLsizei bytesPerTex = 0;
   if(std::is_same_v<V::T, int16_t>) {
@@ -40,17 +37,11 @@ constexpr VertexConfig<V>::VertexConfig() {
     texType = GL_DOUBLE;
     bytesPerTex = 8;
   }
-  else {
-    static_assert(false);
-  }
 
   GLsizei bytesPerColor = 0;
   if(std::is_same_v<V::C, Color>) {
     colorType = GL_UNSIGNED_BYTE;
     bytesPerColor = 1;
-  }
-  else {
-    static_assert(false);
   }
 
   if(std::is_same_v<Vertex2<V::V, V::T, V::C>, V>) {
@@ -58,9 +49,6 @@ constexpr VertexConfig<V>::VertexConfig() {
   }
   else if(std::is_same_v<Vertex3<V::V, V::T, V::C>, V>) {
     vertexSize = 3;
-  }
-  else {
-    static_assert(false);
   }
 
   bytesPerVertex *= vertexSize;

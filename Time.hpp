@@ -84,3 +84,5 @@ protected:
 
   int64_t time_ = 0;
 };
+
+#include "Time.inl"

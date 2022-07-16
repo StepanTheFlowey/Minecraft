@@ -47,5 +47,3 @@ protected:
   Vec3d centerPos_; //Pos to
   Vec2f rotation_;
 };
-
-#include "Camera.inl"
