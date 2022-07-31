@@ -4,11 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Minecraft", "Minecraft.vcxproj", "{2BD9944E-C09C-4E19-8FC6-01D5FCB89939}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D75E6505-5143-4734-A4D2-6ECF162A520C} = {D75E6505-5143-4734-A4D2-6ECF162A520C}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinecraftResources", "..\MinecraftResources\MinecraftResources.vcxproj", "{D75E6505-5143-4734-A4D2-6ECF162A520C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +15,6 @@ Global
 		{2BD9944E-C09C-4E19-8FC6-01D5FCB89939}.Debug|x64.Build.0 = Debug|x64
 		{2BD9944E-C09C-4E19-8FC6-01D5FCB89939}.Release|x64.ActiveCfg = Release|x64
 		{2BD9944E-C09C-4E19-8FC6-01D5FCB89939}.Release|x64.Build.0 = Release|x64
-		{D75E6505-5143-4734-A4D2-6ECF162A520C}.Debug|x64.ActiveCfg = Debug|x64
-		{D75E6505-5143-4734-A4D2-6ECF162A520C}.Debug|x64.Build.0 = Debug|x64
-		{D75E6505-5143-4734-A4D2-6ECF162A520C}.Release|x64.ActiveCfg = Release|x64
-		{D75E6505-5143-4734-A4D2-6ECF162A520C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

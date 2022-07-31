@@ -25,28 +25,28 @@ public:
   void makeCurrent() const;
 
   //Takes block from global grid
-  NODISCARD Block* getBlock(const BlockPos position) const;
+  NODISCARD Block* getBlock(const BlockPos& position) const;
 
   //Assign block in global grid
-  void setBlock(const BlockPos position, Block* const block);
+  void setBlock(const BlockPos& position, Block* const block);
 
   //Check for region exist
-  NODISCARD bool hasChunk(const ChunkPos position) const;
+  NODISCARD bool hasChunk(const ChunkPos& position) const;
 
   //Takes chunk ptr
-  NODISCARD Chunk* getChunk(const ChunkPos position) const;
+  NODISCARD Chunk* getChunk(const ChunkPos& position) const;
 
   //Check for region exist
-  NODISCARD bool hasRegion(const RegionPos position) const;
+  NODISCARD bool hasRegion(const RegionPos& position) const;
 
   //Takes region pointer
-  NODISCARD Region* getRegion(const RegionPos position) const;
+  NODISCARD Region* getRegion(const RegionPos& position) const;
 
   //
-  void createRegion(const RegionPos position);
+  void createRegion(const RegionPos& position);
 
   //
-  void destroyRegion(const RegionPos position);
+  void destroyRegion(const RegionPos& position);
 
   //Draws underlying regions
   void draw() const;
